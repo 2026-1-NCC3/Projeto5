@@ -109,14 +109,15 @@ npx react-native run-android
 
 ---
 
-## 📜 Licença
-
-<p align="center">
-  <a href="https://creativecommons.org/licenses/by/4.0/">
-    <img src="https://licensebuttons.net/l/by/4.0/88x31.png" alt="Licença CC BY 4.0">
-  </a>
-</p>
-
-Este projeto está licenciado sob a **Creative Commons Atribuição 4.0 Internacional (CC BY 4.0)**.
+## 📋 Licença/License
+<a href="https://github.com/2026-1-NCC3/Projeto5?tab=readme-ov-file">Atlas - Maya RPG</a> © 2025 by <a href="https://github.com/2026-1-NCC3/Projeto5?tab=readme-ov-file">Bruno Nóbrega, Mariana Almeida, Julia Godinho, Rafaela Florêncio Morais</a> is licensed under <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International</a>
+<br><img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" style="max-width: 1em;max-height:1em;margin-left: .2em;"><img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" style="max-width: 1em;max-height:1em;margin-left: .2em;">
 
 ---
+## 🎓 Referências
+
+Aqui estão as referências usadas no projeto.
+
+1. <https://chooser-beta.creativecommons.org/>
+2. <https://github.com/fecaphub/Template_PI>
+
