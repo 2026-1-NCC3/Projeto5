@@ -36,9 +36,9 @@ A proposta envolve a criação de um ecossistema composto por três camadas prin
 - 💻 **Módulo Web (Profissional/Admin)**  
 - 🔗 **Backend (API) e Banco de Dados**
 
-O sistema foi projetado com arquitetura cliente-servidor, onde o aplicativo mobile e o módulo web consomem serviços disponibilizados por uma API REST responsável pelas regras de negócio, autenticação, controle de acesso e persistência de dados.
-
+O sistema foi projetado com arquitetura cliente-servidor, onde o aplicativo mobile e o módulo web consomem serviços disponibilizados por uma API REST responsável pelas regras de negócio, autenticação, controle de acesso e persistência de dados. 
 A solução busca substituir processos informais e dispersos por uma plataforma estruturada, segura e escalável, promovendo melhor organização clínica, maior adesão ao tratamento e acompanhamento eficiente da evolução dos pacientes.
+
 ---
 
 
