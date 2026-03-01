@@ -28,10 +28,6 @@
 
 ## 📖 1. Apresentação do Projeto
 
-<p align="center">
-  <img src="![Maya Yamamoto](image.png)" alt="Maya RPG" width="600">
-</p>
-
 Este Projeto Interdisciplinar consiste no desenvolvimento de uma **solução digital integrada** para apoiar a rotina clínica da fisioterapeuta Maya Yoshiko Yamamoto, especialista em Reeducação Postural Global (RPG).
 
 A proposta envolve a criação de um ecossistema composto por três camadas principais:
