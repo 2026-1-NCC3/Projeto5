@@ -5,6 +5,8 @@ import { pool } from "./config/database";
 import patientRoutes from "./routes/patientRoutes";
 import exerciseRoutes from "./routes/exerciseRoutes";
 import planRoutes from "./routes/planRoutes";
+import authRoutes from "./routes/authRoutes";
+import exerciseLogRoutes from "./routes/exerciseLogRoutes";
 
 const app = express();
 
@@ -13,6 +15,8 @@ app.use(express.json());
 app.use("/api", patientRoutes);
 app.use("/api", exerciseRoutes);
 app.use("/api", planRoutes);
+app.use("/api", authRoutes);
+app.use("/api", exerciseLogRoutes);
 
 app.get("/", (req, res) => {
   res.send("API rodando");
