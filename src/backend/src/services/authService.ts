@@ -38,3 +38,31 @@ export const loginUser = async (email: string, password: string) => {
     }
   };
 };
+
+export const registerUser = async (
+  name: string,
+  email: string,
+  password: string
+) => {
+
+  const user = await pool.query(
+    "SELECT * FROM users WHERE email = $1",
+    [email]
+  );
+
+  if (user.rows.length > 0) {
+    throw new Error("Usuário já existe");
+  }
+
+  const hashedPassword = await bcrypt.hash(password, 10);
+
+  const result = await pool.query(
+    "INSERT INTO users (name, email, password) VALUES ($1,$2,$3) RETURNING id, name, email",
+    [name, email, hashedPassword]
+  );
+
+  return {
+    message: "Usuário criado com sucesso",
+    user: result.rows[0]
+  };
+};
