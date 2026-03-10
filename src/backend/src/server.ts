@@ -1,6 +1,8 @@
 import express from "express";
 import cors from "cors";
 import { pool } from "./config/database";
+import dotenv from "dotenv";
+dotenv.config();
 
 import patientRoutes from "./routes/patientRoutes";
 import exerciseRoutes from "./routes/exerciseRoutes";

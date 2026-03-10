@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { authenticateToken } from "../midllewares/authMiddleware";  
 
 import {
   listPatients,
@@ -10,13 +11,13 @@ import {
 
 const router = Router();
 
-router.get("/patients", listPatients);
-router.get("/patients/:id", getPatient);
+router.get("/patients", listPatients); // lista os pacientes
+router.get("/patients/:id", getPatient); // detalhes de um paciente específico
 
-router.post("/patients", addPatient);
+router.post("/patients", addPatient); // adiciona um novo paciente
 
-router.put("/patients/:id", editPatient);
+router.put("/patients/:id", editPatient); // edita as informações de um paciente existente
 
-router.delete("/patients/:id", removePatient);
+router.delete("/patients/:id", removePatient); // remove um paciente do sistema
 
 export default router;
