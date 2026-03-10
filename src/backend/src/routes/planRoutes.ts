@@ -3,17 +3,17 @@ import {
   createExercisePlan,
   listPatientPlans,
   addExercise,
-  getPatientFullPlan as getFullPlan
+  getPatientFullPlan 
 } from "../controllers/planController";
 
 const router = Router();
 
 router.post("/plans", createExercisePlan);
 
-router.get("/plans/patient/:patientId", listPatientPlans);
+router.get("/plans/patients/:patientId", listPatientPlans);
 
 router.post("/plans/:planId/exercises", addExercise);
 
-router.get("/patients/:patientId/full-plan", getFullPlan);
+router.get("/patients/:patientId/full-plan", getPatientFullPlan);
 
 export default router;

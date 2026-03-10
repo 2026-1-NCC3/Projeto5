@@ -36,3 +36,28 @@ export const getLogsByPatient = async (patientId: number) => {
 
   return result.rows;
 };
+
+export const getPatientProgress = async (patientId: number) => {
+
+  const result = await pool.query(
+    `
+    SELECT
+      exercises.title AS exercise,
+      exercise_logs.pain_level,
+      exercise_logs.notes,
+      exercise_logs.created_at
+    FROM exercise_logs
+
+    JOIN exercises
+    ON exercises.id = exercise_logs.exercise_id
+
+    WHERE exercise_logs.patient_id = $1
+
+    ORDER BY exercise_logs.created_at DESC;
+    `,
+    [patientId]
+  );
+
+  return result.rows;
+
+};
