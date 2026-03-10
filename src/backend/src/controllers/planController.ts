@@ -44,12 +44,22 @@ export const addExercise = async (req: Request, res: Response) => {
 
 };
 
-export const getFullPlan = async (req: Request, res: Response) => {
+export const getPatientFullPlan = async (req: Request, res: Response) => {
 
-  const patientId = Number(req.params.patientId);
+  try {
 
-  const plan = await getFullPlanByPatient(patientId);
+    const { patientId } = req.params;
 
-  res.json(plan);
+    const plan = await getFullPlanByPatient(Number(patientId));
+
+    res.json(plan);
+
+  } catch (error: any) {
+
+    res.status(500).json({
+      message: error.message
+    });
+
+  }
 
 };
