@@ -8,7 +8,7 @@
 
 ---
 
-## 👩‍💻 Integrantess
+## 👩‍💻 Integrantes
 
 - [Bruno Nóbrega do Espírito Santo ](https://github.com/Bruno4213)
 - [Julia Pereira Godinho](https://github.com/juliaapg)
