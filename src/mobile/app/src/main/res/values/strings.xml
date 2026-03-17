@@ -1,3 +1,11 @@
-<resources>
-    <string name="app_name">MayaRPGApp</string>
-</resources>
+ <resources>
+        <string name="app_name">MayaRPGApp</string>
+
+        <string name="titulo_bem_vindo">Seja bem-vindo(a)</string>
+        <string name="subtitulo_crie_conta_login">Crie sua conta ou faça login para explorar o app</string>
+        <string name="continue_label">Continue</string>
+
+        <!-- Content descriptions para acessibilidade -->
+        <string name="cd_header_image">Imagem decorativa do cabeçalho</string>
+        <string name="cd_botao_continuar">Botão para continuar</string>
+    </resources>
