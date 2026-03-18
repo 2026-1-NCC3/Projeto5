@@ -8,4 +8,25 @@
         <!-- Content descriptions para acessibilidade -->
         <string name="cd_header_image">Imagem decorativa do cabeçalho</string>
         <string name="cd_botao_continuar">Botão para continuar</string>
-    </resources>
+
+     <string name="terms_agreement">AGREEMENT</string>
+     <string name="terms_title">Terms of Service</string>
+     <string name="terms_last_updated">Last updated on 5/12/2022</string>
+
+     <string name="terms_clause1_title">Clause 1</string>
+     <string name="terms_clause1_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Viverra condimentum eget purus in. Consectetur eget id morbi amet amet, in. Ipsum viverra pretium tellus neque. Ullamcorper suspendisse aenean leo pharetra in sit semper et. Amet quam placerat sem.</string>
+
+     <string name="terms_clause2_title">Clause 2</string>
+     <string name="terms_clause2_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Viverra condimentum eget purus in. Consectetur eget id morbi amet amet, in. Ipsum viverra pretium tellus neque. Ullamcorper suspendisse aenean leo pharetra in sit semper et. Amet quam placerat sem.&#10;&#10;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Viverra condimentum eget purus in. Consectetur eget id morbi amet amet, in. Ipsum viverra pretium tellus neque. Ullamcorper suspendisse aenean leo pharetra in sit semper et. Amet quam placerat sem.</string>
+
+     <string name="terms_clause3_title">Clause 3</string>
+
+     <string name="terms_dashed_short">Ullamcorper suspendisse aenean leo pharetra in sit semper et. Amet quam placerat sem.</string>
+
+     <string name="terms_dashed_long">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Viverra condimentum eget purus in. Consectetur eget id morbi amet amet, in. Ipsum viverra pretium tellus neque. Ullamcorper suspendisse aenean leo pharetra in sit semper et. Amet quam placerat sem.&#10;&#10;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Viverra condimentum eget purus in. Consectetur eget id morbi amet amet, in. Ipsum viverra pretium tellus neque. Ullamcorper suspendisse aenean leo pharetra in sit semper et. Amet quam placerat sem.</string>
+
+     <string name="terms_accept">Accept &amp; Continue</string>
+     <string name="terms_scroll_bottom">Scroll to Bottom</string>
+     <string name="terms_scroll_top">Scroll to Top</string>
+
+ </resources>
