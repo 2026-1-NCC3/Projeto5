@@ -17,7 +17,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 public class LoginActivity extends AppCompatActivity {
-    EditText etEmail, etSenha;
+    EditText etNome,etCpf,etEmail, etSenha;
     Spinner spinnerDia, spinnerMes, spinnerAno;
     AppCompatButton btnLogin;
 
@@ -26,11 +26,15 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        etNome = findViewById(R.id.etNome);
+        etCpf = findViewById(R.id.etCpf);
         etEmail = findViewById(R.id.etEmail);
         etSenha = findViewById(R.id.etSenha);
+
         spinnerDia = findViewById(R.id.spinnerDia);
         spinnerMes = findViewById(R.id.spinnerMes);
         spinnerAno = findViewById(R.id.spinnerAno);
+
         btnLogin = findViewById(R.id.btnLogin);
 
         configurarSpinners();
@@ -52,29 +56,43 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void logar() {
+        String nome = etNome.getText().toString().trim();
+        String cpf = etCpf.getText().toString().trim();
         String email = etEmail.getText().toString().trim();
         String senha = etSenha.getText().toString().trim();
 
-        if (email.isEmpty() || senha.isEmpty()) {
-            Toast.makeText(this, "Preencha os campos!", Toast.LENGTH_SHORT).show();
+        // Pegando os valores dos Spinners para montar a data
+        String dia = spinnerDia.getSelectedItem().toString();
+        String mes = spinnerMes.getSelectedItem().toString();
+        String ano = spinnerAno.getSelectedItem().toString();
+        String dataNascimento = dia + "/" + mes + "/" + ano;
+
+
+        if (nome.isEmpty() || cpf.isEmpty() || email.isEmpty() || senha.isEmpty() ||
+                dia.equals("Dia") || mes.equals("Mês") || ano.equals("Ano")) {
+            Toast.makeText(this, "Preencha todos os campos corretamente!", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        User user = new User(email, senha);
+        // AGORA SIM: Criando o User com o construtor completo que fizemos
+        User user = new User(nome, cpf, dataNascimento, email, senha);
+
         ApiService api = RetrofitClient.getInstance().create(ApiService.class);
 
         api.login(user).enqueue(new Callback<Object>() {
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
                 if (response.isSuccessful()) {
-                    Toast.makeText(LoginActivity.this, "Login realizado!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "Login realizado com sucesso!", Toast.LENGTH_SHORT).show();
+                    // Aqui você pode abrir a próxima tela (Home)
                 } else {
-                    Toast.makeText(LoginActivity.this, "Dados incorretos", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "Dados não conferem!", Toast.LENGTH_SHORT).show();
                 }
             }
+
             @Override
             public void onFailure(Call<Object> call, Throwable t) {
-                Toast.makeText(LoginActivity.this, "Erro: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(LoginActivity.this, "Erro de rede: " + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }

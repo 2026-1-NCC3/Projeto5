@@ -100,7 +100,7 @@ public class CadastroActivity extends AppCompatActivity {
 
         String dataNascimento = dia + "/" + mes + "/" + ano;
 
-        User user = new User(nome, email, senha);
+        User user = new User(nome, cpf, telefone, dataNascimento, email, senha);
 
         ApiService api = RetrofitClient.getInstance().create(ApiService.class);
 
