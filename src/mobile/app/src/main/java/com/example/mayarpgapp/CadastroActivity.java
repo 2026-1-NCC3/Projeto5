@@ -8,6 +8,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -43,6 +44,13 @@ public class CadastroActivity extends AppCompatActivity {
         configurarSpinners();
 
         btnCriarConta.setOnClickListener(v -> cadastrar());
+
+        AppCompatButton btnLogin = findViewById(R.id.btnLogin);
+
+        btnLogin.setOnClickListener(view -> {
+            Intent intent = new Intent(CadastroActivity.this,LoginActivity.class);
+            startActivity(intent);
+        });
     }
 
     private void configurarSpinners() {

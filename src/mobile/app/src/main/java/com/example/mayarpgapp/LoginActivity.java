@@ -1,6 +1,8 @@
 package com.example.mayarpgapp;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -39,6 +41,13 @@ public class LoginActivity extends AppCompatActivity {
 
         configurarSpinners();
         btnLogin.setOnClickListener(v -> logar());
+
+        AppCompatButton btnCadastro = findViewById(R.id.btnCadastro);
+
+        btnCadastro.setOnClickListener(view -> {
+            Intent intent = new Intent(LoginActivity.this,CadastroActivity.class);
+            startActivity(intent);
+        });
     }
 
     private void configurarSpinners() {

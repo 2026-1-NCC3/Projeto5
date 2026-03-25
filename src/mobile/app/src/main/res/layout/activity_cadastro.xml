@@ -57,17 +57,15 @@
                 android:layout_marginBottom="20dp">
 
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btnLogin"
+                    android:id="@+id/btnLogin1"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="Login"
                     android:textAllCaps="false"
-                    android:textColor="@color/salmon"
-                    android:textSize="14sp"
-                    android:background="@drawable/bg_toggle_selected"
-                    android:backgroundTint="@null"
-                    android:elevation="2dp"/>
+                    android:textColor="@color/white"
+                    android:background="@android:color/transparent"
+                    android:backgroundTint="@null" />
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btnCadastro"
@@ -76,10 +74,9 @@
                     android:layout_weight="1"
                     android:text="Cadastro"
                     android:textAllCaps="false"
-                    android:textColor="#FFFFFF"
-                    android:textSize="14sp"
-                    android:background="@android:color/transparent"
-                    android:backgroundTint="@null"/>
+                    android:textColor="@color/salmon"
+                    android:background="@drawable/bg_toggle_selected"
+                    android:backgroundTint="@null" />
 
             </LinearLayout>
 
