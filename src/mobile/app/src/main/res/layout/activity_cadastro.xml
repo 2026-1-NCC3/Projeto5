@@ -217,17 +217,17 @@
 
             <EditText
                 android:id="@+id/etEmail"
-                android:hint="Insira seu email aqui"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
+                android:layout_marginBottom="16dp"
                 android:background="@drawable/bg_input"
+                android:hint="Insira seu email aqui"
+                android:imeOptions="actionNext"
+                android:inputType="textEmailAddress"
                 android:paddingStart="14dp"
                 android:paddingEnd="14dp"
-                android:inputType="textEmailAddress"
                 android:textColorHint="#BBBBBB"
-                android:textSize="14sp"
-                android:layout_marginBottom="16dp"
-                android:imeOptions="actionNext"/>
+                android:textSize="14sp" />
 
 
             <TextView

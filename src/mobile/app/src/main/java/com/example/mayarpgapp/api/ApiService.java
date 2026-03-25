@@ -9,4 +9,6 @@ public interface ApiService {
     @POST("auth/register")
     Call<Object> register(@Body User user);
 
+    @POST("users/login")
+    Call<Object> login(@Body User user);
 }
