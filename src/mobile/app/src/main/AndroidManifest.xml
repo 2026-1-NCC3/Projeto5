@@ -23,16 +23,17 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".InicioActivity"
+            android:exported="true"/>
 
         <activity
             android:name=".MainActivity"
             android:exported="false" />
 
-        <!-- Login
         <activity
             android:name=".LoginActivity"
             android:exported="false" />
-        -->
+
 
         <activity
             android:name=".CadastroActivity"
