@@ -169,7 +169,7 @@
                 android:layout_marginBottom="16dp">
 
                 <Spinner
-                    android:id="@+id/spinnerMes"
+                    android:id="@+id/spinnerMes1"
                     android:layout_width="0dp"
                     android:layout_height="48dp"
                     android:layout_weight="1"
@@ -178,7 +178,7 @@
                     android:layout_marginEnd="8dp"/>
 
                 <Spinner
-                    android:id="@+id/spinnerDia"
+                    android:id="@+id/spinnerDia1"
                     android:layout_width="0dp"
                     android:layout_height="48dp"
                     android:layout_weight="1"
@@ -187,20 +187,14 @@
                     android:padding="10dp"
                     android:layout_marginEnd="8dp"/>
 
-                <EditText
-                    android:id="@+id/etAno"
+                <Spinner
+                    android:id="@+id/spinnerAno1"
                     android:layout_width="0dp"
                     android:layout_height="48dp"
                     android:layout_weight="1"
-                    android:hint="Ano"
                     android:background="@drawable/bg_input"
-                    android:paddingStart="14dp"
-                    android:paddingEnd="14dp"
-                    android:inputType="number"
-                    android:maxLength="4"
-                    android:textColorHint="#BBBBBB"
-                    android:textSize="14sp"
-                    android:imeOptions="actionNext"/>
+                    android:padding="10dp" />
+
             </LinearLayout>
 
             <TextView

@@ -27,10 +27,14 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+
 public class CadastroActivity extends AppCompatActivity {
 
-    EditText etNome, etCpf, etTelefone, etAno, etEmail, etSenha;
-    Spinner spinnerDia, spinnerMes;
+    EditText etNome, etCpf, etTelefone, etEmail, etSenha;
+    Spinner spinnerDia1, spinnerMes1, spinnerAno1;
     CheckBox cbTermos;
     AppCompatButton btnCriarConta;
 
@@ -43,20 +47,19 @@ public class CadastroActivity extends AppCompatActivity {
         etNome = findViewById(R.id.etNome);
         etCpf = findViewById(R.id.etCpf);
         etTelefone = findViewById(R.id.etTelefone);
-        etAno = findViewById(R.id.etAno);
         etEmail = findViewById(R.id.etEmail);
         etSenha = findViewById(R.id.etSenha);
         cbTermos = findViewById(R.id.cbTermos);
 
-        spinnerDia = findViewById(R.id.spinnerDia);
-        spinnerMes = findViewById(R.id.spinnerMes);
+        spinnerDia1 = findViewById(R.id.spinnerDia1);
+        spinnerMes1 = findViewById(R.id.spinnerMes1);
+        spinnerAno1 = findViewById(R.id.spinnerAno1);
 
         btnCriarConta = findViewById(R.id.btnCriarConta);
 
         configurarLinkTermos();
 
         configurarSpinners();
-
 
         btnCriarConta.setOnClickListener(v -> cadastrar());
 
@@ -104,7 +107,7 @@ public class CadastroActivity extends AppCompatActivity {
         );
 
         mesesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerMes.setAdapter(mesesAdapter);
+        spinnerMes1.setAdapter(mesesAdapter);
 
         ArrayAdapter<Integer> diasAdapter = new ArrayAdapter<>(
                 this,
@@ -115,8 +118,13 @@ public class CadastroActivity extends AppCompatActivity {
             diasAdapter.add(i);
         }
 
+        List<String> anos = new ArrayList<>(); anos.add("Ano");
+        int anoAtual = Calendar.getInstance().get(Calendar.YEAR);
+        for (int i = anoAtual; i >= 1930; i--) anos.add(String.valueOf(i));
+        spinnerAno1.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, anos));
+
         diasAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerDia.setAdapter(diasAdapter);
+        spinnerDia1.setAdapter(diasAdapter);
     }
 
     private void cadastrar() {
@@ -124,9 +132,9 @@ public class CadastroActivity extends AppCompatActivity {
         String nome = etNome.getText().toString().trim();
         String cpf = etCpf.getText().toString().trim();
         String telefone = etTelefone.getText().toString().trim();
-        String dia = spinnerDia.getSelectedItem().toString();
-        String mes = spinnerMes.getSelectedItem().toString();
-        String ano = etAno.getText().toString().trim();
+        String dia = spinnerDia1.getSelectedItem().toString();
+        String mes = spinnerMes1.getSelectedItem().toString();
+        String ano = spinnerAno1.getSelectedItem().toString();
         String email = etEmail.getText().toString().trim();
         String senha = etSenha.getText().toString().trim();
 
