@@ -29,4 +29,30 @@
      <string name="terms_scroll_bottom">Scroll to Bottom</string>
      <string name="terms_scroll_top">Scroll to Top</string>
 
+     <string name="texto_completo_termos_lgpd">
+        <b>1. Compromisso com a sua Privacidade</b>\n
+        Bem-vindo ao Maya RPG App. Este documento explica como tratamos seus dados pessoais em conformidade com a Lei Geral de Proteção de Dados (LGPD - Lei nº 13.709/2018).\n\n
+
+        <b>2. Dados Coletados</b>\n
+        Para o seu prontuário clínico e agendamento, coletamos:\n
+        • Nome completo e CPF (Identificação legal);\n
+        • E-mail e Telefone (Comunicação e avisos);\n
+        • Data de Nascimento (Critério clínico para RPG).\n\n
+
+        <b>3. Finalidade do Tratamento</b>\n
+        Os dados são utilizados exclusivamente para:\n
+        • Gestão de agendamentos e sessões de fisioterapia/RPG;\n
+        • Histórico de evolução do tratamento postural;\n
+        • Emissão de recibos e comunicações diretas da profissional Maya Yoshiko Yamamoto.\n\n
+
+        <b>4. Segurança e Retenção</b>\n
+        Seus dados são armazenados em ambiente seguro e criptografado. Manteremos suas informações apenas pelo período necessário para o cumprimento do tratamento e obrigações legais de registros de saúde.\n\n
+
+        <b>5. Seus Direitos</b>\n
+        Como titular dos dados, você pode, a qualquer momento, solicitar o acesso, a correção ou a exclusão de seus dados pessoais, salvo os registros que somos legalmente obrigados a manter.\n\n
+
+        <b>6. Consentimento</b>\n
+        Ao clicar em "Li e aceito os termos", você declara estar ciente e de acordo com a coleta e processamento dos dados acima descritos para as finalidades do tratamento de RPG.
+    </string>
+
  </resources>

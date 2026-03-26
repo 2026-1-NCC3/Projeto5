@@ -1,237 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    android:fitsSystemWindows="true">
+    android:background="@color/white">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/contentContainer"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <ImageView
+        android:id="@+id/ivIcon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="32dp"
+        android:src="@drawable/baseline_policy_24"
+        app:tint="@color/salmon"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="24dp"/>
 
-        <androidx.core.widget.NestedScrollView
-            android:id="@+id/scrollView"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:fillViewport="true"
-            android:clipToPadding="false"
-            android:paddingStart="20dp"
-            android:paddingEnd="20dp"
-            android:paddingTop="16dp"
-            android:paddingBottom="96dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/bottomBar"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+    <TextView
+        android:id="@+id/tvHeaderTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Termos de Uso"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="#333333"
+        app:layout_constraintTop_toBottomOf="@id/ivIcon"
+        app:layout_constraintStart_toStartOf="@id/ivIcon"
+        android:layout_marginTop="12dp" />
 
-            <LinearLayout
-                android:id="@+id/scrollContent"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-
-                <TextView
-                    android:id="@+id/tvAgreement"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/terms_agreement"
-                    android:textAllCaps="true"
-                    android:letterSpacing="0.05"
-                    android:textStyle="bold"
-                    android:textSize="12sp"
-                    android:textColor="?attr/colorOnBackground"
-                    tools:text="AGREEMENT" />
-
-
-                <TextView
-                    android:id="@+id/tvTitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/terms_title"
-                    android:textStyle="bold"
-                    android:textSize="24sp"
-                    android:layout_marginTop="4dp"
-                    android:textColor="?attr/colorOnBackground"
-                    tools:text="Terms of Service" />
-
-
-                <TextView
-                    android:id="@+id/tvUpdated"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/terms_last_updated"
-                    android:textSize="13sp"
-                    android:layout_marginTop="4dp"
-                    android:textColor="?attr/colorOnBackground"
-                    tools:text="Last updated on 5/12/2022" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="12dp"
-                    android:background="@android:color/darker_gray"
-                    android:alpha="0.2" />
-
-
-                <TextView
-                    android:id="@+id/tvClause1Title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="@string/terms_clause1_title"
-                    android:textStyle="bold"
-                    android:textSize="16sp"
-                    android:textColor="?attr/colorOnBackground" />
-
-                <TextView
-                    android:id="@+id/tvClause1Text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
-                    android:lineSpacingExtra="2dp"
-                    android:textColor="?attr/colorOnBackground"
-                    android:text="@string/terms_clause1_text"
-                    android:breakStrategy="balanced"
-                    android:hyphenationFrequency="full"
-                    tools:text="Lorem ipsum…" />
-
-
-                <TextView
-                    android:id="@+id/tvClause2Title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:text="@string/terms_clause2_title"
-                    android:textStyle="bold"
-                    android:textSize="16sp"
-                    android:textColor="?attr/colorOnBackground" />
-
-                <TextView
-                    android:id="@+id/tvClause2Text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
-                    android:lineSpacingExtra="2dp"
-                    android:textColor="?attr/colorOnBackground"
-                    android:text="@string/terms_clause2_text"
-                    android:breakStrategy="balanced"
-                    android:hyphenationFrequency="full"
-                    tools:text="Lorem ipsum…" />
-
-
-                <LinearLayout
-                    android:id="@+id/boxDashed1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:orientation="vertical"
-                    android:padding="12dp"
-                    android:background="@drawable/bg_dashed_box">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:lineSpacingExtra="2dp"
-                        android:textColor="?attr/colorOnBackground"
-                        android:text="@string/terms_dashed_short"
-                        android:breakStrategy="balanced"
-                        android:hyphenationFrequency="full"/>
-                </LinearLayout>
-
-
-                <TextView
-                    android:id="@+id/tvClause3Title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:text="@string/terms_clause3_title"
-                    android:textStyle="bold"
-                    android:textSize="16sp"
-                    android:textColor="?attr/colorOnBackground" />
-
-                <LinearLayout
-                    android:id="@+id/boxDashed2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:orientation="vertical"
-                    android:padding="12dp"
-                    android:background="@drawable/bg_dashed_box">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:lineSpacingExtra="2dp"
-                        android:textColor="?attr/colorOnBackground"
-                        android:text="@string/terms_dashed_long"
-                        android:breakStrategy="balanced"
-                        android:hyphenationFrequency="full"/>
-                </LinearLayout>
-
-                <Space
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"/>
-            </LinearLayout>
-        </androidx.core.widget.NestedScrollView>
-
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nsvTermos"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:clipToPadding="false"
+        android:paddingBottom="100dp"
+        app:layout_constraintTop_toBottomOf="@id/tvHeaderTitle"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
         <LinearLayout
-            android:id="@+id/bottomBar"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp"
-            android:background="?attr/colorBackgroundFloating"
-            android:elevation="6dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            android:paddingHorizontal="24dp">
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnAccept"
-                style="@style/Widget.Material3.Button"
-                android:layout_width="0dp"
+            <TextView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="@string/terms_accept"
-                android:textAllCaps="false"
-                android:minHeight="52dp"
-                android:insetTop="10dp"
-                android:insetBottom="10dp"
-                android:paddingStart="24dp"
-                android:paddingEnd="24dp"
-                app:cornerRadius="24dp"
-                app:iconGravity="textStart"
-                app:layout_constraintWidth_default="wrap"
-                android:maxWidth="360dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                android:lineSpacingExtra="6dp"
+                android:text="@string/texto_completo_termos_lgpd"
+                android:textColor="#555555"
+                android:textSize="15sp" />
+
         </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:background="@drawable/bg_gradient_shadow"
+        app:layout_constraintBottom_toTopOf="@id/llBottomAction" />
 
-        <TextView
-            android:id="@+id/btnScrollToggle"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_marginBottom="12dp"
-            android:paddingStart="20dp"
-            android:paddingEnd="20dp"
-            android:gravity="center"
-            android:background="@drawable/bg_pill"
-            android:text="@string/terms_scroll_bottom"
-            android:textColor="?attr/colorOnPrimaryContainer"
+    <LinearLayout
+        android:id="@+id/llBottomAction"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:padding="20dp"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnAccept"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:text="Li e aceito os termos"
+            android:textAllCaps="false"
+            android:textSize="16sp"
             android:textStyle="bold"
-            android:elevation="8dp"
-            app:layout_constraintBottom_toTopOf="@+id/bottomBar"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            android:textColor="@color/white"
+            app:backgroundTint="@color/salmon"
+            app:cornerRadius="12dp"
+            android:enabled="false"
+            android:alpha="0.5" />
+    </LinearLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
