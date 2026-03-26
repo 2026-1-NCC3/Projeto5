@@ -10,11 +10,20 @@ import retrofit2.Response;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ClickableSpan;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
+import android.text.TextPaint;
+import android.graphics.Color;
+import android.text.method.LinkMovementMethod;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
@@ -22,7 +31,9 @@ public class CadastroActivity extends AppCompatActivity {
 
     EditText etNome, etCpf, etTelefone, etAno, etEmail, etSenha;
     Spinner spinnerDia, spinnerMes;
+    CheckBox cbTermos;
     AppCompatButton btnCriarConta;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,13 +46,17 @@ public class CadastroActivity extends AppCompatActivity {
         etAno = findViewById(R.id.etAno);
         etEmail = findViewById(R.id.etEmail);
         etSenha = findViewById(R.id.etSenha);
+        cbTermos = findViewById(R.id.cbTermos);
 
         spinnerDia = findViewById(R.id.spinnerDia);
         spinnerMes = findViewById(R.id.spinnerMes);
 
         btnCriarConta = findViewById(R.id.btnCriarConta);
 
+        configurarLinkTermos();
+
         configurarSpinners();
+
 
         btnCriarConta.setOnClickListener(v -> cadastrar());
 
@@ -51,6 +66,30 @@ public class CadastroActivity extends AppCompatActivity {
             Intent intent = new Intent(CadastroActivity.this,LoginActivity.class);
             startActivity(intent);
         });
+    }
+
+    private void configurarLinkTermos(){
+        String texto = "Li e estou de acordo com os Termos de uso";
+        SpannableString ss = new SpannableString(texto);
+
+        ClickableSpan clickableSpan = new ClickableSpan() {
+            @Override
+            public void onClick(View widget) {
+                Intent intent = new Intent(CadastroActivity.this, TermosActivity.class);
+                startActivity(intent);
+            }
+            @Override
+            public void updateDrawState(TextPaint ds) {
+                super.updateDrawState(ds);
+                ds.setColor(Color.parseColor("#F27D6A"));
+                ds.setUnderlineText(true);
+            }
+        };
+
+        ss.setSpan(clickableSpan, 27, 40, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        cbTermos.setText(ss);
+        cbTermos.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
     private void configurarSpinners() {

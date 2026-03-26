@@ -250,6 +250,15 @@
                 android:layout_marginBottom="28dp"
                 android:imeOptions="actionDone"/>
 
+            <CheckBox
+                android:id="@+id/cbTermos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                android:buttonTint="@color/salmon"
+                android:textColor="#666666"
+                android:textSize="14sp"
+                android:text="Li e estou de acordo com os Termos de uso" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnCriarConta"
