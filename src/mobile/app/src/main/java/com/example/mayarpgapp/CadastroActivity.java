@@ -45,7 +45,7 @@ public class CadastroActivity extends AppCompatActivity {
 
         btnCriarConta.setOnClickListener(v -> cadastrar());
 
-        AppCompatButton btnLogin = findViewById(R.id.btnLogin);
+        AppCompatButton btnLogin = findViewById(R.id.btnLogin1);
 
         btnLogin.setOnClickListener(view -> {
             Intent intent = new Intent(CadastroActivity.this,LoginActivity.class);

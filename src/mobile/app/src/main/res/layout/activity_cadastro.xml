@@ -68,7 +68,7 @@
                     android:backgroundTint="@null" />
 
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btnCadastro"
+                    android:id="@+id/btnCadastro1"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
