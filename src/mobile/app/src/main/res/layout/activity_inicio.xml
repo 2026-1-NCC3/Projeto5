@@ -2,11 +2,9 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white">
-
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/gStart"
@@ -22,32 +20,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
-
     <ImageView
-        android:id="@+id/imageView3"
+        android:id="@+id/ivHeader"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:contentDescription="@string/cd_header_image"
-        android:adjustViewBounds="true"
-        android:scaleType="centerCrop"
-        android:background="@color/blue"
+        android:background="@drawable/bg_inicio_wave"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_default="percent"
-        app:layout_constraintHeight_percent="0.62" />
-
-
-    <FrameLayout
-        android:id="@+id/bottomContainer"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@android:color/white"
-        app:layout_constraintTop_toBottomOf="@id/imageView3"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
-
+        app:layout_constraintHeight_percent="0.60" />
 
     <TextView
         android:id="@+id/textView"
@@ -57,11 +39,10 @@
         android:textSize="26sp"
         android:textStyle="bold"
         android:textColor="@android:color/black"
-        app:layout_constraintTop_toTopOf="@id/bottomContainer"
+        app:layout_constraintTop_toBottomOf="@id/ivHeader"
         app:layout_constraintStart_toStartOf="@id/gStart"
         app:layout_constraintEnd_toStartOf="@id/gEnd"
-        android:layout_marginTop="12dp" />
-
+        android:layout_marginTop="24dp" />
 
     <TextView
         android:id="@+id/textView2"
@@ -69,24 +50,11 @@
         android:layout_height="wrap_content"
         android:text="@string/subtitulo_crie_conta_login"
         android:textSize="15sp"
-        android:textStyle="bold"
-        android:textColor="@android:color/black"
+        android:textColor="#666666"
         app:layout_constraintTop_toBottomOf="@id/textView"
         app:layout_constraintStart_toStartOf="@id/textView"
         app:layout_constraintEnd_toEndOf="@id/textView"
-        android:layout_marginTop="6dp" />
-
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/continue_label"
-        android:textStyle="bold"
-        android:textColor="@android:color/black"
-        app:layout_constraintBottom_toBottomOf="@id/imageView2"
-        app:layout_constraintEnd_toStartOf="@id/imageView2"
-        android:layout_marginEnd="12dp" />
+        android:layout_marginTop="8dp" />
 
     <ImageView
         android:id="@+id/imageView2"
@@ -94,17 +62,19 @@
         android:layout_height="48dp"
         android:contentDescription="@string/cd_botao_continuar"
         app:srcCompat="@drawable/button"
-        app:layout_constraintEnd_toEndOf="@id/bottomContainer"
-        app:layout_constraintBottom_toBottomOf="@id/bottomContainer"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="24dp" />
+        app:layout_constraintEnd_toEndOf="@id/gEnd"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="32dp" />
 
-    <ImageView
-        android:id="@+id/imageView"
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/wave"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="339dp" />
+        android:text="@string/continue_label"
+        android:textStyle="bold"
+        android:textColor="@android:color/black"
+        app:layout_constraintBottom_toBottomOf="@id/imageView2"
+        app:layout_constraintTop_toTopOf="@id/imageView2"
+        app:layout_constraintEnd_toStartOf="@id/imageView2"
+        android:layout_marginEnd="12dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
