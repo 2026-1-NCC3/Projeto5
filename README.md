@@ -43,7 +43,32 @@ O sistema foi projetado com arquitetura cliente-servidor, onde o aplicativo mobi
 A solução busca substituir processos informais e dispersos por uma plataforma estruturada, segura e escalável, promovendo melhor organização clínica, maior adesão ao tratamento e acompanhamento eficiente da evolução dos pacientes.
 
 ---
+## 🛠 Estrutura de pastas
 
+<pre>
+├── backend
+│
+├── imagens
+│
+├── src
+|   ├── backend
+|   └── mobile
+|   └── web
+|
+├── Documentos
+│   ├── Entrega 1
+│   │   ├── Análise Descritiva de Dados
+│   │   ├── Programação Orientada a Objetos e Estrutura de Dados
+│   │   ├── Programação para Dispositivos Móveis
+│   │   └── Projeto Interdisciplinar: Aplicativo Móvel
+│   └── Entrega 2
+│       ├── Análise Descritiva de Dados
+│       ├── Programação Orientada a Objetos e Estrutura de Dados
+│       ├── Programação para Dispositivos Móveis
+│       └── Projeto Interdisciplinar: Aplicativo Móvel
+│
+└── README.md
+</pre>
 
 ## 🚀 6. Como Rodar o Projeto
 
