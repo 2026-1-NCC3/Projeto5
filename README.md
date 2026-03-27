@@ -11,7 +11,7 @@
 ## 👩‍💻 Integrantes
 
 - [Bruno Nóbrega do Espírito Santo ](https://github.com/Bruno4213)
-- [Julia Pereira Godinho](https://github.com/juliaapg)
+- [Julia Pereira Godinho](https://github.com/juliaa-pg)
 - [Mariana Almeida Nascimento](https://github.com/Mariana851)
 - [Rafaela Florêncio Morais](https://github.com/rafafmorais)
 
