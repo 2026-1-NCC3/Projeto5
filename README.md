@@ -46,7 +46,6 @@ A solução busca substituir processos informais e dispersos por uma plataforma 
 ## 🛠 Estrutura de pastas
 
 <pre>
-├── backend
 │
 ├── imagens
 │
