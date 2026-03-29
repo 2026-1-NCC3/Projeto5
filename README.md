@@ -70,63 +70,106 @@ A solução busca substituir processos informais e dispersos por uma plataforma 
 </pre>
 
 ## 🚀 6. Como Rodar o Projeto
+---
+ 
+### 💻 Ambiente de Desenvolvimento (Local)
 
-### 🔹 Clonar o Repositório
+### ✅ Pré-requisitos
+ 
+Antes de começar, certifique-se de ter instalado:
+ 
+- [Node.js](https://nodejs.org/) v18 ou superior
+- [PostgreSQL](https://www.postgresql.org/) v14 ou superior
+- [Android Studio](https://developer.android.com/studio) com um emulador configurado
+- [Git](https://git-scm.com/)
+ 
+---
 
+### 🔹 1. Clonar o Repositório
+ 
 ```bash
 git clone https://github.com/2026-1-NCC3/Projeto5
 cd Projeto5
 ```
-
+ 
 ---
-
-### 🔹 Rodar o Backend
-
+ 
+### 🔹 2. Configurar o Banco de Dados
+ 
+1. Abra o **pgAdmin** ou seu cliente PostgreSQL preferido
+2. Crie um banco de dados chamado `mayarpg` (ou o nome que preferir)
+3. Execute os scripts SQL na seguinte ordem:
+ 
 ```bash
-cd backend
+# Execute o script principal de criação das tabelas
+psql -U postgres -d mayarpg -f src/backend/database/schema.sql
+ 
+---
+ 
+### 🔹 3. Rodar o Backend
+ 
+```bash
+cd src/backend
 npm install
-npm run start
 ```
-
-ou (caso esteja usando Spring Boot)
-
+ 
+Crie o arquivo `.env` na raiz do backend com as seguintes variáveis:
+ 
+```env
+DATABASE_URL=postgresql://postgres:suasenha@localhost:5432/mayarpg
+JWT_SECRET=sua_chave_secreta_aqui
+```
+ 
+Inicie o servidor:
+ 
 ```bash
-./mvnw spring-boot:run
+npm run dev
 ```
-
+ 
 API disponível em:
-
+ 
 ```
-http://localhost:3000
+http://localhost:3001
 ```
-
-ou
-
+ 
+Para verificar se está funcionando, acesse no navegador:
+ 
 ```
-http://localhost:8080
+http://localhost:3001/
 ```
-
+ 
+Deve retornar: `API rodando`
+ 
 ---
-
-### 🔹 Rodar o Frontend Web
-
+ 
+### 🔹 4. Rodar o Aplicativo Mobile
+ 
+1. Abra o **Android Studio**
+2. Selecione **Open** e navegue até a pasta `src/mobile`
+3. Aguarde o Gradle sincronizar as dependências
+4. Inicie um emulador Android (API 24 ou superior)
+5. Clique em **Run ▶** ou pressione `Shift + F10`
+ 
+> ⚠️ **Importante:** O app usa `http://10.0.2.2:3001` para se comunicar com o backend no emulador. Certifique-se de que o backend está rodando antes de abrir o app.
+ 
+---
+ 
+### 🔹 5. Rodar o Frontend Web
+ 
 ```bash
-cd web
+cd src/web
 npm install
 npm run dev
 ```
-
----
-
-### 🔹 Rodar o Aplicativo Mobile
-
-```bash
-cd mobile
-npm install
-npx react-native run-android
+ 
+Acesse em:
+ 
 ```
-
+http://localhost:5173
+```
+ 
 ---
+
 
 ## 🎨 7. Protótipo
 
