@@ -9,6 +9,7 @@ import exerciseRoutes from "./routes/exerciseRoutes";
 import planRoutes from "./routes/planRoutes";
 import authRoutes from "./routes/authRoutes";
 import exerciseLogRoutes from "./routes/exerciseLogRoutes";
+import checkinRoutes from "./routes/checkinRoutes";
 
 const app = express();
 
@@ -19,6 +20,7 @@ app.use("/api", exerciseRoutes);
 app.use("/api", planRoutes);
 app.use("/api", authRoutes);
 app.use("/api", exerciseLogRoutes);
+app.use("/api", checkinRoutes);
 
 app.get("/", (req, res) => {
   res.send("API rodando");

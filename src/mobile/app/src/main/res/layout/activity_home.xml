@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- parte principal -->
+
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -27,7 +27,6 @@
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp">
 
-                <!-- HEADER -->
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="56dp">
@@ -67,12 +66,12 @@
                     </LinearLayout>
                 </RelativeLayout>
 
-                <!-- SAUDAÇÃO -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:layout_marginTop="8dp">
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="16dp">
 
                     <TextView
                         android:id="@+id/tvGreeting"
@@ -102,7 +101,83 @@
 
                 </LinearLayout>
 
-                <!-- TÍTULO SEÇÃO -->
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="none"
+                    android:layout_marginBottom="16dp">
+
+                    <LinearLayout
+                        android:id="@+id/llDaysContainer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                    </LinearLayout>
+
+                </HorizontalScrollView>
+
+                <!-- card de checkin -->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardCheckin"
+                    android:layout_width="match_parent"
+                    android:layout_height="110dp"
+                    android:layout_marginBottom="16dp"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="2dp"
+                    app:cardBackgroundColor="#DCF0FA">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="16dp">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_centerVertical="true">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Realize o"
+                                android:textSize="20sp"
+                                android:textStyle="bold"
+                                android:textColor="#1A3A5C" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="check-in"
+                                android:textSize="20sp"
+                                android:textStyle="bold"
+                                android:textColor="#1A3A5C" />
+
+                            <TextView
+                                android:id="@+id/tvCheckinDate"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="13sp"
+                                android:textColor="#6699BB"
+                                android:layout_marginTop="4dp" />
+
+                        </LinearLayout>
+
+                        <ImageView
+                            android:layout_width="100dp"
+                            android:layout_height="90dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/ic_checkin_illustration"
+                            android:scaleType="fitEnd"
+                            android:contentDescription="Check-in"
+                            android:adjustViewBounds="true" />
+
+                    </RelativeLayout>
+                </androidx.cardview.widget.CardView>
+
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -110,10 +185,8 @@
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:textColor="#222222"
-                    android:layout_marginTop="24dp"
                     android:layout_marginBottom="8dp" />
 
-                <!-- CARD PLANO DE EXERCÍCIOS -->
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cardExercisePlan"
                     android:layout_width="match_parent"
@@ -183,10 +256,7 @@
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-    <!-- ==========================================
-         MENU LATERAL (DRAWER)
-         gravity="start" = desliza da esquerda
-         ========================================== -->
+
     <LinearLayout
         android:id="@+id/drawerMenu"
         android:layout_width="280dp"
@@ -199,7 +269,6 @@
         android:paddingEnd="24dp"
         android:elevation="8dp">
 
-        <!-- Ícone do hambúrguer no topo do drawer -->
         <ImageView
             android:id="@+id/ivDrawerClose"
             android:layout_width="28dp"
@@ -208,209 +277,55 @@
             android:layout_marginBottom="32dp"
             android:contentDescription="Fechar menu" />
 
-        <!-- Divisória -->
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="#EEEEEE"
             android:layout_marginBottom="24dp" />
 
-        <!-- HOME -->
-        <LinearLayout
-            android:id="@+id/menuHome"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_marginBottom="8dp">
-            <ImageView
-                android:layout_width="22dp"
-                android:layout_height="22dp"
-                android:src="@drawable/ic_nav_home"
-                android:contentDescription="Home" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Home"
-                android:textSize="16sp"
-                android:textColor="#222222"
-                android:layout_marginStart="16dp" />
+        <LinearLayout android:id="@+id/menuHome" android:layout_width="match_parent" android:layout_height="48dp" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginBottom="8dp">
+            <ImageView android:layout_width="22dp" android:layout_height="22dp" android:src="@drawable/ic_nav_home" android:contentDescription="Home" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Home" android:textSize="16sp" android:textColor="#222222" android:layout_marginStart="16dp" />
         </LinearLayout>
 
-        <!-- MESSAGES -->
-        <LinearLayout
-            android:id="@+id/menuMessages"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_marginBottom="8dp">
-            <ImageView
-                android:layout_width="22dp"
-                android:layout_height="22dp"
-                android:src="@drawable/ic_nav_chat"
-                android:contentDescription="Messages" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Messages"
-                android:textSize="16sp"
-                android:textColor="#222222"
-                android:layout_marginStart="16dp" />
+        <LinearLayout android:id="@+id/menuMessages" android:layout_width="match_parent" android:layout_height="48dp" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginBottom="8dp">
+            <ImageView android:layout_width="22dp" android:layout_height="22dp" android:src="@drawable/ic_nav_chat" android:contentDescription="Messages" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Messages" android:textSize="16sp" android:textColor="#222222" android:layout_marginStart="16dp" />
         </LinearLayout>
 
-        <!-- NOTIFICATIONS -->
-        <LinearLayout
-            android:id="@+id/menuNotifications"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_marginBottom="8dp">
-            <ImageView
-                android:layout_width="22dp"
-                android:layout_height="22dp"
-                android:src="@drawable/ic_notifications"
-                android:contentDescription="Notifications" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Notifications"
-                android:textSize="16sp"
-                android:textColor="#222222"
-                android:layout_marginStart="16dp" />
+        <LinearLayout android:id="@+id/menuNotifications" android:layout_width="match_parent" android:layout_height="48dp" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginBottom="8dp">
+            <ImageView android:layout_width="22dp" android:layout_height="22dp" android:src="@drawable/ic_notifications" android:contentDescription="Notifications" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Notifications" android:textSize="16sp" android:textColor="#222222" android:layout_marginStart="16dp" />
         </LinearLayout>
 
-        <!-- SETTINGS -->
-        <LinearLayout
-            android:id="@+id/menuSettings"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_marginBottom="8dp">
-            <ImageView
-                android:layout_width="22dp"
-                android:layout_height="22dp"
-                android:src="@drawable/ic_settings"
-                android:contentDescription="Settings" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Settings"
-                android:textSize="16sp"
-                android:textColor="#222222"
-                android:layout_marginStart="16dp" />
+        <LinearLayout android:id="@+id/menuSettings" android:layout_width="match_parent" android:layout_height="48dp" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginBottom="8dp">
+            <ImageView android:layout_width="22dp" android:layout_height="22dp" android:src="@drawable/ic_settings" android:contentDescription="Settings" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Settings" android:textSize="16sp" android:textColor="#222222" android:layout_marginStart="16dp" />
         </LinearLayout>
 
-        <!-- CHECK-IN -->
-        <LinearLayout
-            android:id="@+id/menuCheckin"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_marginBottom="8dp">
-            <ImageView
-                android:layout_width="22dp"
-                android:layout_height="22dp"
-                android:src="@drawable/ic_checkin"
-                android:contentDescription="Check-In" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Check-In"
-                android:textSize="16sp"
-                android:textColor="#222222"
-                android:layout_marginStart="16dp" />
+        <LinearLayout android:id="@+id/menuCheckin" android:layout_width="match_parent" android:layout_height="48dp" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginBottom="8dp">
+            <ImageView android:layout_width="22dp" android:layout_height="22dp" android:src="@drawable/ic_checkin" android:contentDescription="Check-In" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Check-In" android:textSize="16sp" android:textColor="#222222" android:layout_marginStart="16dp" />
         </LinearLayout>
 
-        <!-- EVOLUÇÃO -->
-        <LinearLayout
-            android:id="@+id/menuEvolucao"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_marginBottom="8dp">
-            <ImageView
-                android:layout_width="22dp"
-                android:layout_height="22dp"
-                android:src="@drawable/ic_evolucao"
-                android:contentDescription="Evolução" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Evolução"
-                android:textSize="16sp"
-                android:textColor="#222222"
-                android:layout_marginStart="16dp" />
+        <LinearLayout android:id="@+id/menuEvolucao" android:layout_width="match_parent" android:layout_height="48dp" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginBottom="8dp">
+            <ImageView android:layout_width="22dp" android:layout_height="22dp" android:src="@drawable/ic_evolucao" android:contentDescription="Evolução" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Evolução" android:textSize="16sp" android:textColor="#222222" android:layout_marginStart="16dp" />
         </LinearLayout>
 
-        <!-- PLANO DE EXERCÍCIOS -->
-        <LinearLayout
-            android:id="@+id/menuPlano"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_marginBottom="8dp">
-            <ImageView
-                android:layout_width="22dp"
-                android:layout_height="22dp"
-                android:src="@drawable/ic_plano"
-                android:contentDescription="Plano de Exercícios" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Plano de Exercícios"
-                android:textSize="16sp"
-                android:textColor="#222222"
-                android:layout_marginStart="16dp" />
+        <LinearLayout android:id="@+id/menuPlano" android:layout_width="match_parent" android:layout_height="48dp" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginBottom="8dp">
+            <ImageView android:layout_width="22dp" android:layout_height="22dp" android:src="@drawable/ic_plano" android:contentDescription="Plano de Exercícios" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Plano de Exercícios" android:textSize="16sp" android:textColor="#222222" android:layout_marginStart="16dp" />
         </LinearLayout>
 
-        <!-- AGENDA -->
-        <LinearLayout
-            android:id="@+id/menuAgenda"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_marginBottom="8dp">
-            <ImageView
-                android:layout_width="22dp"
-                android:layout_height="22dp"
-                android:src="@drawable/ic_nav_calendar"
-                android:contentDescription="Agenda" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Agenda"
-                android:textSize="16sp"
-                android:textColor="#222222"
-                android:layout_marginStart="16dp" />
+        <LinearLayout android:id="@+id/menuAgenda" android:layout_width="match_parent" android:layout_height="48dp" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginBottom="8dp">
+            <ImageView android:layout_width="22dp" android:layout_height="22dp" android:src="@drawable/ic_nav_calendar" android:contentDescription="Agenda" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Agenda" android:textSize="16sp" android:textColor="#222222" android:layout_marginStart="16dp" />
         </LinearLayout>
 
-        <!-- PERFIL -->
-        <LinearLayout
-            android:id="@+id/menuPerfil"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_marginBottom="8dp">
-            <ImageView
-                android:layout_width="22dp"
-                android:layout_height="22dp"
-                android:src="@drawable/ic_nav_person"
-                android:contentDescription="Perfil" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Perfil"
-                android:textSize="16sp"
-                android:textColor="#222222"
-                android:layout_marginStart="16dp" />
+        <LinearLayout android:id="@+id/menuPerfil" android:layout_width="match_parent" android:layout_height="48dp" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginBottom="8dp">
+            <ImageView android:layout_width="22dp" android:layout_height="22dp" android:src="@drawable/ic_nav_person" android:contentDescription="Perfil" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Perfil" android:textSize="16sp" android:textColor="#222222" android:layout_marginStart="16dp" />
         </LinearLayout>
 
     </LinearLayout>

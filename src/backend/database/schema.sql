@@ -58,3 +58,10 @@ CREATE TABLE appointments (
     notes TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+CREATE TABLE checkins (
+    id          SERIAL PRIMARY KEY,
+    patient_id  INTEGER NOT NULL REFERENCES patients(id),
+    data        DATE NOT NULL DEFAULT CURRENT_DATE,
+    created_at  TIMESTAMP DEFAULT NOW(),
+    UNIQUE(patient_id, data) 
+);
