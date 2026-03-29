@@ -11,15 +11,16 @@ export const getExercises = async () => {
 export const createExercise = async (
   title: string,
   description: string,
-  video_url: string
+  video_url: string,
+  image_url: string,
+  frequency: string
 ) => {
-
-  const result = await pool.query(
-    `INSERT INTO exercises (title, description, video_url)
-     VALUES ($1,$2,$3)
+const result = await pool.query(
+    `INSERT INTO exercises (title, description, video_url, image_url, frequency)
+     VALUES ($1, $2, $3, $4, $5)
      RETURNING *`,
-    [title, description, video_url]
+    [title, description, video_url, image_url, frequency]
   );
-
   return result.rows[0];
 };
+  

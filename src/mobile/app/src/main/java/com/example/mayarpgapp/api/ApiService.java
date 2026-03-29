@@ -5,6 +5,8 @@ import com.example.mayarpgapp.model.LoginRequest;
 import com.example.mayarpgapp.model.CheckinResponse;
 import com.example.mayarpgapp.model.HistoricoResponse;
 import com.example.mayarpgapp.model.User;
+import com.example.mayarpgapp.model.Exercise;
+import java.util.List;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -22,11 +24,11 @@ public interface ApiService {
     Call<CheckinResponse> fazerCheckin(
             @Header("Authorization") String token
     );
-
-
     @GET("checkin/historico")
     Call<HistoricoResponse> getHistorico(
             @Header("Authorization") String token,
             @Query("dias") int dias
     );
+    @GET("exercises")
+    Call<List<Exercise>> getExercises(@Header("Authorization") String token);
 }
