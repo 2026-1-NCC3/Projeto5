@@ -42,6 +42,8 @@
         <activity android:name=".TermosActivity" />
         <activity android:name=".HomeActivity"
             android:theme="@style/Theme.MaterialComponents.Light.NoActionBar" />
+        <activity android:name=".ExercisesActivity"
+            android:theme="@style/Theme.MaterialComponents.Light.NoActionBar" />
 
     </application>
 
