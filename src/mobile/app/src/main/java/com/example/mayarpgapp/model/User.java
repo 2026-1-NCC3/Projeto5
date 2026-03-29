@@ -1,26 +1,22 @@
 package com.example.mayarpgapp.model;
+import com.google.gson.annotations.SerializedName;
 
 public class User {
-    // Definindo todos os campos do seu layout
-    private String nome;
-    private String cpf;
-    private String telefone;
-    private String dataNascimento;
+    // campos do cadastro e do login do usuário
+    @SerializedName("name")
+    String nome;
+    private String cpf; // não vai pro backend por enquanto
+    private String telefone; // não vai também
+    private String dataNascimento; // vai pro backend mas mais tarde
+    @SerializedName("email")
     private String email;
+    @SerializedName("password")
     private String senha;
 
     public User(String nome, String cpf, String telefone, String dataNascimento, String email, String senha) {
         this.nome = nome;
         this.cpf = cpf;
         this.telefone = telefone;
-        this.dataNascimento = dataNascimento;
-        this.email = email;
-        this.senha = senha;
-    }
-
-    public User(String nome, String cpf, String dataNascimento, String email, String senha) {
-        this.nome = nome;
-        this.cpf = cpf;
         this.dataNascimento = dataNascimento;
         this.email = email;
         this.senha = senha;

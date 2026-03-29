@@ -6,9 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- ==========================================
-         CONTEÚDO PRINCIPAL DA HOME
-         ========================================== -->
+    <!-- parte principal -->
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -80,7 +78,7 @@
                         android:id="@+id/tvGreeting"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Seja bem-vinda,"
+                        android:text="Seja bem-vindo(a),"
                         android:textSize="20sp"
                         android:textColor="#222222" />
 

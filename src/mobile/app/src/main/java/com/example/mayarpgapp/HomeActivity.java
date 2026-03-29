@@ -57,7 +57,6 @@ public class HomeActivity extends AppCompatActivity {
             // TODO: abrir perfil
         });
 
-        // ===== ITENS DO MENU LATERAL =====
         findViewById(R.id.menuHome).setOnClickListener(v ->
                 drawerLayout.closeDrawer(GravityCompat.START)
         );
@@ -103,16 +102,14 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
-    // ✅ Método moderno — substitui onBackPressed()
     private void setupBackPress() {
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
                 if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-                    // Se o drawer estiver aberto, fecha ele
+                    // pra fechar o menu
                     drawerLayout.closeDrawer(GravityCompat.START);
                 } else {
-                    // Caso contrário, comportamento padrão de voltar
                     setEnabled(false);
                     getOnBackPressedDispatcher().onBackPressed();
                 }
@@ -135,7 +132,13 @@ public class HomeActivity extends AppCompatActivity {
             saudacao = "Boa noite,";
         }
         tvGreeting.setText(saudacao);
-        tvUserName.setText("Raquel");
+        String nome = getIntent().getStringExtra("USER_NAME");
+
+        if (nome != null) {
+            tvUserName.setText(nome);
+        } else {
+            tvUserName.setText("Usuário");
+        }
     }
 
     private void setupBottomNav() {

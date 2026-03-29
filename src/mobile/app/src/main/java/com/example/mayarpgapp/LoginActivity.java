@@ -11,13 +11,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import com.example.mayarpgapp.api.ApiService;
 import com.example.mayarpgapp.api.RetrofitClient;
+import com.example.mayarpgapp.model.AuthResponse;
 import com.example.mayarpgapp.model.User;
+import com.example.mayarpgapp.model.LoginRequest;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
 public class LoginActivity extends AppCompatActivity {
     EditText etNome,etCpf,etEmail, etSenha;
     Spinner spinnerDia, spinnerMes, spinnerAno;
@@ -65,43 +68,48 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void logar() {
-        String nome = etNome.getText().toString().trim();
-        String cpf = etCpf.getText().toString().trim();
         String email = etEmail.getText().toString().trim();
         String senha = etSenha.getText().toString().trim();
 
-        // Pegando os valores dos Spinners para montar a data
-        String dia = spinnerDia.getSelectedItem().toString();
-        String mes = spinnerMes.getSelectedItem().toString();
-        String ano = spinnerAno.getSelectedItem().toString();
-        String dataNascimento = dia + "/" + mes + "/" + ano;
+        // aqui pega os valores da data de nascimento mas não vamos usar agora, só na segunda entrega
+        // String dia = spinnerDia.getSelectedItem().toString();
+       // String mes = spinnerMes.getSelectedItem().toString();
+        //String ano = spinnerAno.getSelectedItem().toString();
+       // String dataNascimento = dia + "/" + mes + "/" + ano;
 
 
-        if (nome.isEmpty() || cpf.isEmpty() || email.isEmpty() || senha.isEmpty() ||
-                dia.equals("Dia") || mes.equals("Mês") || ano.equals("Ano")) {
-            Toast.makeText(this, "Preencha todos os campos corretamente!", Toast.LENGTH_SHORT).show();
+        if (email.isEmpty() || senha.isEmpty()) {
+            Toast.makeText(this, "Preencha email e senha", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        // AGORA SIM: Criando o User com o construtor completo que fizemos
-        User user = new User(nome, cpf, dataNascimento, email, senha);
-
         ApiService api = RetrofitClient.getInstance().create(ApiService.class);
+        LoginRequest login = new LoginRequest(email, senha);
 
-        api.login(user).enqueue(new Callback<Object>() {
+        api.login(login).enqueue(new Callback<AuthResponse>() {
             @Override
-            public void onResponse(Call<Object> call, Response<Object> response) {
+            public void onResponse(Call<AuthResponse> call, Response<AuthResponse> response) {
                 if (response.isSuccessful()) {
+                    String nome = response.body().getUser().getName();
+                    String token = response.body().getToken();
+                    getSharedPreferences("APP", MODE_PRIVATE)
+                            .edit()
+                            .putString("TOKEN", token)
+                            .putString("USER_NAME", nome)
+                            .apply();
                     Toast.makeText(LoginActivity.this, "Login realizado com sucesso!", Toast.LENGTH_SHORT).show();
-                    // Aqui você pode abrir a próxima tela (Home)
+                    Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                    intent.putExtra("USER_NAME", nome);
+                    startActivity(intent);
+                    finish(); // vai direto pra home depois do login
                 } else {
-                    Toast.makeText(LoginActivity.this, "Dados não conferem!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "Email ou senha inválidos", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<Object> call, Throwable t) {
-                Toast.makeText(LoginActivity.this, "Erro de rede: " + t.getMessage(), Toast.LENGTH_LONG).show();
+            public void onFailure(Call<AuthResponse> call, Throwable t) {
+                Toast.makeText(LoginActivity.this, "Erro: " + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }

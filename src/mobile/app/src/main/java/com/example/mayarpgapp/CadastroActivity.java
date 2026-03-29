@@ -2,6 +2,8 @@ package com.example.mayarpgapp;
 
 import com.example.mayarpgapp.api.ApiService;
 import com.example.mayarpgapp.api.RetrofitClient;
+import com.example.mayarpgapp.model.AuthResponse;
+import com.example.mayarpgapp.model.LoginRequest;
 import com.example.mayarpgapp.model.User;
 
 import retrofit2.Call;
@@ -23,7 +25,6 @@ import android.text.TextPaint;
 import android.graphics.Color;
 import android.text.method.LinkMovementMethod;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
@@ -37,7 +38,6 @@ public class CadastroActivity extends AppCompatActivity {
     Spinner spinnerDia1, spinnerMes1, spinnerAno1;
     CheckBox cbTermos;
     AppCompatButton btnCriarConta;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,29 +58,26 @@ public class CadastroActivity extends AppCompatActivity {
         btnCriarConta = findViewById(R.id.btnCriarConta);
 
         configurarLinkTermos();
-
         configurarSpinners();
 
         btnCriarConta.setOnClickListener(v -> cadastrar());
 
         AppCompatButton btnLogin = findViewById(R.id.btnLogin1);
-
         btnLogin.setOnClickListener(view -> {
-            Intent intent = new Intent(CadastroActivity.this,LoginActivity.class);
-            startActivity(intent);
+            startActivity(new Intent(CadastroActivity.this, LoginActivity.class));
         });
     }
 
-    private void configurarLinkTermos(){
+    private void configurarLinkTermos() {
         String texto = "Li e estou de acordo com os Termos de uso";
         SpannableString ss = new SpannableString(texto);
 
         ClickableSpan clickableSpan = new ClickableSpan() {
             @Override
             public void onClick(View widget) {
-                Intent intent = new Intent(CadastroActivity.this, TermosActivity.class);
-                startActivity(intent);
+                startActivity(new Intent(CadastroActivity.this, TermosActivity.class));
             }
+
             @Override
             public void updateDrawState(TextPaint ds) {
                 super.updateDrawState(ds);
@@ -90,7 +87,6 @@ public class CadastroActivity extends AppCompatActivity {
         };
 
         ss.setSpan(clickableSpan, 27, 40, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-
         cbTermos.setText(ss);
         cbTermos.setMovementMethod(LinkMovementMethod.getInstance());
     }
@@ -118,9 +114,11 @@ public class CadastroActivity extends AppCompatActivity {
             diasAdapter.add(i);
         }
 
-        List<String> anos = new ArrayList<>(); anos.add("Ano");
+        List<String> anos = new ArrayList<>();
+        anos.add("Ano");
         int anoAtual = Calendar.getInstance().get(Calendar.YEAR);
         for (int i = anoAtual; i >= 1930; i--) anos.add(String.valueOf(i));
+
         spinnerAno1.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, anos));
 
         diasAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -143,13 +141,23 @@ public class CadastroActivity extends AppCompatActivity {
             return;
         }
 
+        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            Toast.makeText(this, "Email inválido", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         if (senha.length() < 6) {
             Toast.makeText(this, "Senha deve ter pelo menos 6 caracteres", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        if (ano.isEmpty() || ano.length() < 4) {
-            Toast.makeText(this, "Ano inválido", Toast.LENGTH_SHORT).show();
+        if (ano.equals("Ano")) {
+            Toast.makeText(this, "Selecione um ano válido", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (!cbTermos.isChecked()) {
+            Toast.makeText(this, "Aceite os termos de uso", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -159,20 +167,62 @@ public class CadastroActivity extends AppCompatActivity {
 
         ApiService api = RetrofitClient.getInstance().create(ApiService.class);
 
-        api.register(user).enqueue(new Callback<Object>() {
+        btnCriarConta.setEnabled(false);
+
+        api.register(user).enqueue(new Callback<AuthResponse>() {
             @Override
-            public void onResponse(Call<Object> call, Response<Object> response) {
+            public void onResponse(Call<AuthResponse> call, Response<AuthResponse> response) {
+
+                btnCriarConta.setEnabled(true);
 
                 if (response.isSuccessful()) {
-                    Toast.makeText(CadastroActivity.this, "Cadastro realizado!", Toast.LENGTH_SHORT).show();
-                    finish(); // volta pra tela anterior (login)
+
+                    LoginRequest login = new LoginRequest(email, senha);
+
+                    api.login(login).enqueue(new Callback<AuthResponse>() {
+                        @Override
+                        public void onResponse(Call<AuthResponse> call, Response<AuthResponse> response) {
+
+                            if (response.isSuccessful()) {
+
+                                String token = response.body().getToken();
+
+                                getSharedPreferences("APP", MODE_PRIVATE)
+                                        .edit()
+                                        .putString("TOKEN", token)
+                                        .apply();
+
+                                Toast.makeText(CadastroActivity.this, "Cadastro e login realizados!", Toast.LENGTH_SHORT).show();
+
+                                // depois do login vai pra home
+                                String nome = response.body().getUser().getName();
+
+                                Intent intent = new Intent(CadastroActivity.this, HomeActivity.class);
+                                intent.putExtra("USER_NAME", nome);
+                                startActivity(intent);
+                                finish();
+
+                            } else {
+                                Toast.makeText(CadastroActivity.this, "Erro ao logar automaticamente", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<AuthResponse> call, Throwable t) {
+                            Toast.makeText(CadastroActivity.this, "Erro: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    });
+
                 } else {
                     Toast.makeText(CadastroActivity.this, "Erro no cadastro", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<Object> call, Throwable t) {
+            public void onFailure(Call<AuthResponse> call, Throwable t) {
+
+                btnCriarConta.setEnabled(true);
+
                 Toast.makeText(CadastroActivity.this, "Erro: " + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
