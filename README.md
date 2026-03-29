@@ -113,13 +113,6 @@ cd src/backend
 npm install
 ```
  
-Crie o arquivo `.env` na raiz do backend com as seguintes variáveis:
- 
-```env
-DATABASE_URL=postgresql://postgres:suasenha@localhost:5432/mayarpg
-JWT_SECRET=sua_chave_secreta_aqui
-```
- 
 Inicie o servidor:
  
 ```bash
