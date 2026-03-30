@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.mayarpgapp.api.ApiService;
 import com.example.mayarpgapp.api.RetrofitClient;
 import com.example.mayarpgapp.model.Exercise;
+import java.util.ArrayList; // Importante para a lista manual
 import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -36,6 +37,7 @@ public class ExercisesActivity extends AppCompatActivity {
     }
 
     private void initViews() {
+        // Agora o Java vai encontrar esses IDs no seu novo XML!
         rvExercises = findViewById(R.id.rvExercises);
         progressBar = findViewById(R.id.progressBar);
         tvError     = findViewById(R.id.tvError);
@@ -45,45 +47,39 @@ public class ExercisesActivity extends AppCompatActivity {
         findViewById(R.id.ivBack).setOnClickListener(v -> finish());
     }
 
-    // =========================================================
-    // GET /api/exercises
-    // =========================================================
     private void carregarExercicios() {
-        progressBar.setVisibility(View.VISIBLE);
-        rvExercises.setVisibility(View.GONE);
+        // Como os dados são manuais, escondemos o carregamento e o erro
+        progressBar.setVisibility(View.GONE);
         tvError.setVisibility(View.GONE);
 
-        String token = "Bearer " + getToken();
+        // Criando os dados simulados (MOCK)
+        List<Exercise> exercises = new ArrayList<>();
 
-        apiService.getExercises(token).enqueue(new Callback<List<Exercise>>() {
-            @Override
-            public void onResponse(Call<List<Exercise>> call, Response<List<Exercise>> response) {
-                progressBar.setVisibility(View.GONE);
+        // Aqui você preenche os dados que vão aparecer nos Cards
+        exercises.add(new Exercise(1, "Gato e vaca", "Descrição...",
+                "android.resource://" + getPackageName() + "/" + R.drawable.gato_e_vaca, null, "02.30 Minutes"));
 
-                if (response.isSuccessful() && response.body() != null) {
-                    List<Exercise> exercises = response.body();
+        exercises.add(new Exercise(2, "Ponte", "Descrição...",
+                "android.resource://" + getPackageName() + "/" + R.drawable.ponte, null, "03.00 Minutes"));
 
-                    ExerciseAdapter adapter = new ExerciseAdapter(
-                            ExercisesActivity.this,
-                            exercises,
-                            exercise -> abrirDetalhe(exercise)
-                    );
+        exercises.add(new Exercise(3, "Superman", "Descrição...",
+                "android.resource://" + getPackageName() + "/" + R.drawable.superman, null, "04.00 Minutes"));
 
-                    rvExercises.setAdapter(adapter);
-                    rvExercises.setVisibility(View.VISIBLE);
-                } else {
-                    tvError.setText("Erro ao carregar exercícios.");
-                    tvError.setVisibility(View.VISIBLE);
-                }
-            }
+        exercises.add(new Exercise(4, "Extensão toráxica", "Descrição...",
+                "android.resource://" + getPackageName() + "/" + R.drawable.extensao_toraxica, null, "05.00 Minutes"));
 
-            @Override
-            public void onFailure(Call<List<Exercise>> call, Throwable t) {
-                progressBar.setVisibility(View.GONE);
-                tvError.setText("Erro de conexão. Verifique sua internet.");
-                tvError.setVisibility(View.VISIBLE);
-            }
-        });
+        exercises.add(new Exercise(5, "Postura da criança", "Descrição...",
+                "android.resource://" + getPackageName() + "/" + R.drawable.postura_crianca, null, "06.00 Minutes"));
+
+        // O Adapter pega o seu item_exercise.xml e "imprime" esses dados nele
+        ExerciseAdapter adapter = new ExerciseAdapter(
+                this,
+                exercises,
+                exercise -> abrirDetalhe(exercise)
+        );
+
+        rvExercises.setAdapter(adapter);
+        rvExercises.setVisibility(View.VISIBLE);
     }
 
     private void abrirDetalhe(Exercise exercise) {

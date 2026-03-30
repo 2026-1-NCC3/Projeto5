@@ -140,9 +140,6 @@
                 android:layout_height="wrap_content"
                 android:nestedScrollingEnabled="false" />
 
-                </RelativeLayout>
-            </androidx.cardview.widget.CardView>
-
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 

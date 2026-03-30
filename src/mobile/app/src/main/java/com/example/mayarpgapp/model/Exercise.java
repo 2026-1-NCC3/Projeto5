@@ -22,6 +22,15 @@ public class Exercise {
     @SerializedName("frequency")
     private String frequency;
 
+    public Exercise(int id, String title, String description, String imageUrl, String videoUrl, String frequency) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.imageUrl = imageUrl;
+        this.videoUrl = videoUrl;
+        this.frequency = frequency;
+    }
+
     public int getId()          { return id; }
     public String getTitle()    { return title; }
     public String getDescription() { return description; }

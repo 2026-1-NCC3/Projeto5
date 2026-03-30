@@ -1,5 +1,7 @@
 package com.example.mayarpgapp;
 
+import com.example.mayarpgapp.R;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
