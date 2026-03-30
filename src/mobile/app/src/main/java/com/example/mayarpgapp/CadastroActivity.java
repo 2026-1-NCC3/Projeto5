@@ -1,40 +1,40 @@
 package com.example.mayarpgapp;
 
-import com.example.mayarpgapp.api.ApiService;
-import com.example.mayarpgapp.api.RetrofitClient;
-import com.example.mayarpgapp.model.AuthResponse;
-import com.example.mayarpgapp.model.LoginRequest;
-import com.example.mayarpgapp.model.User;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.SpannableString;
-import android.text.Spanned;
 import android.text.style.ClickableSpan;
+import android.text.Spanned;
+import android.text.TextPaint;
+import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
-import android.text.TextPaint;
-import android.graphics.Color;
-import android.text.method.LinkMovementMethod;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
+
+import com.example.mayarpgapp.api.ApiService;
+import com.example.mayarpgapp.api.RetrofitClient;
+import com.example.mayarpgapp.model.AuthResponse;
+import com.example.mayarpgapp.model.LoginRequest;
+import com.example.mayarpgapp.model.UserRegister;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class CadastroActivity extends AppCompatActivity {
 
-    EditText etNome, etCpf, etTelefone, etEmail, etSenha;
+    EditText etNome, etEmail, etSenha;
     Spinner spinnerDia1, spinnerMes1, spinnerAno1;
     CheckBox cbTermos;
     AppCompatButton btnCriarConta;
@@ -45,8 +45,6 @@ public class CadastroActivity extends AppCompatActivity {
         setContentView(R.layout.activity_cadastro);
 
         etNome = findViewById(R.id.etNome);
-        etCpf = findViewById(R.id.etCpf);
-        etTelefone = findViewById(R.id.etTelefone);
         etEmail = findViewById(R.id.etEmail);
         etSenha = findViewById(R.id.etSenha);
         cbTermos = findViewById(R.id.cbTermos);
@@ -101,7 +99,6 @@ public class CadastroActivity extends AppCompatActivity {
                 android.R.layout.simple_spinner_item,
                 meses
         );
-
         mesesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerMes1.setAdapter(mesesAdapter);
 
@@ -109,10 +106,7 @@ public class CadastroActivity extends AppCompatActivity {
                 this,
                 android.R.layout.simple_spinner_item
         );
-
-        for (int i = 1; i <= 31; i++) {
-            diasAdapter.add(i);
-        }
+        for (int i = 1; i <= 31; i++) diasAdapter.add(i);
 
         List<String> anos = new ArrayList<>();
         anos.add("Ano");
@@ -120,7 +114,6 @@ public class CadastroActivity extends AppCompatActivity {
         for (int i = anoAtual; i >= 1930; i--) anos.add(String.valueOf(i));
 
         spinnerAno1.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, anos));
-
         diasAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerDia1.setAdapter(diasAdapter);
     }
@@ -128,13 +121,9 @@ public class CadastroActivity extends AppCompatActivity {
     private void cadastrar() {
 
         String nome = etNome.getText().toString().trim();
-        String cpf = etCpf.getText().toString().trim();
-        String telefone = etTelefone.getText().toString().trim();
-        String dia = spinnerDia1.getSelectedItem().toString();
-        String mes = spinnerMes1.getSelectedItem().toString();
-        String ano = spinnerAno1.getSelectedItem().toString();
         String email = etEmail.getText().toString().trim();
         String senha = etSenha.getText().toString().trim();
+        String ano = spinnerAno1.getSelectedItem().toString();
 
         if (nome.isEmpty() || email.isEmpty() || senha.isEmpty()) {
             Toast.makeText(this, "Preencha nome, email e senha", Toast.LENGTH_SHORT).show();
@@ -161,15 +150,12 @@ public class CadastroActivity extends AppCompatActivity {
             return;
         }
 
-        String dataNascimento = dia + "/" + mes + "/" + ano;
-
-        User user = new User(nome, cpf, telefone, dataNascimento, email, senha);
+        UserRegister userRegister = new UserRegister(nome, email, senha);
 
         ApiService api = RetrofitClient.getInstance().create(ApiService.class);
-
         btnCriarConta.setEnabled(false);
 
-        api.register(user).enqueue(new Callback<AuthResponse>() {
+        api.register(userRegister).enqueue(new Callback<AuthResponse>() {
             @Override
             public void onResponse(Call<AuthResponse> call, Response<AuthResponse> response) {
 
@@ -194,7 +180,6 @@ public class CadastroActivity extends AppCompatActivity {
 
                                 Toast.makeText(CadastroActivity.this, "Cadastro e login realizados!", Toast.LENGTH_SHORT).show();
 
-                                // depois do login vai pra home
                                 String nome = response.body().getUser().getName();
 
                                 Intent intent = new Intent(CadastroActivity.this, HomeActivity.class);
@@ -220,9 +205,7 @@ public class CadastroActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<AuthResponse> call, Throwable t) {
-
                 btnCriarConta.setEnabled(true);
-
                 Toast.makeText(CadastroActivity.this, "Erro: " + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });

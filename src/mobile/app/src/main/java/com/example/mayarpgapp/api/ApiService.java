@@ -4,8 +4,9 @@ import com.example.mayarpgapp.model.AuthResponse;
 import com.example.mayarpgapp.model.LoginRequest;
 import com.example.mayarpgapp.model.CheckinResponse;
 import com.example.mayarpgapp.model.HistoricoResponse;
-import com.example.mayarpgapp.model.User;
 import com.example.mayarpgapp.model.Exercise;
+import com.example.mayarpgapp.model.UserRegister;
+
 import java.util.List;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -16,7 +17,7 @@ import retrofit2.http.Query;
 
 public interface ApiService {
     @POST("auth/register")
-    Call<AuthResponse> register(@Body User user);
+    Call<AuthResponse> register(@Body UserRegister user);
 
     @POST("auth/login")
     Call<AuthResponse> login(@Body LoginRequest login);
