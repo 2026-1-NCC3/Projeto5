@@ -136,7 +136,7 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvExercises"
-                android:layout_width="match_parent"
+                android:layout_width="379dp"
                 android:layout_height="wrap_content"
                 android:nestedScrollingEnabled="false" />
 

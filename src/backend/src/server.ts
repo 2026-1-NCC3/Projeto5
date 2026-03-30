@@ -12,6 +12,7 @@ import exerciseLogRoutes from "./routes/exerciseLogRoutes";
 import checkinRoutes from "./routes/checkinRoutes";
 
 const app = express();
+const PORT = 3001;
 
 app.use(cors());
 app.use(express.json());
@@ -36,6 +37,6 @@ app.get("/test-db", async (req, res) => { // teste pra ver se tá rodando no ban
   }
 });
 
-app.listen(3001, () => {
-  console.log("Servidor rodando na porta 3001");
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`Servidor rodando na porta ${PORT}`);
 });
