@@ -71,4 +71,4 @@ Essa fase foi essencial para validar a arquitetura do sistema e preparar o proje
 - A base backend + mobile já está consolidada  
 - A integração via API foi validada com sucesso  
 
-> ⚠️ Os arquivos da entrega estão disponíveis na pasta **src**, incluindo o código fonte e o APK.
+> ⚠️ Os arquivos da entrega estão disponíveis na pasta **Projeto Interdisciplinar: Aplicativo Móvel**, incluindo o código fonte e o APK.
