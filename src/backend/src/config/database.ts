@@ -1,7 +1,7 @@
 import { Pool } from "pg";
 
 export const pool = new Pool({
-  connectionString: "postgresql://postgres:Mayarpg2026@db.ppbvjaeuwbnchritpbeb.supabase.co:5432/postgres?sslmode=require",
+  connectionString: "postgresql://postgres:Mayarpg2026@db.ppbvjaeuwbnchritpbeb.supabase.co:5432/postgres",
   ssl: {
     rejectUnauthorized: false, 
   },
