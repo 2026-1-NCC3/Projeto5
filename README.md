@@ -142,7 +142,6 @@ Deve retornar: `API rodando`
 3. Aguarde o Gradle sincronizar as dependências
 4. Inicie um emulador Android (API 24 ou superior)
 5. Clique em **Run ▶** ou pressione `Shift + F10`
-[App](../../../Downloads/app-debug.apk)
  
 ---
  
