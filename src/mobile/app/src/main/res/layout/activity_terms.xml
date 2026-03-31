@@ -4,7 +4,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+<<<<<<< Updated upstream
     android:background="@color/white">
+=======
+    android:background="@color/white"
+    android:fitsSystemWindows="true">
+>>>>>>> Stashed changes
 
     <ImageView
         android:id="@+id/ivIcon"
@@ -29,6 +34,7 @@
         app:layout_constraintStart_toStartOf="@id/ivIcon"
         android:layout_marginTop="12dp" />
 
+<<<<<<< Updated upstream
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nsvTermos"
         android:layout_width="0dp"
@@ -41,6 +47,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
+=======
+>>>>>>> Stashed changes
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -50,11 +58,80 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+<<<<<<< Updated upstream
                 android:lineSpacingExtra="6dp"
                 android:text="@string/texto_completo_termos_lgpd"
                 android:textColor="#555555"
                 android:textSize="15sp" />
 
+=======
+                android:layout_gravity="center_horizontal"
+                android:text="@string/terms_accept"
+                android:textAllCaps="false"
+                android:minHeight="52dp"
+                android:insetTop="10dp"
+                android:insetBottom="10dp"
+                android:paddingStart="24dp"
+                android:paddingEnd="24dp"
+                app:cornerRadius="24dp"
+                app:iconGravity="textStart"
+                android:maxWidth="360dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+        </LinearLayout>
+
+
+
+        <TextView
+            android:id="@+id/btnScrollToggle"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginBottom="12dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:gravity="center"
+            android:background="@drawable/bg_pill"
+            android:text="@drawable/btn_scroll_selector"
+            android:textColor="?attr/colorOnPrimaryContainer"
+            android:textStyle="bold"
+            android:elevation="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/bottomBar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+
+        <LinearLayout
+
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:background="?attr/colorBackgroundFloating"
+            android:elevation="6dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnAccept"
+                style="@style/Widget.Material3.Button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/terms_accept"
+                android:textAllCaps="false"
+                android:minHeight="52dp"
+                android:insetTop="10dp"
+                android:insetBottom="10dp"
+                android:paddingStart="24dp"
+                android:paddingEnd="24dp"
+                app:cornerRadius="24dp"
+                app:iconGravity="textStart"
+                app:layout_constraintWidth_default="wrap"
+                android:maxWidth="360dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+>>>>>>> Stashed changes
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
@@ -64,6 +141,7 @@
         android:background="@drawable/bg_gradient_shadow"
         app:layout_constraintBottom_toTopOf="@id/llBottomAction" />
 
+<<<<<<< Updated upstream
     <LinearLayout
         android:id="@+id/llBottomAction"
         android:layout_width="match_parent"
@@ -89,3 +167,24 @@
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+=======
+        <TextView
+            android:id="@+id/btnScrollToggle"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginBottom="12dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:gravity="center"
+            android:background=""
+            android:text="@string/terms_scroll_bottom"
+            android:textColor="?attr/colorOnPrimaryContainer"
+            android:textStyle="bold"
+            android:elevation="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/bottomBar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
+>>>>>>> Stashed changes
