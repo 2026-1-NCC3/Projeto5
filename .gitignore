@@ -32,3 +32,7 @@ google-services.json
 
 # Android Profiling
 *.hprof
+
+# Variáveis de ambiente
+src/web/.env
+src/backend/.env
