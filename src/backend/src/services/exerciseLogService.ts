@@ -1,4 +1,4 @@
-import { pool } from "../config/database";
+import { supabase } from "../config/database";
 
 export const createExerciseLog = async (
   patient_id: number,
@@ -6,58 +6,34 @@ export const createExerciseLog = async (
   pain_level: number,
   notes: string
 ) => {
+  const { data, error } = await supabase
+    .from("exercise_logs")
+    .insert([{ patient_id, exercise_id, pain_level, notes }])
+    .select()
+    .single();
 
-  const result = await pool.query(
-    `INSERT INTO exercise_logs (patient_id, exercise_id, pain_level, notes)
-     VALUES ($1,$2,$3,$4)
-     RETURNING *`,
-    [patient_id, exercise_id, pain_level, notes]
-  );
-
-  return result.rows[0];
+  if (error) throw new Error(error.message);
+  return data;
 };
 
 export const getLogsByPatient = async (patientId: number) => {
+  const { data, error } = await supabase
+    .from("exercise_logs")
+    .select("*")
+    .eq("patient_id", patientId)
+    .order("created_at", { ascending: false });
 
-  const result = await pool.query(
-    `SELECT 
-      exercise_logs.id,
-      exercises.title,
-      exercise_logs.pain_level,
-      exercise_logs.notes,
-      exercise_logs.created_at
-     FROM exercise_logs
-     JOIN exercises
-     ON exercises.id = exercise_logs.exercise_id
-     WHERE exercise_logs.patient_id = $1
-     ORDER BY exercise_logs.created_at DESC`,
-    [patientId]
-  );
-
-  return result.rows;
+  if (error) throw new Error(error.message);
+  return data;
 };
 
 export const getPatientProgress = async (patientId: number) => {
+  const { data, error } = await supabase
+    .from("exercise_logs")
+    .select("exercise_id, pain_level, created_at, exercises(title)")
+    .eq("patient_id", patientId)
+    .order("created_at", { ascending: true });
 
-  const result = await pool.query(
-    `
-    SELECT
-      exercises.title AS exercise,
-      exercise_logs.pain_level,
-      exercise_logs.notes,
-      exercise_logs.created_at
-    FROM exercise_logs
-
-    JOIN exercises
-    ON exercises.id = exercise_logs.exercise_id
-
-    WHERE exercise_logs.patient_id = $1
-
-    ORDER BY exercise_logs.created_at DESC;
-    `,
-    [patientId]
-  );
-
-  return result.rows;
-
+  if (error) throw new Error(error.message);
+  return data;
 };

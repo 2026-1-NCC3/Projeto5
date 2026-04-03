@@ -1,17 +1,12 @@
-import { Pool } from "pg";
+import { createClient } from "@supabase/supabase-js";
+import dotenv from "dotenv";
+dotenv.config();
 
-export const pool = new Pool({
-  connectionString: "postgresql://postgres:Mayarpg2026@db.ppbvjaeuwbnchritpbeb.supabase.co:5432/postgres",
-  ssl: {
-    rejectUnauthorized: false, 
-  },
-});
+const supabaseUrl = process.env.SUPABASE_URL!;
+const supabaseKey = process.env.SUPABASE_SERVICE_KEY!;
 
-// Teste de conexão
-pool.query("SELECT NOW()", (err, res) => {
-  if (err) {
-    console.error("Erro ao conectar no banco:", err);
-  } else {
-    console.log("Conectado com sucesso!", res.rows);
-  }
-});
+if (!supabaseUrl || !supabaseKey) {
+  throw new Error("SUPABASE_URL e SUPABASE_SERVICE_KEY são obrigatórios no .env");
+}
+
+export const supabase = createClient(supabaseUrl, supabaseKey);

@@ -1,29 +1,25 @@
-import { pool } from "../config/database";
+import { supabase } from "../config/database";
 
 export const createPlan = async (patient_id: number, notes: string) => {
+  const { data, error } = await supabase
+    .from("exercise_plans")
+    .insert([{ patient_id, notes }])
+    .select()
+    .single();
 
-  const result = await pool.query(
-    `INSERT INTO exercise_plans (patient_id, notes)
-     VALUES ($1,$2)
-     RETURNING *`,
-    [patient_id, notes]
-  );
-
-  return result.rows[0];
-
+  if (error) throw new Error(error.message);
+  return data;
 };
 
 export const getPlansByPatient = async (patientId: number) => {
+  const { data, error } = await supabase
+    .from("exercise_plans")
+    .select("*")
+    .eq("patient_id", patientId)
+    .order("created_at", { ascending: false });
 
-  const result = await pool.query(
-    `SELECT * FROM exercise_plans
-     WHERE patient_id = $1
-     ORDER BY created_at DESC`,
-    [patientId]
-  );
-
-  return result.rows;
-
+  if (error) throw new Error(error.message);
+  return data;
 };
 
 export const addExerciseToPlan = async (
@@ -32,54 +28,63 @@ export const addExerciseToPlan = async (
   frequency: string,
   instructions: string
 ) => {
+  const { data, error } = await supabase
+    .from("exercise_plan_items")
+    .insert([{ plan_id, exercise_id, frequency, instructions }])
+    .select()
+    .single();
 
-  const result = await pool.query(
-    `INSERT INTO exercise_plan_items
-     (plan_id, exercise_id, frequency, instructions)
-     VALUES ($1,$2,$3,$4)
-     RETURNING *`,
-    [plan_id, exercise_id, frequency, instructions]
-  );
-
-  return result.rows[0];
-
+  if (error) throw new Error(error.message);
+  return data;
 };
 
 export const getFullPlanByPatient = async (patientId: number) => {
+  const { data: plans, error: planError } = await supabase
+    .from("exercise_plans")
+    .select(`
+      id, notes, created_at, patient_id,
+      patients (id, name),
+      exercise_plan_items (
+        id, frequency, instructions,
+        exercises (id, title, description)
+      )
+    `)
+    .eq("patient_id", patientId);
 
-  const result = await pool.query(
-    `
-    SELECT 
-      patients.id AS patient_id,
-      patients.name AS patient_name,
-      exercise_plans.id AS plan_id,
-      exercises.id AS exercise_id,
-      exercises.title AS exercise_title,
-      exercises.description,
-      exercise_plan_items.frequency,
-      exercise_plan_items.instructions,
-      exercise_logs.pain_level,
-      exercise_logs.created_at
-    FROM patients
+  if (planError) throw new Error(planError.message);
 
-    JOIN exercise_plans 
-    ON exercise_plans.patient_id = patients.id
+  const { data: logs } = await supabase
+    .from("exercise_logs")
+    .select("exercise_id, pain_level, created_at")
+    .eq("patient_id", patientId)
+    .order("created_at", { ascending: false });
 
-    JOIN exercise_plan_items
-    ON exercise_plan_items.plan_id = exercise_plans.id
+  const logsMap = new Map<number, { pain_level: number; created_at: string }>();
+  (logs ?? []).forEach((log) => {
+    if (!logsMap.has(log.exercise_id)) {
+      logsMap.set(log.exercise_id, { pain_level: log.pain_level, created_at: log.created_at });
+    }
+  });
 
-    JOIN exercises
-    ON exercises.id = exercise_plan_items.exercise_id
+  const rows: any[] = [];
+  (plans ?? []).forEach((plan: any) => {
+    (plan.exercise_plan_items ?? []).forEach((item: any) => {
+      const ex = item.exercises;
+      const log = logsMap.get(ex?.id);
+      rows.push({
+        patient_id: plan.patients?.id,
+        patient_name: plan.patients?.name,
+        plan_id: plan.id,
+        exercise_id: ex?.id,
+        exercise_title: ex?.title,
+        description: ex?.description,
+        frequency: item.frequency,
+        instructions: item.instructions,
+        pain_level: log?.pain_level ?? null,
+        created_at: log?.created_at ?? null,
+      });
+    });
+  });
 
-    LEFT JOIN exercise_logs
-    ON exercise_logs.exercise_id = exercises.id
-    AND exercise_logs.patient_id = patients.id
-
-    WHERE patients.id = $1;
-    `,
-    [patientId]
-  );
-
-  return result.rows;
-
+  return rows;
 };

@@ -8,7 +8,6 @@ export const authenticateToken = (
   res: Response,
   next: NextFunction
 ) => {
-
   const authHeader = req.headers.authorization;
 
   if (!authHeader) {
@@ -18,17 +17,10 @@ export const authenticateToken = (
   const token = authHeader.split(" ")[1];
 
   try {
-
     const decoded = jwt.verify(token, SECRET);
-
     (req as any).user = decoded;
-
     next();
-
-  } catch (error) {
-
+  } catch {
     return res.status(403).json({ message: "Token inválido" });
-
   }
-
 };

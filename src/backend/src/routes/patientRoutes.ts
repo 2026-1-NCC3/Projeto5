@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { authenticateToken } from "../midllewares/authMiddleware";  
+import { authenticateToken } from "../midllewares/authMiddleware";
 
 import {
   listPatients,

@@ -1,9 +1,9 @@
 import express from "express";
 import cors from "cors";
-import { pool } from "./config/database";
 import dotenv from "dotenv";
 dotenv.config();
 
+import { supabase } from "./config/database";
 import patientRoutes from "./routes/patientRoutes";
 import exerciseRoutes from "./routes/exerciseRoutes";
 import planRoutes from "./routes/planRoutes";
@@ -12,10 +12,11 @@ import exerciseLogRoutes from "./routes/exerciseLogRoutes";
 import checkinRoutes from "./routes/checkinRoutes";
 
 const app = express();
-const PORT = 3001;
+const PORT = Number(process.env.PORT) || 3001;
 
 app.use(cors());
 app.use(express.json());
+
 app.use("/api", patientRoutes);
 app.use("/api", exerciseRoutes);
 app.use("/api", planRoutes);
@@ -23,18 +24,23 @@ app.use("/api", authRoutes);
 app.use("/api", exerciseLogRoutes);
 app.use("/api", checkinRoutes);
 
-app.get("/", (req, res) => {
+app.get("/", (_req, res) => {
   res.send("API rodando");
 });
 
-app.get("/test-db", async (req, res) => { // teste pra ver se tá rodando no banco
-  try {
-    const result = await pool.query("SELECT NOW()");
-    res.json(result.rows);
-  } catch (error) {
+// Rota de teste — verifica conexão com Supabase
+app.get("/test-db", async (_req, res) => {
+  const { data, error } = await supabase
+    .from("patients")
+    .select("count")
+    .limit(1);
+
+  if (error) {
     console.error(error);
-    res.status(500).send("Erro ao conectar no banco");
+    return res.status(500).json({ error: error.message });
   }
+
+  res.json({ status: "Supabase conectado!", data });
 });
 
 app.listen(PORT, "0.0.0.0", () => {

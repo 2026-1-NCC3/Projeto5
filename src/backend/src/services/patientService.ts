@@ -1,42 +1,59 @@
-import { pool } from "../config/database";
+import { supabase } from "../config/database";
 
 export async function getPatients() {
-  const result = await pool.query("SELECT * FROM patients ORDER BY id");
-  return result.rows;
+  const { data, error } = await supabase
+    .from("patients")
+    .select("*")
+    .order("id");
+
+  if (error) throw new Error(error.message);
+  return data;
 }
 
 export async function getPatientById(id: number) {
-  const result = await pool.query(
-    "SELECT * FROM patients WHERE id = $1",
-    [id]
-  );
-  return result.rows[0];
+  const { data, error } = await supabase
+    .from("patients")
+    .select("*")
+    .eq("id", id)
+    .single();
+
+  if (error) throw new Error(error.message);
+  return data;
 }
 
 export async function createPatient(name: string, email: string, phone: string) {
-  const result = await pool.query(
-    "INSERT INTO patients (name, email, phone) VALUES ($1,$2,$3) RETURNING *",
-    [name, email, phone]
-  );
+  const { data, error } = await supabase
+    .from("patients")
+    .insert([{ name, email, phone }])
+    .select()
+    .single();
 
-  return result.rows[0];
+  if (error) throw new Error(error.message);
+  return data;
 }
 
-export async function updatePatient(id: number, name: string, email: string, phone: string) {
-  const result = await pool.query(
-    `UPDATE patients 
-     SET name=$1, email=$2, phone=$3 
-     WHERE id=$4 
-     RETURNING *`,
-    [name, email, phone, id]
-  );
+export async function updatePatient(
+  id: number,
+  name: string,
+  email: string,
+  phone: string
+) {
+  const { data, error } = await supabase
+    .from("patients")
+    .update({ name, email, phone })
+    .eq("id", id)
+    .select()
+    .single();
 
-  return result.rows[0];
+  if (error) throw new Error(error.message);
+  return data;
 }
 
 export async function deletePatient(id: number) {
-  await pool.query(
-    "DELETE FROM patients WHERE id=$1",
-    [id]
-  );
+  const { error } = await supabase
+    .from("patients")
+    .delete()
+    .eq("id", id);
+
+  if (error) throw new Error(error.message);
 }
