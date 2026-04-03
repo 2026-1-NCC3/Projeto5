@@ -89,9 +89,11 @@ public class LoginActivity extends AppCompatActivity {
         api.login(login).enqueue(new Callback<AuthResponse>() {
             @Override
             public void onResponse(Call<AuthResponse> call, Response<AuthResponse> response) {
+
                 if (response.isSuccessful()) {
                     String nome = response.body().getUser().getName();
                     String token = response.body().getToken();
+                    RetrofitClient.setToken(token);
                     getSharedPreferences("APP", MODE_PRIVATE)
                             .edit()
                             .putString("TOKEN", token)

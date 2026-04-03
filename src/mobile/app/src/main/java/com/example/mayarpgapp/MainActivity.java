@@ -8,6 +8,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.mayarpgapp.api.RetrofitClient;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -15,6 +17,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
+
+        // Recupera o token salvo entre sessões
+        String token = getSharedPreferences("APP", MODE_PRIVATE)
+                .getString("TOKEN", null);
+        if (token != null) {
+            RetrofitClient.setToken(token);
+        }
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);

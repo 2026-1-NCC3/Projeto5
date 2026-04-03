@@ -163,6 +163,7 @@ public class CadastroActivity extends AppCompatActivity {
 
                 if (response.isSuccessful()) {
 
+
                     LoginRequest login = new LoginRequest(email, senha);
 
                     api.login(login).enqueue(new Callback<AuthResponse>() {
@@ -172,6 +173,7 @@ public class CadastroActivity extends AppCompatActivity {
                             if (response.isSuccessful()) {
 
                                 String token = response.body().getToken();
+                                RetrofitClient.setToken(token);
 
                                 getSharedPreferences("APP", MODE_PRIVATE)
                                         .edit()
