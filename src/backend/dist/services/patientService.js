@@ -7,24 +7,50 @@ exports.updatePatient = updatePatient;
 exports.deletePatient = deletePatient;
 const database_1 = require("../config/database");
 async function getPatients() {
-    const result = await database_1.pool.query("SELECT * FROM patients ORDER BY id");
-    return result.rows;
+    const { data, error } = await database_1.supabase
+        .from("patients")
+        .select("*")
+        .order("id");
+    if (error)
+        throw new Error(error.message);
+    return data;
 }
 async function getPatientById(id) {
-    const result = await database_1.pool.query("SELECT * FROM patients WHERE id = $1", [id]);
-    return result.rows[0];
+    const { data, error } = await database_1.supabase
+        .from("patients")
+        .select("*")
+        .eq("id", id)
+        .single();
+    if (error)
+        throw new Error(error.message);
+    return data;
 }
 async function createPatient(name, email, phone) {
-    const result = await database_1.pool.query("INSERT INTO patients (name, email, phone) VALUES ($1,$2,$3) RETURNING *", [name, email, phone]);
-    return result.rows[0];
+    const { data, error } = await database_1.supabase
+        .from("patients")
+        .insert([{ name, email, phone }])
+        .select()
+        .single();
+    if (error)
+        throw new Error(error.message);
+    return data;
 }
 async function updatePatient(id, name, email, phone) {
-    const result = await database_1.pool.query(`UPDATE patients 
-     SET name=$1, email=$2, phone=$3 
-     WHERE id=$4 
-     RETURNING *`, [name, email, phone, id]);
-    return result.rows[0];
+    const { data, error } = await database_1.supabase
+        .from("patients")
+        .update({ name, email, phone })
+        .eq("id", id)
+        .select()
+        .single();
+    if (error)
+        throw new Error(error.message);
+    return data;
 }
 async function deletePatient(id) {
-    await database_1.pool.query("DELETE FROM patients WHERE id=$1", [id]);
+    const { error } = await database_1.supabase
+        .from("patients")
+        .delete()
+        .eq("id", id);
+    if (error)
+        throw new Error(error.message);
 }

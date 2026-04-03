@@ -9,9 +9,12 @@ const bcrypt_1 = __importDefault(require("bcrypt"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const SECRET = process.env.JWT_SECRET;
 const loginUser = async (email, password) => {
-    const result = await database_1.pool.query("SELECT * FROM users WHERE email = $1", [email]);
-    const user = result.rows[0];
-    if (!user) {
+    const { data: user, error } = await database_1.supabase
+        .from("users")
+        .select("*")
+        .eq("email", email)
+        .single();
+    if (error || !user) {
         throw new Error("Usuário não encontrado");
     }
     const passwordMatch = await bcrypt_1.default.compare(password, user.password);
@@ -25,21 +28,33 @@ const loginUser = async (email, password) => {
             id: user.id,
             name: user.name,
             email: user.email,
-            role: user.role
-        }
+            role: user.role,
+        },
     };
 };
 exports.loginUser = loginUser;
 const registerUser = async (name, email, password) => {
-    const user = await database_1.pool.query("SELECT * FROM users WHERE email = $1", [email]);
-    if (user.rows.length > 0) {
+    // pra verificar se o usuário já existe
+    const { data: existing } = await database_1.supabase
+        .from("users")
+        .select("id")
+        .eq("email", email)
+        .single();
+    if (existing) {
         throw new Error("Usuário já existe");
     }
     const hashedPassword = await bcrypt_1.default.hash(password, 10);
-    const result = await database_1.pool.query("INSERT INTO users (name, email, password,role) VALUES ($1,$2,$3,$4) RETURNING id, name, email, role", [name, email, hashedPassword, "patient"]);
+    const { data: newUser, error } = await database_1.supabase
+        .from("users")
+        .insert([{ name, email, password: hashedPassword, role: "patient" }])
+        .select("id, name, email, role")
+        .single();
+    if (error) {
+        throw new Error(error.message);
+    }
     return {
         message: "Usuário criado com sucesso",
-        user: result.rows[0]
+        user: newUser,
     };
 };
 exports.registerUser = registerUser;
