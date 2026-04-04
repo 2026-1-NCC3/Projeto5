@@ -1,7 +1,7 @@
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
-import Login from '../pages/Login'
-import Dashboard from '../pages/Dashboard'
+import Login from '../pages/Login/Login'
+import Dashboard from '../pages/Dashboard/Dashboard'
 import Patients from '../pages/Pacientes'
 
 function PrivateRoute({ children }) {
