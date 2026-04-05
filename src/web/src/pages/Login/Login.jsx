@@ -25,7 +25,7 @@ function Login() {
     setLoading(true);
 
     try {
-      // 1. Autentica no Supabase
+
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password: senha,
@@ -33,10 +33,10 @@ function Login() {
 
       if (error) throw error;
 
-      // 2. Salva no Contexto (para o AuthProvider liberar as rotas)
+
       login(data.user, data.session.access_token);
 
-      // 3. Redireciona
+
       navigate("/");
     } catch (error) {
       setErro("Email ou senha inválidos.");
