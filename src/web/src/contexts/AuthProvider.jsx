@@ -1,42 +1,27 @@
-import { useState, useEffect } from 'react'
-import { supabase } from '../services/supabase'
+import { useState } from 'react'
 import { AuthContext } from './AuthContext'
-
+ 
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(null)
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setUser(session?.user ?? null)
-      setLoading(false)
-    })
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null)
-    })
-
-    return () => subscription.unsubscribe()
-  }, [])
-
-  const login = async (email, password) => {
-    const { error } = await supabase.auth.signInWithPassword({ email, password })
-    if (error) throw error
+  const [user, setUser] = useState(() => {
+    const stored = localStorage.getItem("maya_user")
+    return stored ? JSON.parse(stored) : null
+  })
+ 
+  const login = (userData, token) => {
+    localStorage.setItem("maya_token", token)
+    localStorage.setItem("maya_user", JSON.stringify(userData))
+    setUser(userData)
   }
-
-  const logout = async () => {
-    await supabase.auth.signOut()
+ 
+  const logout = () => {
+    localStorage.removeItem("maya_token")
+    localStorage.removeItem("maya_user")
+    setUser(null)
   }
-
+ 
   return (
-  <AuthContext.Provider value={{ user, loading, login, logout }}>
-    {loading ? (
-      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-        <p>Carregando sistema...</p>
-      </div>
-    ) : (
-      children
-    )}
-  </AuthContext.Provider>
+    <AuthContext.Provider value={{ user, login, logout }}>
+      {children}
+    </AuthContext.Provider>
   )
 }

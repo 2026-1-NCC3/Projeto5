@@ -6,7 +6,7 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import IconButton from "@mui/material/IconButton";
 import axios from "axios";
-
+ 
 function Login() {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
@@ -14,31 +14,31 @@ function Login() {
   const [mostrarSenha, setMostrarSenha] = useState(false);
   const [erro, setErro] = useState("");
   const [loading, setLoading] = useState(false);
-
+ 
   const navigate = useNavigate();
-
+ 
   const handleLogin = async (e) => {
     e.preventDefault();
     setErro("");
     setLoading(true);
-
+ 
     try {
       const { data } = await axios.post(
         "https://maya-rpg-4r68.onrender.com/api/auth/login",
         { email, password: senha }
       );
-
+ 
       localStorage.setItem("maya_token", data.token);
       localStorage.setItem("maya_user", JSON.stringify(data.user));
-
-      navigate("/dashboard");
+ 
+      navigate("/"); // corrigido: era "/dashboard" mas a rota é "/"
     } catch {
       setErro("Email ou senha inválidos.");
     } finally {
       setLoading(false);
     }
   };
-
+ 
   return (
     <div className="login-page">
       <div className="login-left">
@@ -48,12 +48,12 @@ function Login() {
           <p>Especialista em RPG</p>
         </div>
       </div>
-
+ 
       <div className="login-right">
         <div className="login-box">
           <h2>Bem-vinda, Maya!</h2>
           <span>Acesse sua conta para gerenciar seus pacientes e consultas.</span>
-
+ 
           <form onSubmit={handleLogin}>
             <div className="input-group">
               <label>E-mail</label>
@@ -65,7 +65,7 @@ function Login() {
                 required
               />
             </div>
-
+ 
             <div className="input-group password">
               <label>Senha</label>
               <div className="password-wrapper">
@@ -85,7 +85,7 @@ function Login() {
                 </IconButton>
               </div>
             </div>
-
+ 
             <div className="options">
               <div className="remember-group">
                 <div
@@ -98,13 +98,13 @@ function Login() {
               </div>
               <a href="#">Esqueceu sua senha?</a>
             </div>
-
+ 
             {erro && (
               <p style={{ color: "#e05b5b", fontSize: "13px", marginTop: "-8px" }}>
                 {erro}
               </p>
             )}
-
+ 
             <button type="submit" disabled={loading}>
               {loading ? "Entrando..." : "Entrar"}
             </button>
@@ -114,5 +114,5 @@ function Login() {
     </div>
   );
 }
-
+ 
 export default Login;
