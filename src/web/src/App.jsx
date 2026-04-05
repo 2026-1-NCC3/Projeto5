@@ -1,7 +1,7 @@
 import { BrowserRouter } from 'react-router-dom'
 import { AuthProvider } from './contexts/AuthProvider'
 import AppRoutes from './routes'
-import BarraLateral from './components/Sidebar'; // Importando o Sidebar
+import BarraLateral from './components/Sidebar';
 import './App.css'; // Onde está o layout de colunas
 
 function App() {

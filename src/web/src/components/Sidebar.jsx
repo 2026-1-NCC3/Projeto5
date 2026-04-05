@@ -3,8 +3,8 @@ import './Sidebar.css';
 import { Icon } from '@iconify/react';
 
 // Importando Imagens
-import logoMaya from '../assets/logo_sidebar';
-import fotoPerfil from '../assets/perfil-maya.jpg';
+import logoMaya from '../assets/logo_sidebar.png'
+import fotoPerfil from '../assets/Maya.png'
 
 const BarraLateral = () => {
   return (
