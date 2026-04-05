@@ -5,26 +5,42 @@ import mayaImg from "../../assets/Maya.png";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import IconButton from "@mui/material/IconButton";
+import axios from "axios";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [lembrar, setLembrar] = useState(false);
   const [mostrarSenha, setMostrarSenha] = useState(false);
+  const [erro, setErro] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
+    setErro("");
+    setLoading(true);
 
-    // login fake para qualquer email e senha
-    localStorage.setItem("user", JSON.stringify({ email }));
-    navigate("/dashboard");
+    try {
+      const { data } = await axios.post(
+        "https://maya-rpg-4r68.onrender.com/api/auth/login",
+        { email, password: senha }
+      );
+
+      localStorage.setItem("maya_token", data.token);
+      localStorage.setItem("maya_user", JSON.stringify(data.user));
+
+      navigate("/dashboard");
+    } catch {
+      setErro("Email ou senha inválidos.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div className="login-page">
-
       <div className="login-left">
         <img src={mayaImg} alt="Maya" />
         <div className="overlay">
@@ -35,15 +51,10 @@ function Login() {
 
       <div className="login-right">
         <div className="login-box">
-
           <h2>Bem-vinda, Maya!</h2>
-          <span>
-            Acesse sua conta para gerenciar seus pacientes e consultas.
-          </span>
+          <span>Acesse sua conta para gerenciar seus pacientes e consultas.</span>
 
           <form onSubmit={handleLogin}>
-
-  
             <div className="input-group">
               <label>E-mail</label>
               <input
@@ -51,51 +62,53 @@ function Login() {
                 placeholder="Digite seu email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                required
               />
             </div>
 
-
             <div className="input-group password">
               <label>Senha</label>
-
               <div className="password-wrapper">
                 <input
                   type={mostrarSenha ? "text" : "password"}
                   placeholder="Digite sua senha"
                   value={senha}
                   onChange={(e) => setSenha(e.target.value)}
+                  required
                 />
-
-            <IconButton
-              className="eye"
-              size="small"
-              onClick={() => setMostrarSenha(!mostrarSenha)}
-          >
-             {mostrarSenha ? <VisibilityOff /> : <Visibility />}
-            </IconButton>
+                <IconButton
+                  className="eye"
+                  size="small"
+                  onClick={() => setMostrarSenha(!mostrarSenha)}
+                >
+                  {mostrarSenha ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
               </div>
             </div>
 
-<div className="options">
+            <div className="options">
+              <div className="remember-group">
+                <div
+                  className={`toggle ${lembrar ? "active" : ""}`}
+                  onClick={() => setLembrar(!lembrar)}
+                >
+                  <div className="circle"></div>
+                </div>
+                <span className="remember-text">Lembrar de mim</span>
+              </div>
+              <a href="#">Esqueceu sua senha?</a>
+            </div>
 
-  <div className="remember-group">
-    <div
-      className={`toggle ${lembrar ? "active" : ""}`}
-      onClick={() => setLembrar(!lembrar)}
-    >
-      <div className="circle"></div>
-    </div>
+            {erro && (
+              <p style={{ color: "#e05b5b", fontSize: "13px", marginTop: "-8px" }}>
+                {erro}
+              </p>
+            )}
 
-    <span className="remember-text">Lembrar de mim</span>
-  </div>
-
-  <a href="#">Esqueceu sua senha?</a>
-</div>
-
-            <button type="submit">Entrar</button>
-
+            <button type="submit" disabled={loading}>
+              {loading ? "Entrando..." : "Entrar"}
+            </button>
           </form>
-
         </div>
       </div>
     </div>
