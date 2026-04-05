@@ -1,0 +1,117 @@
+/* CONTAINER PRINCIPAL */
+.sidebar-container {
+  /* Largura fixa da barra lateral */
+  width: 280px;
+  /* Altura total da tela menos sem margens */
+  height: calc(100vh - 40px); 
+  background-color: #ffffff;
+  /* Arredondamento dos cantos */
+  border-radius: 24px; 
+  /* Afastamento das bordas da janela do navegador */
+  margin: 20px; 
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  /* Sombra */
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05); 
+  /* Mantém a barra visível mesmo se a página tiver scroll */
+  position: fixed; 
+  left: 0;
+  top: 0;
+}
+
+/* LOGOTIPO */
+.sidebar-logo {
+  margin-bottom: 32px;
+  display: flex;
+  justify-content: center;
+}
+
+.sidebar-logo img {
+  /* Ajuste do tamanho da logo */
+  width: 140px; 
+  height: auto;
+}
+
+/* NAVEGAÇÃO E LINKS */
+.label-menu {
+  /* Estilo dos títulos */
+  color: #999;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+  margin-left: 12px;
+  font-weight: 700;
+}
+
+.secao-menu {
+  margin-bottom: 24px;
+}
+
+.sidebar-nav ul {
+  list-style: none; /* Remove as bolinhas da lista */
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar-nav li {
+  display: flex;
+  align-items: center;
+  gap: 12px; /* Espaço entre o ícone e o texto */
+  padding: 12px 16px;
+  margin-bottom: 4px;
+  border-radius: 12px;
+  cursor: pointer;
+  color: #666;
+  font-size: 14px;
+  transition: all 0.3s ease; /* Suaviza a mudança de cor no hover */
+}
+
+/* Efeito ao passar o mouse */
+.sidebar-nav li:hover {
+  background-color: #f8f9fa;
+  color: #333;
+}
+
+/* ITEM SELECIONADO */
+/* Cor de destaque */
+.sidebar-nav li.active {
+  background-color: #e0f2f1; 
+  color: #37A6BA; /* Para o texto e ícone */
+  font-weight: 600;
+}
+
+/* RODAPÉ E PERFIL */
+.sidebar-footer {
+  /* Empurra o card de perfil para o final do container */
+  margin-top: auto; 
+  padding-top: 20px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.card-perfil {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.foto-perfil {
+  width: 40px;
+  height: 40px;
+  /* Deixa a foto da Maya redonda */
+  border-radius: 50%; 
+  object-fit: cover;
+  border: 2px solid #eee;
+}
+
+.info-perfil {
+  flex: 1; /* Faz o nome ocupar o espaço central */
+}
+
+.nome-perfil {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+}
