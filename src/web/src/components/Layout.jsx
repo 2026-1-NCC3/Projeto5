@@ -1,15 +1,19 @@
-import React from 'react';
 import { Outlet } from 'react-router-dom';
 import BarraLateral from './Sidebar';
 
 const Layout = () => {
   return (
-    <div style={{ display: 'flex', minHeight: '100vh' }}>
-      {/* A Sidebar fica aqui, fixa para todas as páginas internas */}
+    <div style={{ display: 'flex' }}>
       <BarraLateral />
       
-      {/* O conteúdo da página (Dashboard, Pacientes, etc) renderiza no Outlet */}
-      <main style={{ flex: 1, padding: '20px', backgroundColor: '#f5f5f5' }}>
+      {/* O segredo está no marginLeft aqui embaixo */}
+      <main style={{ 
+        flex: 1, 
+        marginLeft: '320px', // Abre espaço para a Sidebar que está fixa
+        padding: '40px',
+        minHeight: '100vh',
+        backgroundColor: '#f8f9fa' // Uma corzinha só para testar se o fundo aparece
+      }}>
         <Outlet />
       </main>
     </div>

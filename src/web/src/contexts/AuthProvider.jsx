@@ -29,8 +29,14 @@ export function AuthProvider({ children }) {
   }
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, logout }}>
-      {!loading && children}
-    </AuthContext.Provider>
+  <AuthContext.Provider value={{ user, loading, login, logout }}>
+    {loading ? (
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+        <p>Carregando sistema...</p>
+      </div>
+    ) : (
+      children
+    )}
+  </AuthContext.Provider>
   )
 }

@@ -181,4 +181,12 @@
     right: 0;
     border-right-color: var(--border);
   }
+
+  #root {
+  width: 100%; /* Mude de 1126px para 100% */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  /* Remova o border-inline e o margin: 0 auto para testar */
+  }
 }
