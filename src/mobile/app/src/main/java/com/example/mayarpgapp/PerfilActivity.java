@@ -18,6 +18,7 @@ public class PerfilActivity extends AppCompatActivity {
     private TextView tvSenha;
     private TextView tvTelefone;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

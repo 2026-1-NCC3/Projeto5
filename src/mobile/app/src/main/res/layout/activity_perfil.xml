@@ -11,10 +11,22 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="160dp"
             android:background="@drawable/bg_header_gradient">
+
+            <ImageView
+                android:id="@+id/ivBackPerfil"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_margin="16dp"
+                android:padding="2dp"
+                android:src="@drawable/ic_back"
+                app:tint="#FFFFFF"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
                 android:id="@+id/ivMenu"

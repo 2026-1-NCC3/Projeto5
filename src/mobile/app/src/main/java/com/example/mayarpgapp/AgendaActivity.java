@@ -2,6 +2,7 @@ package com.example.mayarpgapp;
 
 import android.os.Bundle;
 import android.widget.TextView;
+import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class AgendaActivity extends AppCompatActivity {
@@ -11,12 +12,14 @@ public class AgendaActivity extends AppCompatActivity {
     private TextView tvNomeProxima;       // Nome da médica
     private TextView tvEspecialidadeProxima; // Especialidade + horário
 
-    // ── Views do filtro de meses ─────────────────────────────────────────────
+
     private TextView btnAbril;   // Mês Abril (começa selecionado)
     private TextView btnMaio;    // Mês Maio
     private TextView btnJunho;   // Mês Junho
     private TextView btnJulho;   // Mês Julho
     private TextView btnAgosto;  // Mês Agosto
+
+    private ImageView ivBack;  // Botão voltar
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +30,9 @@ public class AgendaActivity extends AppCompatActivity {
     }
 
     private void initViews() {
+        // Configurando Botão voltar
+        ivBack = findViewById(R.id.iv_back_agenda);
+        ivBack.setOnClickListener(v -> finish());
 
         // Card próxima consulta
         tvEmUmDia              = findViewById(R.id.tv_em_1_dia);
@@ -41,6 +47,7 @@ public class AgendaActivity extends AppCompatActivity {
         btnJunho  = findViewById(R.id.btn_junho);
         btnJulho  = findViewById(R.id.btn_julho);
         btnAgosto = findViewById(R.id.btn_agosto);
+
 
         // Configura o comportamento de seleção dos botões de mês
         setupFiltroMeses();
