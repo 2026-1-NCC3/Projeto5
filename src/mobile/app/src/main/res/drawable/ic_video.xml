@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+
+    <!-- Corpo da câmera -->
+    <path
+        android:fillColor="@android:color/transparent"
+        android:pathData="M2,8 C2,7.448 2.448,7 3,7 L14,7 C14.552,7 15,7.448 15,8 L15,16 C15,16.552 14.552,17 14,17 L3,17 C2.448,17 2,16.552 2,16 Z"
+        android:strokeColor="#B0CCE8"
+        android:strokeWidth="1.8"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+
+    <!-- Triângulo da câmera -->
+    <path
+        android:fillColor="@android:color/transparent"
+        android:pathData="M15,10 L22,7 L22,17 L15,14"
+        android:strokeColor="#B0CCE8"
+        android:strokeWidth="1.8"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+
+</vector>

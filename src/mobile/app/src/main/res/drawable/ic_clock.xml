@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+
+    <!-- Círculo externo -->
+    <path
+        android:fillColor="@android:color/transparent"
+        android:pathData="M12,2 C6.477,2 2,6.477 2,12 C2,17.523 6.477,22 12,22 C17.523,22 22,17.523 22,12 C22,6.477 17.523,2 12,2 Z"
+        android:strokeColor="#B0CCE8"
+        android:strokeWidth="1.8"
+        android:strokeLineCap="round" />
+
+    <!-- Ponteiro das horas -->
+    <path
+        android:fillColor="@android:color/transparent"
+        android:pathData="M12,7 L12,12"
+        android:strokeColor="#B0CCE8"
+        android:strokeWidth="1.8"
+        android:strokeLineCap="round" />
+
+    <!-- Ponteiro dos minutos -->
+    <path
+        android:fillColor="@android:color/transparent"
+        android:pathData="M12,12 L15,14.5"
+        android:strokeColor="#B0CCE8"
+        android:strokeWidth="1.8"
+        android:strokeLineCap="round" />
+
+</vector>
