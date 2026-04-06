@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Salve em: res/drawable/bg_header_gradient.xml -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <gradient
+        android:angle="135"
+        android:endColor="#009688"
+        android:startColor="#4DB6AC"
+        android:type="linear" />
+
+</shape>
