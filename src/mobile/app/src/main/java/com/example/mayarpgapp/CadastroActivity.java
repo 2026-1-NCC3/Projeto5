@@ -44,7 +44,7 @@ public class CadastroActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastro);
         // componentes dos campos do layout ligados a função
-
+        // Vincula os componentes do Java com os IDs do arquivo XML
         etNome = findViewById(R.id.etNome);
         etEmail = findViewById(R.id.etEmail);
         etSenha = findViewById(R.id.etSenha);
@@ -56,6 +56,7 @@ public class CadastroActivity extends AppCompatActivity {
 
         btnCriarConta = findViewById(R.id.btnCriarConta);
 
+        // Inicializa os links de termos e as listas dos spinners
         configurarLinkTermos();
         configurarSpinners();
 
@@ -71,6 +72,7 @@ public class CadastroActivity extends AppCompatActivity {
         String texto = "Li e estou de acordo com os Termos de uso";
         SpannableString ss = new SpannableString(texto);
 
+        // Formatando parte do texto do CheckBox para ser clicável e abrir os termos
         ClickableSpan clickableSpan = new ClickableSpan() {
             @Override
             public void onClick(View widget) {
@@ -91,7 +93,7 @@ public class CadastroActivity extends AppCompatActivity {
     }
 
     private void configurarSpinners() {
-
+        // Preenchendo os spinners de data com listas de dias, meses e anos
         String[] meses = {"Jan", "Fev", "Mar", "Abr", "Mai", "Jun",
                 "Jul", "Ago", "Set", "Out", "Nov", "Dez"};
 
@@ -120,11 +122,12 @@ public class CadastroActivity extends AppCompatActivity {
     }
 
     private void cadastrar() {
-
+        // Captura os valores digitados e remove espaços extras
         String nome = etNome.getText().toString().trim();
         String email = etEmail.getText().toString().trim();
         String senha = etSenha.getText().toString().trim();
         String ano = spinnerAno1.getSelectedItem().toString();
+
         // validação dos campos que foram preenchidos
 
         if (nome.isEmpty() || email.isEmpty() || senha.isEmpty()) {
@@ -132,21 +135,22 @@ public class CadastroActivity extends AppCompatActivity {
             return;
         }
 
+        // Verifica se o formato do e-mail é válido
         if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             Toast.makeText(this, "Email inválido", Toast.LENGTH_SHORT).show();
             return;
         }
-
+        // Garante uma senha mínima para segurança
         if (senha.length() < 6) {
             Toast.makeText(this, "Senha deve ter pelo menos 6 caracteres", Toast.LENGTH_SHORT).show();
             return;
         }
-
+        // Verificando se a data e os termos foram aceitos
         if (ano.equals("Ano")) {
             Toast.makeText(this, "Selecione um ano válido", Toast.LENGTH_SHORT).show();
             return;
         }
-
+        // Preparando a instância da API e desativa o botão para evitar cliques duplos
         if (!cbTermos.isChecked()) {
             Toast.makeText(this, "Aceite os termos de uso", Toast.LENGTH_SHORT).show();
             return;

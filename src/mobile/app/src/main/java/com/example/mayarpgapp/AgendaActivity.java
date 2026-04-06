@@ -4,14 +4,7 @@ import android.os.Bundle;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
-/**
- * Activity que exibe a agenda de consultas do paciente.
- * Mostra a próxima consulta em destaque e lista as consultas agendadas.
- * Os dados estão fixos no layout por enquanto (hardcoded no XML).
- */
 public class AgendaActivity extends AppCompatActivity {
-
-    // ── Views do card "Próxima Consulta" ─────────────────────────────────────
     private TextView tvEmUmDia;           // Badge "Em 1 dia"
     private TextView tvDataProxima;       // Data da próxima consulta
     private TextView tvAvatarProxima;     // Iniciais da médica no círculo avatar
@@ -33,11 +26,6 @@ public class AgendaActivity extends AppCompatActivity {
         initViews();
     }
 
-    /**
-     * Liga as variáveis às views do XML e configura o filtro de meses.
-     * Os dados das consultas estão definidos diretamente no layout (android:text),
-     * então não é necessário preenchê-los via código por enquanto.
-     */
     private void initViews() {
 
         // Card próxima consulta
@@ -58,11 +46,6 @@ public class AgendaActivity extends AppCompatActivity {
         setupFiltroMeses();
     }
 
-    /**
-     * Configura os botões de filtro de mês.
-     * Ao clicar em um mês, ele fica visualmente selecionado
-     * e os outros voltam ao estado normal.
-     */
     private void setupFiltroMeses() {
         TextView[] meses = {btnAbril, btnMaio, btnJunho, btnJulho, btnAgosto};
 

@@ -22,15 +22,18 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
-    EditText etNome,etCpf,etEmail, etSenha;
+    // Campos de entrada e seleção da tela
+    EditText etNome, etCpf, etEmail, etSenha;
     Spinner spinnerDia, spinnerMes, spinnerAno;
     AppCompatButton btnLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // Define o layout da tela de login
         setContentView(R.layout.activity_login);
 
+        // Vincula os componentes do XML com as variáveis Java
         etNome = findViewById(R.id.etNome);
         etCpf = findViewById(R.id.etCpf);
         etEmail = findViewById(R.id.etEmail);
@@ -42,17 +45,21 @@ public class LoginActivity extends AppCompatActivity {
 
         btnLogin = findViewById(R.id.btnLogin);
 
+        // Inicializa as listas dos seletores de data
         configurarSpinners();
+
+        // Define a ação do botão de login
         btnLogin.setOnClickListener(v -> logar());
 
+        // Configura o botão para ir até a tela de cadastro
         AppCompatButton btnCadastro = findViewById(R.id.btnCadastro);
-
         btnCadastro.setOnClickListener(view -> {
-            Intent intent = new Intent(LoginActivity.this,CadastroActivity.class);
+            Intent intent = new Intent(LoginActivity.this, CadastroActivity.class);
             startActivity(intent);
         });
     }
 
+    // Preenche os seletores de data com dia, mês e ano
     private void configurarSpinners() {
         String[] meses = {"Mês", "Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"};
         spinnerMes.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, meses));
@@ -67,43 +74,45 @@ public class LoginActivity extends AppCompatActivity {
         spinnerAno.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, anos));
     }
 
+    // Executa o processo de autenticação
     private void logar() {
         String email = etEmail.getText().toString().trim();
         String senha = etSenha.getText().toString().trim();
 
-        // aqui pega os valores da data de nascimento mas não vamos usar agora, só na segunda entrega
-        // String dia = spinnerDia.getSelectedItem().toString();
-       // String mes = spinnerMes.getSelectedItem().toString();
-        //String ano = spinnerAno.getSelectedItem().toString();
-       // String dataNascimento = dia + "/" + mes + "/" + ano;
-
-
+        // Valida se os campos obrigatórios foram preenchidos
         if (email.isEmpty() || senha.isEmpty()) {
             Toast.makeText(this, "Preencha email e senha", Toast.LENGTH_SHORT).show();
             return;
         }
 
+        // Prepara a chamada para a API
         ApiService api = RetrofitClient.getInstance().create(ApiService.class);
         LoginRequest login = new LoginRequest(email, senha);
 
+        // Envia a tentativa de login para o servidor
         api.login(login).enqueue(new Callback<AuthResponse>() {
             @Override
             public void onResponse(Call<AuthResponse> call, Response<AuthResponse> response) {
 
                 if (response.isSuccessful()) {
+                    // Salva os dados do usuário e o token localmente
                     String nome = response.body().getUser().getName();
                     String token = response.body().getToken();
                     RetrofitClient.setToken(token);
+
                     getSharedPreferences("APP", MODE_PRIVATE)
                             .edit()
                             .putString("TOKEN", token)
                             .putString("USER_NAME", nome)
                             .apply();
-                    Toast.makeText(LoginActivity.this, "Login realizado com sucesso!", Toast.LENGTH_SHORT).show();
+
+                    Toast.makeText(LoginActivity.this, "Login realizado!", Toast.LENGTH_SHORT).show();
+
+                    // Vai para a Home e encerra a tela de Login
                     Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                     intent.putExtra("USER_NAME", nome);
                     startActivity(intent);
-                    finish(); // vai direto pra home depois do login
+                    finish();
                 } else {
                     Toast.makeText(LoginActivity.this, "Email ou senha inválidos", Toast.LENGTH_SHORT).show();
                 }

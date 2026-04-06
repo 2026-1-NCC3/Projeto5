@@ -11,18 +11,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-/**
- * Tela inicial (splash/boas-vindas) do app.
- * É a primeira tela que o usuário vê ao abrir o aplicativo.
- * Contém apenas um botão de imagem que leva à tela de login.
- */
 public class InicioActivity extends AppCompatActivity {
 
-    /**
-     * Configura a tela de boas-vindas:
-     * - Infla o layout da tela inicial
-     * - Liga o botão "Continuar" (ImageView) ao listener que abre o Login
-     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

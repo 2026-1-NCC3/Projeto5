@@ -14,110 +14,71 @@ import com.bumptech.glide.Glide;
 import com.example.mayarpgapp.model.Exercise;
 import java.util.List;
 
-/**
- * Adapter responsável por conectar a lista de exercícios ao RecyclerView.
- * Ele cria e recicla os cards de exercício na tela.
- */
 public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.ViewHolder> {
 
-    /**
-     * Interface de callback para comunicar cliques ao Fragment/Activity pai.
-     * Quem usar esse adapter precisa implementar esse método para saber
-     * qual exercício o usuário tocou.
-     */
+    // Interface para avisar quando um exercício for clicado
     public interface OnExerciseClickListener {
         void onExerciseClick(Exercise exercise);
     }
 
-    private final Context context;                   // Contexto do app (necessário para inflar layouts e carregar imagens)
-    private final List<Exercise> exercises;          // Lista de exercícios que será exibida no RecyclerView
-    private final OnExerciseClickListener listener;  // Listener que recebe os eventos de clique
+    private final Context context;
+    private final List<Exercise> exercises;
+    private final OnExerciseClickListener listener;
 
-    /**
-     * Construtor do adapter.
-     *
-     * @param context   Contexto da Activity ou Fragment que está usando o RecyclerView
-     * @param exercises Lista de exercícios a exibir
-     * @param listener  Callback chamado quando o usuário clicar em um exercício
-     */
+    // Construtor: recebe o contexto, a lista de dados e a ação de clique
     public ExerciseAdapter(Context context, List<Exercise> exercises, OnExerciseClickListener listener) {
         this.context   = context;
         this.exercises = exercises;
         this.listener  = listener;
     }
 
-    /**
-     * Chamado pelo RecyclerView quando precisa criar um novo card (ViewHolder).
-     * Infla o layout XML do item (item_exercise.xml) e devolve o ViewHolder pronto.
-     */
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        // Transforma o arquivo XML item_exercise.xml em um objeto View
+        // Infla o layout de cada item da lista (o card do exercício)
         View view = LayoutInflater.from(context).inflate(R.layout.item_exercise, parent, false);
         return new ViewHolder(view);
     }
 
-    /**
-     * Chamado pelo RecyclerView para preencher os dados de um card já existente.
-     * É aqui que os dados do exercício são jogados nas views do layout.
-     *
-     * @param holder   O ViewHolder do card que será preenchido
-     * @param position A posição do item na lista
-     */
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Exercise exercise = exercises.get(position); // Pega o exercício da posição atual
+        // Pega o exercício atual da lista
+        Exercise exercise = exercises.get(position);
 
-        // Preenche o título do exercício no TextView
+        // Define o título e a frequência (com um texto padrão caso esteja vazio)
         holder.tvTitle.setText(exercise.getTitle());
-
-        // Preenche a frequência; exibe texto padrão se o campo vier vazio ou nulo
         String freq = exercise.getFrequency();
         holder.tvFrequency.setText(freq != null && !freq.isEmpty() ? freq : "Sem frequência definida");
 
-        // Carrega a imagem do exercício com a biblioteca Glide.
-        // Se a URL for válida: carrega da internet com placeholder de loading e fallback de erro.
-        // Se a URL for nula/vazia: usa direto o drawable placeholder.
+        // Carrega a imagem da internet usando a biblioteca Glide
         if (exercise.getImageUrl() != null && !exercise.getImageUrl().isEmpty()) {
             Glide.with(context)
                     .load(exercise.getImageUrl())
-                    .placeholder(R.drawable.ic_exercise_placeholder) // Exibido enquanto a imagem carrega
-                    .error(R.drawable.ic_exercise_placeholder)       // Exibido se o carregamento falhar
-                    .centerCrop()                                    // Recorta a imagem para preencher o espaço
+                    .placeholder(R.drawable.ic_exercise_placeholder) // Imagem temporária
+                    .error(R.drawable.ic_exercise_placeholder)       // Imagem caso dê erro
+                    .centerCrop()
                     .into(holder.ivThumb);
         } else {
             holder.ivThumb.setImageResource(R.drawable.ic_exercise_placeholder);
         }
 
-        // Configura os listeners de clique:
-        // Tanto o card inteiro quanto o botão de play disparam o mesmo callback,
-        // passando o exercício clicado para quem estiver ouvindo.
+        // Configura o clique no card e no botão de play
         holder.itemView.setOnClickListener(v -> listener.onExerciseClick(exercise));
         holder.ivPlayBtn.setOnClickListener(v -> listener.onExerciseClick(exercise));
     }
 
-    /**
-     * Informa ao RecyclerView quantos itens existem na lista.
-     * Usado internamente para saber quando parar de criar/reciclar cards.
-     */
+    // Retorna o tamanho total da lista
     @Override
     public int getItemCount() { return exercises.size(); }
 
-    /**
-     * ViewHolder: guarda as referências das views de um único card de exercício.
-     * Evita chamadas repetidas a findViewById() toda vez que um card é reaproveitado,
-     * o que melhora a performance da rolagem.
-     */
+    // Classe que guarda as referências dos componentes visuais do card
     static class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView ivThumb;    // Thumbnail/imagem do exercício
-        ImageView ivPlayBtn;  // Botão de play sobreposto à imagem
-        TextView tvTitle;     // Nome do exercício
-        TextView tvFrequency; // Frequência recomendada do exercício
+        ImageView ivThumb, ivPlayBtn;
+        TextView tvTitle, tvFrequency;
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);
-            // Liga cada variável ao seu respectivo elemento no XML pelo ID
+            // Vincula os IDs do XML às variáveis Java
             ivThumb      = itemView.findViewById(R.id.ivExerciseThumb);
             ivPlayBtn    = itemView.findViewById(R.id.ivPlayBtn);
             tvTitle      = itemView.findViewById(R.id.tvExerciseTitle);

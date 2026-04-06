@@ -5,26 +5,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
-/**
- * Activity que exibe o perfil completo do paciente.
- * Mostra dados principais (nome, email, data de nascimento, senha)
- * e informações de contato (telefone).
- * Os dados estão fixos no layout por enquanto (hardcoded no XML).
- */
 public class PerfilActivity extends AppCompatActivity {
 
-    // ── Views do header ──────────────────────────────────────────────────────
-    private ImageView ivFotoPerfil; // Foto de perfil exibida no cabeçalho
-    private TextView tvNome;        // Nome exibido no cabeçalho
+    // Componentes do topo: foto e nome de destaque
+    private ImageView ivFotoPerfil;
+    private TextView tvNome;
 
-    // ── Views dos dados principais ───────────────────────────────────────────
-    private TextView tvNomeValor;       // Valor do campo Nome no card
-    private TextView tvEmailValor;      // Valor do campo Email no card
-    private TextView tvDataNascimento;  // Valor do campo Data de Nascimento no card
-    private TextView tvSenha;           // Valor do campo Senha no card (exibido como pontos)
-
-    // ── Views de contato ─────────────────────────────────────────────────────
-    private TextView tvTelefone; // Valor do campo Telefone no card de contato
+    // Campos de texto que mostram as informações do usuário
+    private TextView tvNomeValor;
+    private TextView tvEmailValor;
+    private TextView tvDataNascimento;
+    private TextView tvSenha;
+    private TextView tvTelefone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,23 +26,19 @@ public class PerfilActivity extends AppCompatActivity {
         initViews();
     }
 
-    /**
-     * Liga as variáveis às views do XML.
-     * Os dados estão definidos diretamente no layout (android:text),
-     * então não é necessário preenchê-los via código por enquanto.
-     */
+    // Vincula as variáveis do Java com os componentes do XML pelo ID
     private void initViews() {
-        // Header
+        // Cabeçalho do perfil
         ivFotoPerfil = findViewById(R.id.ivFotoPerfil);
         tvNome       = findViewById(R.id.tvNome);
 
-        // Card: Dados principais
+        // Informações principais do cartão
         tvNomeValor      = findViewById(R.id.tvNomeValor);
         tvEmailValor     = findViewById(R.id.tvEmailValor);
         tvDataNascimento = findViewById(R.id.tvDataNascimento);
         tvSenha          = findViewById(R.id.tvSenha);
 
-        // Card: Contato
+        // Informação de contato
         tvTelefone = findViewById(R.id.tvTelefone);
     }
 }

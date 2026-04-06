@@ -6,11 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.widget.NestedScrollView;
 import com.google.android.material.button.MaterialButton;
 
-/**
- * Tela de Termos de Uso do app.
- * O botão de aceite fica desabilitado até o usuário rolar até o final do conteúdo,
- * garantindo que ele leia os termos antes de aceitar.
- */
 public class TermosActivity extends AppCompatActivity {
 
     private NestedScrollView nsvTermos; // ScrollView que contém o texto dos termos
@@ -24,11 +19,9 @@ public class TermosActivity extends AppCompatActivity {
         nsvTermos = findViewById(R.id.nsvTermos);
         btnAccept = findViewById(R.id.btnAccept);
 
-        // Listener chamado toda vez que o usuário rola o conteúdo dos termos.
-        // Os parâmetros informam a posição atual e anterior do scroll:
-        //   scrollY    → posição vertical atual do scroll
-        //   oldScrollY → posição vertical antes deste evento (não usado aqui)
-        //   scrollX / oldScrollX → equivalentes horizontais (não relevantes aqui)
+        // Monitora a rolagem do texto para saber a posição atual
+        // scrollY: posição atual / oldScrollY: posição anterior
+
         nsvTermos.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener)
                 (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
 
