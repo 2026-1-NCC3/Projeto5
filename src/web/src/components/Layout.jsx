@@ -1,18 +1,22 @@
-import { Outlet } from 'react-router-dom';
+import React, { useState } from 'react';
 import BarraLateral from './Sidebar';
+import { Outlet } from 'react-router-dom';
 
 const Layout = () => {
+  const [isCollapsed, setIsCollapsed] = useState(false);
+
   return (
-    <div style={{ display: 'flex' }}>
-      <BarraLateral />
+    <div style={{ display: 'flex', minHeight: '100vh', backgroundColor: '#f8f9fa' }}>
+      {/* Sidebar fixa */}
+      <BarraLateral isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />
       
-      {/* O segredo está no marginLeft aqui embaixo */}
+      {/* Área de conteúdo que permite scroll na página toda */}
       <main style={{ 
         flex: 1, 
-        marginLeft: '320px', // Abre espaço para a Sidebar que está fixa
+        marginLeft: isCollapsed ? '140px' : '320px', 
         padding: '40px',
-        minHeight: '100vh',
-        backgroundColor: '#f8f9fa' // Uma corzinha só para testar se o fundo aparece
+        transition: 'margin-left 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+        minHeight: '100vh'
       }}>
         <Outlet />
       </main>

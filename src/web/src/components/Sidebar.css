@@ -1,120 +1,108 @@
-/* CONTAINER PRINCIPAL */
 .sidebar-container {
   width: 280px;
-  height: calc(100vh - 40px); 
+  height: calc(100vh - 40px);
   background-color: #ffffff;
-  border-radius: 24px; 
-  margin: 20px; 
+  border-radius: 24px;
+  margin: 20px;
   display: flex;
   flex-direction: column;
   padding: 24px;
-  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05); 
-  position: fixed; 
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05);
+  position: fixed;
   left: 0;
   top: 0;
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-sizing: border-box;
+  z-index: 100;
   
-  /* Habilitar scroll vertical  */
-  overflow-y: auto; 
-  
-  /* Esconde qualquer sobra pros lados (evita scroll horizontal) */
-  overflow-x: hidden; 
-
-  /* Garante que o padding de 24px não aumente o tamanho total da barra */
-  box-sizing: border-box; 
+  /* ATIVA O SCROLL SE O MENU FOR GRANDE */
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
-/* LOGOTIPO */
-.sidebar-logo {
-  margin-bottom: 32px;
+.sidebar-container::-webkit-scrollbar {
+  width: 5px;
+}
+.sidebar-container::-webkit-scrollbar-thumb {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.sidebar-container.collapsed {
+  width: 100px;
+  padding: 24px 15px;
+}
+
+.sidebar-header {
+  position: relative;
   display: flex;
   justify-content: center;
+  margin-bottom: 40px;
+  width: 100%;
+  min-height: 60px;
 }
 
-.sidebar-logo img {
-  /* Ajuste do tamanho da logo */
-  width: 140px; 
-  height: auto;
-}
+.logo-full { width: 120px; height: auto; }
+.logo-mini { width: 42px; height: auto; }
 
-/* NAVEGAÇÃO E LINKS */
-.label-menu {
-  /* Estilo dos títulos */
-  color: #999;
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-bottom: 12px;
-  margin-left: 12px;
-  font-weight: 700;
-}
-
-.secao-menu {
-  margin-bottom: 24px;
-}
-
-.sidebar-nav ul {
-  list-style: none; /* Remove as bolinhas da lista */
-  padding: 0;
-  margin: 0;
-}
-
-.sidebar-nav li {
-  display: flex;
-  align-items: center;
-  gap: 12px; /* Espaço entre o ícone e o texto */
-  padding: 12px 16px;
-  margin-bottom: 4px;
-  border-radius: 12px;
+.toggle-btn {
+  position: absolute;
+  background: none;
+  border: none;
   cursor: pointer;
-  color: #666;
-  font-size: 14px;
-  transition: all 0.3s ease; /* Suaviza a mudança de cor no hover */
-}
-
-/* Efeito ao passar o mouse */
-.sidebar-nav li:hover {
-  background-color: #f8f9fa;
-  color: #333;
-}
-
-/* ITEM SELECIONADO */
-/* Cor de destaque */
-.sidebar-nav li.active {
-  background-color: #e0f2f1; 
-  color: #37A6BA; /* Para o texto e ícone */
-  font-weight: 600;
-}
-
-/* RODAPÉ E PERFIL */
-.sidebar-footer {
-  /* Empurra o card de perfil para o final do container */
-  margin-top: auto; 
-  padding-top: 20px;
-  border-top: 1px solid #f0f0f0;
-}
-
-.card-perfil {
+  color: #999;
   display: flex;
   align-items: center;
-  gap: 10px;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  transition: all 0.3s ease;
 }
 
-.foto-perfil {
-  width: 40px;
-  height: 40px;
-  /* Deixa a foto da Maya redonda */
-  border-radius: 50%; 
-  object-fit: cover;
-  border: 2px solid #eee;
+.sidebar-container:not(.collapsed) .toggle-btn {
+  top: -10px;
+  right: -5px;
 }
 
-.info-perfil {
-  flex: 1; /* Faz o nome ocupar o espaço central */
+.sidebar-container.collapsed .toggle-btn {
+  top: 65px;
+  right: 50%;
+  transform: translateX(50%);
 }
 
-.nome-perfil {
-  font-size: 14px;
+.toggle-btn:hover {
+  background-color: #f2f2f2;
+  color: #37A6BA;
+}
+
+.sidebar-nav { flex: 1; }
+.label-menu { color: #999; font-size: 11px; text-transform: uppercase; font-weight: 700; margin: 0 0 12px 12px; }
+.sidebar-nav ul { list-style: none; padding: 0; margin: 0; }
+
+.sidebar-nav li { 
+  display: flex; 
+  align-items: center; 
+  gap: 12px; 
+  padding: 12px 16px; 
+  margin-bottom: 4px; 
+  border-radius: 12px; 
+  cursor: pointer; 
+  color: #666; 
+  font-size: 14px; 
+  transition: background 0.2s; 
+}
+
+.sidebar-nav li:hover { background-color: #f2f2f2; }
+
+.sidebar-nav li.active {
+  background-color: transparent !important;
+  color: #37A6BA;
   font-weight: 600;
-  color: #333;
-  margin: 0;
 }
+
+.sidebar-container.collapsed .sidebar-nav li { justify-content: center; }
+.sidebar-footer { margin-top: auto; padding-top: 20px; border-top: 1px solid #f0f0f0; }
+.card-perfil { display: flex; align-items: center; justify-content: center; gap: 10px; }
+.foto-perfil { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; }
+.nome-perfil { font-size: 14px; font-weight: 600; color: #333; }
