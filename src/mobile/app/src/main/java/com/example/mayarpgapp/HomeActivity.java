@@ -21,7 +21,8 @@ import java.util.Calendar;
 import java.util.Locale;
 
 public class HomeActivity extends AppCompatActivity {
-// componentes dos cards
+
+    // componentes dos cards
     private DrawerLayout drawerLayout;
     private BottomNavigationView bottomNav;
     private TextView tvGreeting, tvUserName, tvCheckinDate;
@@ -39,7 +40,8 @@ public class HomeActivity extends AppCompatActivity {
         setupBottomNav();
         setupBackPress();
     }
-// elementos que estão no layout
+
+    // elementos que estão no layout
     private void initViews() {
         drawerLayout     = findViewById(R.id.drawerLayout);
         bottomNav        = findViewById(R.id.bottomNav);
@@ -52,20 +54,23 @@ public class HomeActivity extends AppCompatActivity {
         findViewById(R.id.ivMenu).setOnClickListener(v ->
                 drawerLayout.openDrawer(GravityCompat.START)
         );
+        // Ícone de fechar dentro do drawer
         findViewById(R.id.ivDrawerClose).setOnClickListener(v ->
                 drawerLayout.closeDrawer(GravityCompat.START)
         );
         findViewById(R.id.ivNotification).setOnClickListener(v -> {
             // TODO: abrir notificações
         });
-        findViewById(R.id.ivProfile).setOnClickListener(v -> {
-            // TODO: abrir perfil
-        });
 
         // card de check-in, abre CheckinActivity
+        findViewById(R.id.ivProfile).setOnClickListener(v ->
+                startActivity(new Intent(HomeActivity.this, PerfilActivity.class))
+        );
+
+        // Card de check-in
         findViewById(R.id.cardCheckin).setOnClickListener(v -> abrirCheckin());
 
-        // card de plano de exercícios
+        // Card de plano de exercícios
         findViewById(R.id.cardExercisePlan).setOnClickListener(v -> abrirExercicios());
         findViewById(R.id.ivExerciseArrow).setOnClickListener(v -> abrirExercicios());
 
@@ -99,18 +104,22 @@ public class HomeActivity extends AppCompatActivity {
         });
         findViewById(R.id.menuAgenda).setOnClickListener(v -> {
             drawerLayout.closeDrawer(GravityCompat.START);
-            // TODO: startActivity(new Intent(this, AgendaActivity.class));
+            startActivity(new Intent(HomeActivity.this, AgendaActivity.class));
         });
+
+        // Item "Perfil" no drawer lateral — fecha o menu e abre a tela de perfil
         findViewById(R.id.menuPerfil).setOnClickListener(v -> {
             drawerLayout.closeDrawer(GravityCompat.START);
-            // TODO: startActivity(new Intent(this, PerfilActivity.class));
+            startActivity(new Intent(HomeActivity.this, PerfilActivity.class));
         });
     }
+
     // para mostrar a data do dia
     private void setupCheckinDate() {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
         tvCheckinDate.setText(sdf.format(Calendar.getInstance().getTime()));
     }
+
     // barra de dias quando entra no card
     private void montarBarraDias() {
         llDaysContainer.removeAllViews();
@@ -147,13 +156,11 @@ public class HomeActivity extends AppCompatActivity {
             container.setPadding(0, dpToPx(6), 0, dpToPx(6));
         }
 
-
         View dot = new View(this);
         LinearLayout.LayoutParams dotParams = new LinearLayout.LayoutParams(dpToPx(8), dpToPx(8));
         dotParams.setMargins(0, 0, 0, dpToPx(4));
         dot.setLayoutParams(dotParams);
         dot.setBackgroundResource(ehHoje ? R.drawable.dot_white : R.drawable.dot_gray);
-
 
         TextView tvNum = new TextView(this);
         tvNum.setText(String.valueOf(numero));
@@ -161,7 +168,6 @@ public class HomeActivity extends AppCompatActivity {
         tvNum.setTypeface(null, Typeface.BOLD);
         tvNum.setGravity(Gravity.CENTER);
         tvNum.setTextColor(ehHoje ? Color.WHITE : Color.parseColor("#444444"));
-
 
         TextView tvNome = new TextView(this);
         tvNome.setText(nome);
@@ -174,6 +180,7 @@ public class HomeActivity extends AppCompatActivity {
         container.addView(tvNome);
         return container;
     }
+
     // saudação quando entra no app
     private void setupGreeting() {
         int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
@@ -186,6 +193,7 @@ public class HomeActivity extends AppCompatActivity {
             saudacao = "Boa noite,";
         }
         tvGreeting.setText(saudacao);
+
         // muda o nome do usuário de acordo com o nome que ele colocou no cadastro
         String nome = getIntent().getStringExtra("USER_NAME");
         tvUserName.setText(nome != null ? nome : "Usuário");
@@ -200,13 +208,18 @@ public class HomeActivity extends AppCompatActivity {
                 if (id == R.id.nav_home) {
                     return true;
                 } else if (id == R.id.nav_calendar) {
-                    // TODO: startActivity(new Intent(HomeActivity.this, AgendaActivity.class));
+                    startActivity(new Intent(HomeActivity.this, AgendaActivity.class));
                     return true;
                 } else if (id == R.id.nav_chat) {
                     // TODO: startActivity(new Intent(HomeActivity.this, ChatActivity.class));
                     return true;
                 } else if (id == R.id.nav_profile) {
-                    // TODO: startActivity(new Intent(HomeActivity.this, PerfilActivity.class));
+                    // Abre o perfil sem empilhar a HomeActivity no backstack
+                    Intent intent = new Intent(HomeActivity.this, PerfilActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                    startActivity(intent);
+                    // Volta a destacar o ícone Home para quando o usuário retornar
+                    bottomNav.post(() -> bottomNav.setSelectedItemId(R.id.nav_home));
                     return true;
                 }
                 return false;
@@ -218,6 +231,7 @@ public class HomeActivity extends AppCompatActivity {
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
+                // Se o drawer estiver aberto, fecha ele em vez de sair da tela
                 if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
                     drawerLayout.closeDrawer(GravityCompat.START);
                 } else {
