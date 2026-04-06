@@ -117,7 +117,6 @@
 
                 </HorizontalScrollView>
 
-                <!-- card de checkin -->
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cardCheckin"
                     android:layout_width="match_parent"
@@ -241,7 +240,6 @@
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
 
-        <!-- BOTTOM NAV -->
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottomNav"
             android:layout_width="match_parent"
@@ -283,49 +281,211 @@
             android:background="#EEEEEE"
             android:layout_marginBottom="24dp" />
 
-        <LinearLayout android:id="@+id/menuHome" android:layout_width="match_parent" android:layout_height="48dp" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginBottom="8dp">
-            <ImageView android:layout_width="22dp" android:layout_height="22dp" android:src="@drawable/ic_nav_home" android:contentDescription="Home" />
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Home" android:textSize="16sp" android:textColor="#222222" android:layout_marginStart="16dp" />
+        <LinearLayout
+            android:id="@+id/menuHome"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginBottom="8dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:src="@drawable/ic_nav_home"
+                android:contentDescription="Home" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="Home"
+                android:textColor="#222222"
+                android:textSize="16sp" />
         </LinearLayout>
 
-        <LinearLayout android:id="@+id/menuMessages" android:layout_width="match_parent" android:layout_height="48dp" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginBottom="8dp">
-            <ImageView android:layout_width="22dp" android:layout_height="22dp" android:src="@drawable/ic_nav_chat" android:contentDescription="Messages" />
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Messages" android:textSize="16sp" android:textColor="#222222" android:layout_marginStart="16dp" />
+        <LinearLayout
+            android:id="@+id/menuMessages"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginBottom="8dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:src="@drawable/ic_nav_chat"
+                android:contentDescription="Messages" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="Messages"
+                android:textColor="#222222"
+                android:textSize="16sp" />
         </LinearLayout>
 
-        <LinearLayout android:id="@+id/menuNotifications" android:layout_width="match_parent" android:layout_height="48dp" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginBottom="8dp">
-            <ImageView android:layout_width="22dp" android:layout_height="22dp" android:src="@drawable/ic_notifications" android:contentDescription="Notifications" />
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Notifications" android:textSize="16sp" android:textColor="#222222" android:layout_marginStart="16dp" />
+        <LinearLayout
+            android:id="@+id/menuNotifications"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginBottom="8dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:src="@drawable/ic_notifications"
+                android:contentDescription="Notifications" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="Notifications"
+                android:textColor="#222222"
+                android:textSize="16sp" />
         </LinearLayout>
 
-        <LinearLayout android:id="@+id/menuSettings" android:layout_width="match_parent" android:layout_height="48dp" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginBottom="8dp">
-            <ImageView android:layout_width="22dp" android:layout_height="22dp" android:src="@drawable/ic_settings" android:contentDescription="Settings" />
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Settings" android:textSize="16sp" android:textColor="#222222" android:layout_marginStart="16dp" />
+        <LinearLayout
+            android:id="@+id/menuSettings"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginBottom="8dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:src="@drawable/ic_settings"
+                android:contentDescription="Settings" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="Settings"
+                android:textColor="#222222"
+                android:textSize="16sp" />
         </LinearLayout>
 
-        <LinearLayout android:id="@+id/menuCheckin" android:layout_width="match_parent" android:layout_height="48dp" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginBottom="8dp">
-            <ImageView android:layout_width="22dp" android:layout_height="22dp" android:src="@drawable/ic_checkin" android:contentDescription="Check-In" />
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Check-In" android:textSize="16sp" android:textColor="#222222" android:layout_marginStart="16dp" />
+        <LinearLayout
+            android:id="@+id/menuCheckin"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginBottom="8dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:src="@drawable/ic_checkin"
+                android:contentDescription="Check-In" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="Check-In"
+                android:textColor="#222222"
+                android:textSize="16sp" />
         </LinearLayout>
 
-        <LinearLayout android:id="@+id/menuEvolucao" android:layout_width="match_parent" android:layout_height="48dp" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginBottom="8dp">
-            <ImageView android:layout_width="22dp" android:layout_height="22dp" android:src="@drawable/ic_evolucao" android:contentDescription="Evolução" />
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Evolução" android:textSize="16sp" android:textColor="#222222" android:layout_marginStart="16dp" />
+        <LinearLayout
+            android:id="@+id/menuEvolucao"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginBottom="8dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:src="@drawable/ic_evolucao"
+                android:contentDescription="Evolução" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="Evolução"
+                android:textColor="#222222"
+                android:textSize="16sp" />
         </LinearLayout>
 
-        <LinearLayout android:id="@+id/menuPlano" android:layout_width="match_parent" android:layout_height="48dp" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginBottom="8dp">
-            <ImageView android:layout_width="22dp" android:layout_height="22dp" android:src="@drawable/ic_plano" android:contentDescription="Plano de Exercícios" />
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Plano de Exercícios" android:textSize="16sp" android:textColor="#222222" android:layout_marginStart="16dp" />
+        <LinearLayout
+            android:id="@+id/menuPlano"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginBottom="8dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:src="@drawable/ic_plano"
+                android:contentDescription="Plano de Exercícios" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="Plano de Exercícios"
+                android:textColor="#222222"
+                android:textSize="16sp" />
         </LinearLayout>
 
-        <LinearLayout android:id="@+id/menuAgenda" android:layout_width="match_parent" android:layout_height="48dp" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginBottom="8dp">
-            <ImageView android:layout_width="22dp" android:layout_height="22dp" android:src="@drawable/ic_nav_calendar" android:contentDescription="Agenda" />
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Agenda" android:textSize="16sp" android:textColor="#222222" android:layout_marginStart="16dp" />
+        <LinearLayout
+            android:id="@+id/menuAgenda"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginBottom="8dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:src="@drawable/ic_nav_calendar"
+                android:contentDescription="Agenda" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="Agenda"
+                android:textColor="#222222"
+                android:textSize="16sp" />
         </LinearLayout>
 
-        <LinearLayout android:id="@+id/menuPerfil" android:layout_width="match_parent" android:layout_height="48dp" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginBottom="8dp">
-            <ImageView android:layout_width="22dp" android:layout_height="22dp" android:src="@drawable/ic_nav_person" android:contentDescription="Perfil" />
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Perfil" android:textSize="16sp" android:textColor="#222222" android:layout_marginStart="16dp" />
+        <LinearLayout
+            android:id="@+id/menuPerfil"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginBottom="8dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:src="@drawable/ic_nav_person"
+                android:contentDescription="Perfil" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="Perfil"
+                android:textColor="#222222"
+                android:textSize="16sp" />
         </LinearLayout>
 
     </LinearLayout>

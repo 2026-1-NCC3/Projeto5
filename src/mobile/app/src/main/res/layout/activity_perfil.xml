@@ -11,13 +11,11 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!-- Header -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="160dp"
             android:background="@drawable/bg_header_gradient">
 
-            <!-- menu -->
             <ImageView
                 android:id="@+id/ivMenu"
                 android:layout_width="28dp"
@@ -28,7 +26,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <!-- Foto de perfil  -->
             <ImageView
                 android:id="@+id/ivFotoPerfil"
                 android:layout_width="72dp"
@@ -40,7 +37,6 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
-            <!-- Nome do paciente -->
             <TextView
                 android:id="@+id/tvNome"
                 android:layout_width="wrap_content"
@@ -53,7 +49,6 @@
                 app:layout_constraintBottom_toTopOf="@id/tvPacienteDesde"
                 app:layout_constraintStart_toEndOf="@id/ivFotoPerfil" />
 
-            <!-- Subtítulo -->
             <TextView
                 android:id="@+id/tvPacienteDesde"
                 android:layout_width="wrap_content"
@@ -68,7 +63,6 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <!-- Dados principais -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -81,7 +75,6 @@
             android:textSize="16sp"
             android:textStyle="bold" />
 
-        <!-- Card -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -100,7 +93,6 @@
                 android:paddingEnd="16dp"
                 android:paddingBottom="4dp">
 
-                <!-- Nome -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -118,14 +110,12 @@
                     android:textColor="#555555"
                     android:textSize="14sp" />
 
-                <!-- Divider -->
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginBottom="12dp"
                     android:background="#EEEEEE" />
 
-                <!-- Email -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -143,14 +133,12 @@
                     android:textColor="#555555"
                     android:textSize="14sp" />
 
-                <!-- Divider -->
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginBottom="12dp"
                     android:background="#EEEEEE" />
 
-                <!-- Data de nascimento -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -168,14 +156,12 @@
                     android:textColor="#555555"
                     android:textSize="14sp" />
 
-                <!-- Divider -->
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginBottom="12dp"
                     android:background="#EEEEEE" />
 
-                <!-- Senha -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -196,7 +182,6 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
-        <!-- ===== Seção: Contato ===== -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -209,7 +194,6 @@
             android:textSize="16sp"
             android:textStyle="bold" />
 
-        <!-- Card: Contato -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -229,7 +213,6 @@
                 android:paddingEnd="16dp"
                 android:paddingBottom="12dp">
 
-                <!-- Telefone -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
