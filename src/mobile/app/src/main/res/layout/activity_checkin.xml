@@ -20,7 +20,6 @@
             android:paddingEnd="16dp"
             android:paddingBottom="32dp">
 
-            <!-- HEADER -->
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="56dp">
@@ -44,7 +43,7 @@
                     android:textColor="#222222" />
             </RelativeLayout>
 
-            <!-- LABEL BARRA DE DIAS -->
+            <!-- barra que mostra os dias da semana -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -54,7 +53,6 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="12dp" />
 
-            <!-- BARRA DE DIAS DA SEMANA -->
             <HorizontalScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -66,12 +64,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
-                    <!-- Itens adicionados dinamicamente no CheckinActivity.java -->
                 </LinearLayout>
 
             </HorizontalScrollView>
 
-            <!-- CARD CHECK-IN -->
+            <!-- card de checkin d atela inicial-->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -113,7 +110,7 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- STATUS -->
+            <!-- status, se ta concluido ou nao -->
             <TextView
                 android:id="@+id/tvStatus"
                 android:layout_width="wrap_content"
@@ -125,7 +122,6 @@
                 android:layout_marginBottom="16dp"
                 android:visibility="gone" />
 
-            <!-- BOTÃO -->
             <Button
                 android:id="@+id/btnCheckin"
                 android:layout_width="match_parent"
@@ -137,7 +133,6 @@
                 android:layout_marginTop="8dp"
                 app:cornerRadius="16dp" />
 
-            <!-- LOADING -->
             <ProgressBar
                 android:id="@+id/progressBar"
                 android:layout_width="wrap_content"

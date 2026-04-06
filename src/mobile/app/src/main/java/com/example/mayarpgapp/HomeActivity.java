@@ -21,7 +21,7 @@ import java.util.Calendar;
 import java.util.Locale;
 
 public class HomeActivity extends AppCompatActivity {
-
+// componentes dos cards
     private DrawerLayout drawerLayout;
     private BottomNavigationView bottomNav;
     private TextView tvGreeting, tvUserName, tvCheckinDate;
@@ -39,7 +39,7 @@ public class HomeActivity extends AppCompatActivity {
         setupBottomNav();
         setupBackPress();
     }
-
+// elementos que estão no layout
     private void initViews() {
         drawerLayout     = findViewById(R.id.drawerLayout);
         bottomNav        = findViewById(R.id.bottomNav);
@@ -48,7 +48,7 @@ public class HomeActivity extends AppCompatActivity {
         tvCheckinDate    = findViewById(R.id.tvCheckinDate);
         llDaysContainer  = findViewById(R.id.llDaysContainer);
 
-        // Header
+        // header
         findViewById(R.id.ivMenu).setOnClickListener(v ->
                 drawerLayout.openDrawer(GravityCompat.START)
         );
@@ -62,14 +62,14 @@ public class HomeActivity extends AppCompatActivity {
             // TODO: abrir perfil
         });
 
-        // Card check-in → abre CheckinActivity
+        // card de check-in, abre CheckinActivity
         findViewById(R.id.cardCheckin).setOnClickListener(v -> abrirCheckin());
 
-        // Card e seta plano de exercícios
+        // card de plano de exercícios
         findViewById(R.id.cardExercisePlan).setOnClickListener(v -> abrirExercicios());
         findViewById(R.id.ivExerciseArrow).setOnClickListener(v -> abrirExercicios());
 
-        // Menu lateral
+        // menu lateral
         findViewById(R.id.menuHome).setOnClickListener(v ->
                 drawerLayout.closeDrawer(GravityCompat.START)
         );
@@ -106,12 +106,12 @@ public class HomeActivity extends AppCompatActivity {
             // TODO: startActivity(new Intent(this, PerfilActivity.class));
         });
     }
-
+    // para mostrar a data do dia
     private void setupCheckinDate() {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
         tvCheckinDate.setText(sdf.format(Calendar.getInstance().getTime()));
     }
-
+    // barra de dias quando entra no card
     private void montarBarraDias() {
         llDaysContainer.removeAllViews();
 
@@ -147,14 +147,14 @@ public class HomeActivity extends AppCompatActivity {
             container.setPadding(0, dpToPx(6), 0, dpToPx(6));
         }
 
-        // Bolinha
+
         View dot = new View(this);
         LinearLayout.LayoutParams dotParams = new LinearLayout.LayoutParams(dpToPx(8), dpToPx(8));
         dotParams.setMargins(0, 0, 0, dpToPx(4));
         dot.setLayoutParams(dotParams);
         dot.setBackgroundResource(ehHoje ? R.drawable.dot_white : R.drawable.dot_gray);
 
-        // Número
+
         TextView tvNum = new TextView(this);
         tvNum.setText(String.valueOf(numero));
         tvNum.setTextSize(14);
@@ -162,7 +162,7 @@ public class HomeActivity extends AppCompatActivity {
         tvNum.setGravity(Gravity.CENTER);
         tvNum.setTextColor(ehHoje ? Color.WHITE : Color.parseColor("#444444"));
 
-        // Nome
+
         TextView tvNome = new TextView(this);
         tvNome.setText(nome);
         tvNome.setTextSize(10);
@@ -174,7 +174,7 @@ public class HomeActivity extends AppCompatActivity {
         container.addView(tvNome);
         return container;
     }
-
+    // saudação quando entra no app
     private void setupGreeting() {
         int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
         String saudacao;
@@ -186,7 +186,7 @@ public class HomeActivity extends AppCompatActivity {
             saudacao = "Boa noite,";
         }
         tvGreeting.setText(saudacao);
-
+        // muda o nome do usuário de acordo com o nome que ele colocou no cadastro
         String nome = getIntent().getStringExtra("USER_NAME");
         tvUserName.setText(nome != null ? nome : "Usuário");
     }

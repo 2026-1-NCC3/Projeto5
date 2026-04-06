@@ -90,7 +90,7 @@ public class CheckinActivity extends AppCompatActivity {
                 progressBar.setVisibility(View.GONE);
                 btnCheckin.setEnabled(true);
                 mostrarStatus("Erro de conexão ao carregar histórico.", "#C62828");
-                montarBarraDias(); // monta mesmo sem histórico
+                montarBarraDias();
             }
         });
     }
@@ -111,13 +111,11 @@ public class CheckinActivity extends AppCompatActivity {
                     CheckinResponse body = response.body();
 
                     if (response.code() == 201) {
-                        // Check-in novo realizado
                         mostrarStatus("✓ Check-in realizado com sucesso!", "#2E7D32");
                         btnCheckin.setText("Check-in já realizado hoje ✓");
                         btnCheckin.setAlpha(0.6f);
                         carregarHistorico(); // atualiza bolinhas
                     } else {
-                        // Já fez hoje (200)
                         mostrarStatus("Você já fez check-in hoje!", "#F57C00");
                         btnCheckin.setText("Check-in já realizado hoje ✓");
                         btnCheckin.setAlpha(0.6f);
@@ -175,7 +173,7 @@ public class CheckinActivity extends AppCompatActivity {
             container.setPadding(0, dpToPx(6), 0, dpToPx(6));
         }
 
-        // Bolinha indicadora
+        // status da bolinha de status
         View dot = new View(this);
         LinearLayout.LayoutParams dotParams = new LinearLayout.LayoutParams(dpToPx(8), dpToPx(8));
         dotParams.setMargins(0, 0, 0, dpToPx(4));
@@ -186,7 +184,6 @@ public class CheckinActivity extends AppCompatActivity {
                                 R.drawable.dot_gray
         );
 
-        // Número do dia
         TextView tvNum = new TextView(this);
         tvNum.setText(String.valueOf(numero));
         tvNum.setTextSize(14);
@@ -194,7 +191,7 @@ public class CheckinActivity extends AppCompatActivity {
         tvNum.setGravity(Gravity.CENTER);
         tvNum.setTextColor(ehHoje ? Color.WHITE : Color.parseColor("#444444"));
 
-        // Nome do dia
+        // dia da semana
         TextView tvNome = new TextView(this);
         tvNome.setText(nome);
         tvNome.setTextSize(10);
@@ -218,15 +215,14 @@ public class CheckinActivity extends AppCompatActivity {
             mostrarStatus("✓ Você já fez seu check-in hoje!", "#2E7D32");
         }
     }
-
+    // mostra o status do checkin (fez, nao fez, dia de hoje)
     private void mostrarStatus(String mensagem, String corHex) {
         tvStatus.setText(mensagem);
         tvStatus.setTextColor(Color.parseColor(corHex));
         tvStatus.setVisibility(View.VISIBLE);
     }
 
-    // Pega o token salvo no SharedPreferences
-    // Ajuste a chave conforme você salva no login
+    // pega o token salvo
     private String getToken() {
         SharedPreferences prefs = getSharedPreferences("auth", MODE_PRIVATE);
         return prefs.getString("token", "");

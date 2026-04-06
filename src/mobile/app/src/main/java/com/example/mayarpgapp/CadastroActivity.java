@@ -33,7 +33,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class CadastroActivity extends AppCompatActivity {
-
+// campos que o usuário vai preencher e clicar
     EditText etNome, etEmail, etSenha;
     Spinner spinnerDia1, spinnerMes1, spinnerAno1;
     CheckBox cbTermos;
@@ -43,6 +43,7 @@ public class CadastroActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastro);
+        // componentes dos campos do layout ligados a função
 
         etNome = findViewById(R.id.etNome);
         etEmail = findViewById(R.id.etEmail);
@@ -59,7 +60,7 @@ public class CadastroActivity extends AppCompatActivity {
         configurarSpinners();
 
         btnCriarConta.setOnClickListener(v -> cadastrar());
-
+        // vai pra tela de login depois do cadastro
         AppCompatButton btnLogin = findViewById(R.id.btnLogin1);
         btnLogin.setOnClickListener(view -> {
             startActivity(new Intent(CadastroActivity.this, LoginActivity.class));
@@ -124,6 +125,7 @@ public class CadastroActivity extends AppCompatActivity {
         String email = etEmail.getText().toString().trim();
         String senha = etSenha.getText().toString().trim();
         String ano = spinnerAno1.getSelectedItem().toString();
+        // validação dos campos que foram preenchidos
 
         if (nome.isEmpty() || email.isEmpty() || senha.isEmpty()) {
             Toast.makeText(this, "Preencha nome, email e senha", Toast.LENGTH_SHORT).show();
@@ -150,8 +152,8 @@ public class CadastroActivity extends AppCompatActivity {
             return;
         }
 
-        UserRegister userRegister = new UserRegister(nome, email, senha);
-
+        UserRegister userRegister = new UserRegister(nome, email, senha); // novo objeto que pede so email, nome e senha
+        // chamada do cadastro na api  que envia pro backend pela retrofit
         ApiService api = RetrofitClient.getInstance().create(ApiService.class);
         btnCriarConta.setEnabled(false);
 
@@ -174,7 +176,7 @@ public class CadastroActivity extends AppCompatActivity {
 
                                 String token = response.body().getToken();
                                 RetrofitClient.setToken(token);
-
+                                // token pra ficar salvo
                                 getSharedPreferences("APP", MODE_PRIVATE)
                                         .edit()
                                         .putString("TOKEN", token)
@@ -183,7 +185,7 @@ public class CadastroActivity extends AppCompatActivity {
                                 Toast.makeText(CadastroActivity.this, "Cadastro e login realizados!", Toast.LENGTH_SHORT).show();
 
                                 String nome = response.body().getUser().getName();
-
+                                // redireciona pra home
                                 Intent intent = new Intent(CadastroActivity.this, HomeActivity.class);
                                 intent.putExtra("USER_NAME", nome);
                                 startActivity(intent);
