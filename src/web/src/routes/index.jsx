@@ -4,6 +4,8 @@ import Login from '../pages/Login/Login'
 import Dashboard from '../pages/Dashboard/Dashboard'
 import Patients from '../pages/Pacientes'
 import Layout from '../components/Layout' // Importando o novo Layout com a Sidebar
+import EsqueceuSenha from '../pages/EsqueceuSenha/EsqueceuSenha'
+import ResetSenha from '../pages/EsqueceuSenha/ResetSenha'
 
 function PrivateRoute({ children }) {
   const { user } = useAuth()
@@ -15,6 +17,8 @@ export default function AppRoutes() {
     <Routes>
       {/* Rota pública: Login (Sem Sidebar) */}
       <Route path="/login" element={<Login />} />
+      <Route path="/esqueceu-senha" element={<EsqueceuSenha />} />
+      <Route path="/reset-senha" element={<ResetSenha />} />
 
       {/* Rotas Privadas com Layout (Sidebar inclusa) */}
       <Route

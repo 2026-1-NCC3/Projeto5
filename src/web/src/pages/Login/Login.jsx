@@ -103,7 +103,7 @@ function Login() {
                 </div>
                 <span className="remember-text">Lembrar de mim</span>
               </div>
-              <a href="#">Esqueceu sua senha?</a>
+              <a href="/esqueceu-senha">Esqueceu sua senha?</a>
             </div>
 
             {erro && (
