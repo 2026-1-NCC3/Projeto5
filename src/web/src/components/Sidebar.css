@@ -14,8 +14,6 @@
   transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   box-sizing: border-box;
   z-index: 100;
-  
-  /* ATIVA O SCROLL SE O MENU FOR GRANDE */
   overflow-y: auto;
   overflow-x: hidden;
 }
@@ -42,8 +40,15 @@
   min-height: 60px;
 }
 
-.logo-full { width: 120px; height: auto; }
-.logo-mini { width: 42px; height: auto; }
+.logo-full {
+   width: 120px; 
+   height: auto; 
+  }
+
+.logo-mini { 
+  width: 42px; 
+  height: auto; 
+}
 
 .toggle-btn {
   position: absolute;
@@ -76,9 +81,22 @@
   color: #37A6BA;
 }
 
-.sidebar-nav { flex: 1; }
-.label-menu { color: #999; font-size: 11px; text-transform: uppercase; font-weight: 700; margin: 0 0 12px 12px; }
-.sidebar-nav ul { list-style: none; padding: 0; margin: 0; }
+.sidebar-nav { 
+  flex: 1; 
+}
+
+.label-menu { 
+  color: #999; 
+  font-size: 11px; 
+  text-transform: uppercase; 
+  font-weight: 700; margin: 0 0 12px 12px; 
+}
+
+.sidebar-nav ul { 
+  list-style: none; 
+  padding: 0; 
+  margin: 0; 
+}
 
 .sidebar-nav li { 
   display: flex; 
@@ -101,8 +119,28 @@
   font-weight: 600;
 }
 
-.sidebar-container.collapsed .sidebar-nav li { justify-content: center; }
-.sidebar-footer { margin-top: auto; padding-top: 20px; border-top: 1px solid #f0f0f0; }
-.card-perfil { display: flex; align-items: center; justify-content: center; gap: 10px; }
-.foto-perfil { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; }
-.nome-perfil { font-size: 14px; font-weight: 600; color: #333; }
+.sidebar-container.collapsed .sidebar-nav li { 
+  justify-content: center; 
+}
+.sidebar-footer { 
+  margin-top: auto; 
+  padding-top: 20px; 
+  border-top: 1px solid #f0f0f0; 
+}
+.card-perfil { 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  gap: 10px; 
+}
+.foto-perfil { 
+  width: 44px; 
+  height: 44px; 
+  border-radius: 50%; 
+  object-fit: cover; 
+}
+.nome-perfil { 
+  font-size: 14px; 
+  font-weight: 600; 
+  color: #333; 
+}
