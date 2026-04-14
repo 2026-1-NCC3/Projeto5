@@ -6,6 +6,7 @@ import Patients from '../pages/Pacientes'
 import Layout from '../components/Layout' // Importando o novo Layout com a Sidebar
 import EsqueceuSenha from '../pages/EsqueceuSenha/EsqueceuSenha'
 import ResetSenha from '../pages/EsqueceuSenha/ResetSenha'
+import Agenda from '../pages/Agenda/Agenda'
 
 function PrivateRoute({ children }) {
   const { user } = useAuth()
@@ -15,25 +16,22 @@ function PrivateRoute({ children }) {
 export default function AppRoutes() {
   return (
     <Routes>
-      {/* Rota pública: Login (Sem Sidebar) */}
       <Route path="/login" element={<Login />} />
       <Route path="/esqueceu-senha" element={<EsqueceuSenha />} />
       <Route path="/reset-senha" element={<ResetSenha />} />
 
-      {/* Rotas Privadas com Layout (Sidebar inclusa) */}
       <Route
         element={
           <PrivateRoute>
-            <Layout /> {/* O Layout agora é o "pai" das páginas internas */}
+            <Layout /> 
           </PrivateRoute>
         }
       >
-        {/* As páginas abaixo aparecem dentro do 'Outlet' do Layout */}
         <Route path="/" element={<Dashboard />} />
         <Route path="/patients" element={<Patients />} />
+        <Route path="/agenda" element={<Agenda />} />
       </Route>
 
-      {/* Redirecionamento padrão caso a rota não exista */}
       <Route path="*" element={<Navigate to="/login" />} />
     </Routes>
   )
