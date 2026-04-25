@@ -5,6 +5,15 @@ import bcrypt from "bcrypt";
 export const verificarPaciente = async (req: Request, res: Response) => {
   const { nome, cpf, birth_date, email } = req.body;
 
+const converterData = (data: string) => {
+    if (!data) return null;
+    if (data.includes("-")) return data; 
+    const [dia, mes, ano] = data.split("/");
+    return `${ano}-${mes}-${dia}`;
+  };
+
+  const birthDateFormatado = converterData(birth_date);
+
   const { data: paciente, error } = await supabase
     .from("patients")
     .select("*")
