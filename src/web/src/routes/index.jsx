@@ -2,7 +2,7 @@ import { Routes, Route, Navigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
 import Login from '../pages/Login/Login'
 import Dashboard from '../pages/Dashboard/Dashboard'
-import Patients from '../pages/Pacientes'
+import Patients from '../pages/Pacientes/Pacientes'
 import Layout from '../components/Layout' // Importando o novo Layout com a Sidebar
 import EsqueceuSenha from '../pages/EsqueceuSenha/EsqueceuSenha'
 import ResetSenha from '../pages/EsqueceuSenha/ResetSenha'
@@ -28,8 +28,8 @@ export default function AppRoutes() {
         }
       >
         <Route path="/" element={<Dashboard />} />
-        <Route path="/patients" element={<Patients />} />
-        <Route path="/agenda" element={<Agenda />} />
+         <Route path="/agenda" element={<Agenda />} />
+        <Route path="/clinica" element={<Patients />} />
       </Route>
 
       <Route path="*" element={<Navigate to="/login" />} />

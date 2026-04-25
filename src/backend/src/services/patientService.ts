@@ -21,10 +21,10 @@ export async function getPatientById(id: number) {
   return data;
 }
 
-export async function createPatient(name: string, email: string, phone: string) {
+export async function createPatient(name: string, email: string, phone: string, cpf?: string, birth_date?: string, diagnostico?: string, prioridade?: string) {
   const { data, error } = await supabase
     .from("patients")
-    .insert([{ name, email, phone }])
+    .insert([{ name, email, phone, cpf, birth_date, diagnostico, prioridade }])
     .select()
     .single();
 
@@ -36,11 +36,15 @@ export async function updatePatient(
   id: number,
   name: string,
   email: string,
-  phone: string
+  phone: string,
+  cpf?: string,
+  birth_date?: string,
+  diagnostico?: string,
+  prioridade?: string
 ) {
   const { data, error } = await supabase
     .from("patients")
-    .update({ name, email, phone })
+    .update({ name, email, phone, cpf, birth_date, diagnostico, prioridade })
     .eq("id", id)
     .select()
     .single();
