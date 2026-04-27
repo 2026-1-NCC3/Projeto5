@@ -19,6 +19,15 @@ const formVazio = {
   name: '', cpf: '', birth_date: '', email: '', phone: '',
   diagnostico: '', prioridade: 'normal', status_conta: 'pendente',
 };
+const formatarCPF = (valor) => {
+  valor = valor.replace(/\D/g, ""); // remove tudo que não é número
+
+  valor = valor.replace(/(\d{3})(\d)/, "$1.$2");
+  valor = valor.replace(/(\d{3})(\d)/, "$1.$2");
+  valor = valor.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+
+  return valor.slice(0, 14); // limita tamanho
+};
 
 export default function Pacientes() {
   const [pacientes,  setPacientes]  = useState([]);
@@ -227,12 +236,14 @@ export default function Pacientes() {
 
                 <div className="pac-field">
                   <label>CPF</label>
-                  <input
-                    type="text"
-                    placeholder="000.000.000-00"
-                    value={form.cpf}
-                    onChange={e => setForm(f => ({ ...f, cpf: e.target.value }))}
-                  />
+                    <input
+                      type="text"
+                      placeholder="000.000.000-00"
+                      value={form.cpf}
+                      onChange={e =>
+                      setForm(f => ({ ...f, cpf: formatarCPF(e.target.value) }))
+  }
+/>
                 </div>
 
                 <div className="pac-field">
