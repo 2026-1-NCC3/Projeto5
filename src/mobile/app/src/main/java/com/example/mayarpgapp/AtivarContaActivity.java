@@ -10,15 +10,13 @@ import androidx.appcompat.widget.AppCompatButton;
 import com.example.mayarpgapp.api.ApiService;
 import com.example.mayarpgapp.api.RetrofitClient;
 
-import org.json.JSONObject;
+import com.google.gson.JsonObject;
 
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import com.google.gson.JsonObject;
 
 public class AtivarContaActivity extends AppCompatActivity {
 
@@ -93,5 +91,17 @@ public class AtivarContaActivity extends AppCompatActivity {
                 Toast.makeText(AtivarContaActivity.this, "Erro de conexão", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+    private String formatarData(String dataBr) {
+        try {
+            String[] partes = dataBr.split("/");
+            String dia = partes[0];
+            String mes = partes[1];
+            String ano = partes[2];
+
+            return ano + "-" + mes + "-" + dia; // YYYY-MM-DD
+        } catch (Exception e) {
+            return dataBr;
+        }
     }
 }

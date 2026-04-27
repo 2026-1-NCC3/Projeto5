@@ -32,7 +32,7 @@ export default function Pacientes() {
 
   const carregar = async () => {
     try {
-      const { data } = await api.get('/patients');
+      const { data } = await api.get('/api/patients');
       setPacientes(data);
     } catch (err) {console.error('Erro ao carregar pacientes:', err); }
   };
@@ -66,7 +66,7 @@ export default function Pacientes() {
   const deletar = async (id) => {
     if (!confirm('Remover este paciente?')) return;
     try {
-      await api.delete(`/patients/${id}`);
+      await api.delete(`/api/patients/${id}`);
       carregar();
     } catch (err) {console.error('Erro ao deletar paciente:', err); }
     setMenuAberto(null);
@@ -78,9 +78,9 @@ export default function Pacientes() {
     setLoading(true);
     try {
       if (editando) {
-        await api.put(`/patients/${editando}`, form);
+        await api.put(`/api/patients/${editando}`, form);
       } else {
-        await api.post('/patients', form);
+        await api.post('/api/patients', form);
       }
       await carregar();
       setModal(false);
@@ -218,7 +218,7 @@ export default function Pacientes() {
                   <label>Nome completo *</label>
                   <input
                     type="text"
-                    placeholder="Julia Pereira"
+                    placeholder="Nome Completo"
                     value={form.name}
                     onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
                     required
@@ -248,7 +248,7 @@ export default function Pacientes() {
                   <label>Email</label>
                   <input
                     type="email"
-                    placeholder="julia@email.com"
+                    placeholder="emaildopaciente@email.com"
                     value={form.email}
                     onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
                   />

@@ -20,6 +20,7 @@ export async function getPatient(req: Request, res: Response) {
 }
 
 export async function addPatient(req: Request, res: Response) {
+  console.log("BODY:", req.body);
   const { name, email, phone, cpf, birth_date, diagnostico, prioridade } = req.body;
 
   const patient = await createPatient(name, email, phone, cpf, birth_date, diagnostico, prioridade);
