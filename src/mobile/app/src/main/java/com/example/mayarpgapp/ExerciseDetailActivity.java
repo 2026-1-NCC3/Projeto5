@@ -23,7 +23,7 @@ public class ExerciseDetailActivity extends AppCompatActivity {
 
     private void initViews() {
 
-        // Vincula os componentes visuais do XML às variáveis Java
+
         ImageView ivImage    = findViewById(R.id.ivExerciseImage);
         ImageButton ivBack   = findViewById(R.id.ivBack);
         TextView tvTitle     = findViewById(R.id.tvExerciseTitle);
@@ -31,7 +31,7 @@ public class ExerciseDetailActivity extends AppCompatActivity {
         TextView tvDesc      = findViewById(R.id.tvDescription);
         Button btnConcluir   = findViewById(R.id.btnConcluir);
 
-        // Configura os textos dos blocos de "passo a passo"
+
         View step1 = findViewById(R.id.step1);
         View step2 = findViewById(R.id.step2);
         View step3 = findViewById(R.id.step3);
@@ -40,18 +40,18 @@ public class ExerciseDetailActivity extends AppCompatActivity {
         setupStep(step2, "2", "Execute o movimento de forma lenta e controlada.");
         setupStep(step3, "3", "Mantenha a respiração fluida durante o exercício.");
 
-        // Recupera os dados enviados pela tela anterior (Intent)
+
         String title       = getIntent().getStringExtra("EXERCISE_TITLE");
         String description = getIntent().getStringExtra("EXERCISE_DESCRIPTION");
         String imageUrl    = getIntent().getStringExtra("EXERCISE_IMAGE_URL");
         String frequency   = getIntent().getStringExtra("EXERCISE_FREQUENCY");
 
-        // Preenche os campos da tela com os dados recebidos
+
         tvTitle.setText(title != null ? title : "Exercício");
         tvFrequency.setText(frequency != null && !frequency.isEmpty() ? frequency : "Frequência não definida");
         tvDesc.setText(description != null && !description.isEmpty() ? description : "Sem orientações.");
 
-        // Carrega a imagem do exercício usando a biblioteca Glide
+
         if (imageUrl != null && !imageUrl.isEmpty()) {
             Glide.with(this)
                     .load(imageUrl)
@@ -61,10 +61,10 @@ public class ExerciseDetailActivity extends AppCompatActivity {
                     .into(ivImage);
         }
 
-        // Botão de voltar: fecha a tela atual
+
         ivBack.setOnClickListener(v -> finish());
 
-        // Botão Concluir: muda o estado visual e desabilita após o clique
+
         btnConcluir.setOnClickListener(v -> {
             btnConcluir.setText("Concluído ✓");
             btnConcluir.setEnabled(false);
@@ -74,7 +74,7 @@ public class ExerciseDetailActivity extends AppCompatActivity {
         });
     }
 
-    // Função auxiliar para preencher o número e o texto de cada passo
+
     private void setupStep(View stepView, String number, String text) {
         TextView tvNumber = stepView.findViewById(R.id.tvStepNumber);
         TextView tvText   = stepView.findViewById(R.id.tvStepText);

@@ -26,6 +26,10 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".AtivarContaActivity"/>
+        <activity android:name=".CriarSenhaActivity"/>
+        <activity android:name=".SucessoActivity"/>
+
         <activity android:name=".InicioActivity"
             android:exported="true"/>
 
@@ -37,10 +41,6 @@
             android:name=".LoginActivity"
             android:exported="false" />
 
-
-        <activity
-            android:name=".CadastroActivity"
-            android:exported="false" />
 
         <activity android:name=".TermosActivity" />
 
