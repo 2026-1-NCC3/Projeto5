@@ -19,14 +19,13 @@ const formVazio = {
   name: '', cpf: '', birth_date: '', email: '', phone: '',
   diagnostico: '', prioridade: 'normal', status_conta: 'pendente',
 };
+
 const formatarCPF = (valor) => {
-  valor = valor.replace(/\D/g, ""); // remove tudo que não é número
-
-  valor = valor.replace(/(\d{3})(\d)/, "$1.$2");
-  valor = valor.replace(/(\d{3})(\d)/, "$1.$2");
-  valor = valor.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
-
-  return valor.slice(0, 14); // limita tamanho
+  valor = valor.replace(/\D/g, '');
+  valor = valor.replace(/(\d{3})(\d)/, '$1.$2');
+  valor = valor.replace(/(\d{3})(\d)/, '$1.$2');
+  valor = valor.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+  return valor.slice(0, 14);
 };
 
 export default function Pacientes() {
@@ -35,18 +34,55 @@ export default function Pacientes() {
   const [modal,      setModal]      = useState(false);
   const [form,       setForm]       = useState(formVazio);
   const [loading,    setLoading]    = useState(false);
+  const [loadingDados, setLoadingDados] = useState(true);
   const [erro,       setErro]       = useState('');
   const [menuAberto, setMenuAberto] = useState(null);
   const [editando,   setEditando]   = useState(null);
 
   const carregar = async () => {
+    setLoadingDados(true);
     try {
       const { data } = await api.get('/api/patients');
       setPacientes(data);
-    } catch (err) {console.error('Erro ao carregar pacientes:', err); }
+    } catch (err) { console.error('Erro ao carregar pacientes:', err); }
+    finally { setLoadingDados(false); }
   };
 
   useEffect(() => { carregar(); }, []);
+
+  // ── Cálculo dos cards ──────────────────────────────────────────
+  const agora = new Date();
+  const totalPacientes  = pacientes.length;
+  const pacientesAtivos = pacientes.filter(p => p.status_conta === 'ativo').length;
+  const novosMes        = pacientes.filter(p => {
+    const d = new Date(p.created_at);
+    return d.getFullYear() === agora.getFullYear() && d.getMonth() === agora.getMonth();
+  }).length;
+
+  const cards = [
+    {
+      label: 'Total de pacientes',
+      value: totalPacientes,
+      badge: pacientesAtivos > 0 ? `${Math.round((pacientesAtivos / totalPacientes) * 100)}% ativos` : '—',
+      badgeType: 'positive',
+      sub: 'cadastrados na plataforma',
+    },
+    {
+      label: 'Pacientes ativos',
+      value: pacientesAtivos,
+      badge: totalPacientes > 0 ? `${Math.round((pacientesAtivos / totalPacientes) * 100)}%` : '—',
+      badgeType: 'neutral',
+      sub: 'da capacidade ideal',
+    },
+    {
+      label: 'Novos este mês',
+      value: novosMes,
+      badge: novosMes > 0 ? `+${novosMes}` : '0',
+      badgeType: 'positive',
+      sub: 'do último mês',
+    },
+  ];
+  // ───────────────────────────────────────────────────────────────
 
   const abrirNovo = () => {
     setForm(formVazio);
@@ -57,13 +93,13 @@ export default function Pacientes() {
 
   const abrirEditar = (p) => {
     setForm({
-      name:        p.name,
-      cpf:         p.cpf || '',
-      birth_date:  p.birth_date || '',
-      email:       p.email || '',
-      phone:       p.phone || '',
-      diagnostico: p.diagnostico || '',
-      prioridade:  p.prioridade || 'normal',
+      name:         p.name,
+      cpf:          p.cpf || '',
+      birth_date:   p.birth_date || '',
+      email:        p.email || '',
+      phone:        p.phone || '',
+      diagnostico:  p.diagnostico || '',
+      prioridade:   p.prioridade || 'normal',
       status_conta: p.status_conta || 'pendente',
     });
     setEditando(p.id);
@@ -77,7 +113,7 @@ export default function Pacientes() {
     try {
       await api.delete(`/api/patients/${id}`);
       carregar();
-    } catch (err) {console.error('Erro ao deletar paciente:', err); }
+    } catch (err) { console.error('Erro ao deletar paciente:', err); }
     setMenuAberto(null);
   };
 
@@ -107,14 +143,42 @@ export default function Pacientes() {
 
   const formatarData = (data) => {
     if (!data) return '—';
-    const d = new Date(data);
-    return d.toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' });
+    return new Date(data).toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' });
   };
 
   return (
     <div className="pac-page">
+
+      {/* ── Topo: título + descrição ── */}
+      <div className="pac-header">
+        <div>
+          <h2 className="pac-titulo">Clínica</h2>
+          <p className="pac-descricao">
+            Gerencie seus pacientes, acompanhe status de tratamento e organize novos cadastros na plataforma
+          </p>
+        </div>
+      </div>
+
+      {/* ── Cards de estatísticas ── */}
+      <div className="pac-cards">
+        {cards.map((card) => (
+          <div className="pac-card" key={card.label}>
+            <span className="pac-card-label">{card.label}</span>
+            <div className="pac-card-value">
+              {loadingDados
+                ? <span className="pac-skeleton" />
+                : card.value}
+            </div>
+            <div className="pac-card-footer">
+              <span className={`pac-badge pac-badge--${card.badgeType}`}>{card.badge}</span>
+              <span className="pac-card-sub">{card.sub}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* ── Toolbar: busca + botões ── */}
       <div className="pac-topo">
-        <h2 className="pac-titulo">Clínica</h2>
         <div className="pac-toolbar">
           <div className="pac-busca">
             <Icon icon="solar:magnifer-linear" width="16" color="#aaa" />
@@ -138,7 +202,7 @@ export default function Pacientes() {
         </div>
       </div>
 
-      {/* Tabela */}
+      {/* ── Tabela ── */}
       <div className="pac-tabela-wrap">
         <table className="pac-tabela">
           <thead>
@@ -153,7 +217,7 @@ export default function Pacientes() {
           </thead>
           <tbody>
             {filtrados.map(p => {
-              const status = STATUS_CORES[p.status_conta] || STATUS_CORES.pendente;
+              const status   = STATUS_CORES[p.status_conta] || STATUS_CORES.pendente;
               const priorCor = PRIORIDADE_CORES[p.prioridade] || PRIORIDADE_CORES.normal;
               return (
                 <tr key={p.id}>
@@ -210,7 +274,7 @@ export default function Pacientes() {
         </table>
       </div>
 
-      {/* Modal */}
+      {/* ── Modal ── */}
       {modal && (
         <div className="pac-overlay" onClick={() => setModal(false)}>
           <div className="pac-modal" onClick={e => e.stopPropagation()}>
@@ -233,19 +297,15 @@ export default function Pacientes() {
                     required
                   />
                 </div>
-
                 <div className="pac-field">
                   <label>CPF</label>
-                    <input
-                      type="text"
-                      placeholder="000.000.000-00"
-                      value={form.cpf}
-                      onChange={e =>
-                      setForm(f => ({ ...f, cpf: formatarCPF(e.target.value) }))
-  }
-/>
+                  <input
+                    type="text"
+                    placeholder="000.000.000-00"
+                    value={form.cpf}
+                    onChange={e => setForm(f => ({ ...f, cpf: formatarCPF(e.target.value) }))}
+                  />
                 </div>
-
                 <div className="pac-field">
                   <label>Data de nascimento</label>
                   <input
@@ -254,7 +314,6 @@ export default function Pacientes() {
                     onChange={e => setForm(f => ({ ...f, birth_date: e.target.value }))}
                   />
                 </div>
-
                 <div className="pac-field">
                   <label>Email</label>
                   <input
@@ -264,7 +323,6 @@ export default function Pacientes() {
                     onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
                   />
                 </div>
-
                 <div className="pac-field">
                   <label>Telefone</label>
                   <input
@@ -274,7 +332,6 @@ export default function Pacientes() {
                     onChange={e => setForm(f => ({ ...f, phone: e.target.value }))}
                   />
                 </div>
-
                 <div className="pac-field">
                   <label>Diagnóstico</label>
                   <input
@@ -284,7 +341,6 @@ export default function Pacientes() {
                     onChange={e => setForm(f => ({ ...f, diagnostico: e.target.value }))}
                   />
                 </div>
-
                 <div className="pac-field">
                   <label>Prioridade</label>
                   <select

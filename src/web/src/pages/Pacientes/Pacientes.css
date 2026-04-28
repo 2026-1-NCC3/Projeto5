@@ -4,18 +4,115 @@
   gap: 20px;
 }
 
-.pac-topo {
+/* ── Header ── */
+.pac-header {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 12px;
 }
 
 .pac-titulo {
   font-size: 24px;
   font-weight: 700;
   color: #1a1a1a;
+  margin: 0 0 4px 0;
+}
+
+.pac-descricao {
+  font-size: 13px;
+  color: #9ca3af;
+  margin: 0;
+}
+
+/* ── Cards ── */
+.pac-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.pac-card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 20px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  transition: box-shadow 0.18s, transform 0.15s;
+}
+
+.pac-card:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  transform: translateY(-2px);
+}
+
+.pac-card-label {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.pac-card-value {
+  font-size: 34px;
+  font-weight: 700;
+  color: #111827;
+  line-height: 1;
+  min-height: 38px;
+  display: flex;
+  align-items: center;
+}
+
+.pac-card-footer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pac-card-sub {
+  font-size: 12px;
+  color: #9ca3af;
+}
+
+.pac-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.pac-badge--positive { background: #d1fae5; color: #065f46; }
+.pac-badge--neutral  { background: #e0f2fe; color: #0369a1; }
+.pac-badge--negative { background: #fee2e2; color: #991b1b; }
+
+/* Skeleton */
+.pac-skeleton {
+  display: block;
+  width: 52px;
+  height: 34px;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 50%, #f3f4f6 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+}
+
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ── Toolbar ── */
+.pac-topo {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 12px;
 }
 
 .pac-toolbar {
@@ -91,7 +188,7 @@
 
 .pac-btn-novo:hover { background: #2c8fa1; }
 
-/* Tabela */
+/* ── Tabela ── */
 .pac-tabela-wrap {
   background: #fff;
   border-radius: 16px;
@@ -104,9 +201,7 @@
   border-collapse: collapse;
 }
 
-.pac-tabela thead tr {
-  border-bottom: 1px solid #f0f0f0;
-}
+.pac-tabela thead tr { border-bottom: 1px solid #f0f0f0; }
 
 .pac-tabela th {
   padding: 14px 16px;
@@ -132,11 +227,7 @@
   vertical-align: middle;
 }
 
-.pac-nome-cell {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
+.pac-nome-cell { display: flex; align-items: center; gap: 12px; }
 
 .pac-avatar {
   width: 36px;
@@ -152,11 +243,7 @@
   flex-shrink: 0;
 }
 
-.pac-nome {
-  font-weight: 600;
-  color: #1a1a1a;
-}
-
+.pac-nome { font-weight: 600; color: #1a1a1a; }
 .pac-data { color: #888; font-size: 13px; }
 
 .pac-status {
@@ -170,11 +257,7 @@
 
 .pac-diag { color: #444; }
 
-.pac-prioridade {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
+.pac-prioridade { display: flex; align-items: center; gap: 6px; }
 
 .pac-prioridade-dot {
   width: 8px;
@@ -183,11 +266,7 @@
   flex-shrink: 0;
 }
 
-.pac-prioridade-txt {
-  font-size: 13px;
-  font-weight: 600;
-}
-
+.pac-prioridade-txt { font-size: 13px; font-weight: 600; }
 .pac-menu-cell { width: 40px; }
 
 .pac-menu-btn {
@@ -246,7 +325,7 @@
   font-size: 14px;
 }
 
-/* Modal */
+/* ── Modal ── */
 .pac-overlay {
   position: fixed;
   inset: 0;
@@ -275,11 +354,7 @@
   margin-bottom: 24px;
 }
 
-.pac-modal-header h3 {
-  font-size: 18px;
-  font-weight: 700;
-  color: #1a1a1a;
-}
+.pac-modal-header h3 { font-size: 18px; font-weight: 700; color: #1a1a1a; }
 
 .pac-modal-fechar {
   background: none;
@@ -303,17 +378,9 @@
   gap: 16px;
 }
 
-.pac-field {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
+.pac-field { display: flex; flex-direction: column; gap: 6px; }
 
-.pac-field label {
-  font-size: 12px;
-  font-weight: 700;
-  color: #555;
-}
+.pac-field label { font-size: 12px; font-weight: 700; color: #555; }
 
 .pac-field input,
 .pac-field select {
@@ -329,21 +396,11 @@
 }
 
 .pac-field input:focus,
-.pac-field select:focus {
-  border-color: #37A6BA;
-}
+.pac-field select:focus { border-color: #37A6BA; }
 
-.pac-erro {
-  color: #e05b5b;
-  font-size: 13px;
-  text-align: center;
-}
+.pac-erro { color: #e05b5b; font-size: 13px; text-align: center; }
 
-.pac-modal-footer {
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-}
+.pac-modal-footer { display: flex; justify-content: flex-end; gap: 10px; }
 
 .pac-btn-cancelar {
   background: #f4f4f4;
@@ -375,7 +432,8 @@
 
 .pac-btn-salvar:hover { background: #2c8fa1; }
 
-@media (max-width: 600px) {
+@media (max-width: 700px) {
+  .pac-cards { grid-template-columns: 1fr; }
   .pac-form-grid { grid-template-columns: 1fr; }
   .pac-toolbar { flex-wrap: wrap; }
 }
