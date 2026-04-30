@@ -134,7 +134,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Acesso exclusivo para pacientes cadastrados. Dúvidas? "
+                android:text="Acesso exclusivo para pacientes cadastrados. "
                 android:textSize="12sp"
                 android:textColor="#666666"/>
         </LinearLayout>
