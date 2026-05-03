@@ -23,53 +23,40 @@ export async function getPatientById(id: number, userId: string) {
   return data;
 }
 
-export async function createPatient(
-  userId: string,
-  name: string, email: string, phone: string,
-  cpf?: string, birth_date?: string,
-  diagnostico?: string, prioridade?: string
-) {
-  const { data, error } = await supabaseClient
+export async function createPatient(userId: string, data: any) {
+  const { data: result, error } = await supabaseClient
     .from("patients")
     .insert([{
-      name,
-      email:       email       || null,
-      phone:       phone       || null,
-      cpf:         cpf         || null,
-      birth_date:  birth_date  || null,
-      diagnostico: diagnostico || null,
-      prioridade:  prioridade  || 'normal',
+      ...data,
+      user_id: userId
     }])
     .select()
     .single();
 
-  if (error) throw new Error(error.message);
-  return data;
+  if (error) {
+    console.error("ERRO SUPABASE:", error);
+    throw new Error(error.message);
+  }
+
+  return result;
 }
 
 export async function updatePatient(
-  id: number, userId: string, name: string, email: string, phone: string,
-  cpf?: string, birth_date?: string,
-  diagnostico?: string, prioridade?: string
+  id: number,
+  userId: string,
+  data: any
 ) {
-  const { data, error } = await supabaseClient
+  const { data: result, error } = await supabaseClient
     .from("patients")
-    .update({
-      name,
-      email:       email       || null,
-      phone:       phone       || null,
-      cpf:         cpf         || null,
-      birth_date:  birth_date  || null,
-      diagnostico: diagnostico || null,
-      prioridade:  prioridade  || 'normal',
-    })
+    .update(data)
     .eq("id", id)
     .eq("user_id", userId)
     .select()
     .single();
 
   if (error) throw new Error(error.message);
-  return data;
+
+  return result;
 }
 
 export async function deletePatient(id: number, userId: string) {

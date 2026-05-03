@@ -29,15 +29,16 @@ function Login() {
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password: senha,
+        options: {
+          persistSession: lembrar,
+        }
       });
 
       if (error) throw error;
 
-
-      login(data.user, data.session.access_token);
-
-
+      login(data.user);
       navigate("/");
+
     } catch (error) {
       setErro("Email ou senha inválidos.");
       console.error(error);

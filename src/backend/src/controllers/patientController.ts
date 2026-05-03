@@ -25,18 +25,10 @@ export async function getPatient(req: Request, res: Response) {
 export async function addPatient(req: Request, res: Response) {
   const user = (req as any).user;
 
-  const { name, email, phone, cpf, birth_date, diagnostico, prioridade } = req.body;
+  console.log("USER:", user);
+  console.log("BODY:", req.body);
 
-  const patient = await createPatient(
-    user.id,
-    name,
-    email,
-    phone,
-    cpf,
-    birth_date,
-    diagnostico,
-    prioridade
-  );
+  const patient = await createPatient(user.id, req.body);
 
   res.json(patient);
 }
@@ -45,19 +37,7 @@ export async function editPatient(req: Request, res: Response) {
   const user = (req as any).user;
   const id = Number(req.params.id);
 
-  const { name, email, phone, cpf, birth_date, diagnostico, prioridade } = req.body;
-
-  const patient = await updatePatient(
-    id,
-    user.id,
-    name,
-    email,
-    phone,
-    cpf,
-    birth_date,
-    diagnostico,
-    prioridade
-  );
+  const patient = await updatePatient(id, user.id, req.body);
 
   res.json(patient);
 }
