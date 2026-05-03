@@ -1,10 +1,5 @@
-/* ─────────────────────────────────────────────────────────────────
-   Dashboard.css — Maya Yamamoto · Paleta Azul
-   ───────────────────────────────────────────────────────────────── */
-
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&display=swap');
 
-/* ── CSS Variables ──────────────────────────────────────────────── */
 :root {
   --blue-950: #0c1a2e;
   --blue-900: #0f2847;
@@ -39,7 +34,6 @@
   --transition:   0.2s ease;
 }
 
-/* Dark Mode */
 .dashboard--dark {
   --bg:         #070e1a;
   --bg-card:    #0f1e33;
@@ -52,11 +46,9 @@
   --shadow-md:  0 4px 16px rgba(0,0,0,0.4);
 }
 
-/* ── Reset ──────────────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 button { cursor: pointer; border: none; background: none; font: inherit; }
 
-/* ── Layout ─────────────────────────────────────────────────────── */
 .dashboard {
   min-height: 100vh;
   background: var(--bg);
@@ -65,7 +57,7 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
   transition: background var(--transition), color var(--transition);
 }
 
-/* ── Avatar ─────────────────────────────────────────────────────── */
+
 .avatar {
   border-radius: 50%;
   display: flex;
@@ -78,7 +70,6 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
   letter-spacing: 0.5px;
 }
 
-/* ── Main Content ───────────────────────────────────────────────── */
 .main {
   flex: 1;
   padding: 28px 28px 40px;
@@ -120,7 +111,6 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
   font-size: 13px;
 }
 
-/* ── Stats Grid ─────────────────────────────────────────────────── */
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -131,7 +121,7 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
 @media (max-width: 1100px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 640px) { .stats-grid { grid-template-columns: 1fr; } }
 
-/* ── Stat Card ──────────────────────────────────────────────────── */
+
 .stat-card {
   background: var(--bg-card);
   border: 1px solid var(--border);
@@ -203,7 +193,7 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
 
 .stat-card__spark { height: 32px; display: flex; align-items: center; }
 
-/* ── Content Grid ───────────────────────────────────────────────── */
+
 .content-grid {
   display: grid;
   grid-template-columns: 1fr 300px;
@@ -212,7 +202,7 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
 }
 @media (max-width: 960px) { .content-grid { grid-template-columns: 1fr; } }
 
-/* ── Chart Section ──────────────────────────────────────────────── */
+
 .chart-section {
   background: var(--bg-card);
   border: 1px solid var(--border);
@@ -303,7 +293,7 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
   color: var(--text-primary);
 }
 
-/* ── Consultas Panel ────────────────────────────────────────────── */
+
 .consultas-panel {
   background: var(--bg-card);
   border: 1px solid var(--border);
@@ -342,7 +332,6 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
   color: var(--blue-500);
 }
 
-/* ── Mini Calendar ──────────────────────────────────────────────── */
 .mini-calendar {
   margin-bottom: 16px;
   background: linear-gradient(135deg, var(--blue-50), rgba(224,242,254,0.4));
@@ -409,7 +398,7 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
   box-shadow: 0 2px 6px rgba(14,165,233,0.35);
 }
 
-/* ── Consultas List ─────────────────────────────────────────────── */
+
 .consultas-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
 
 .consulta-item {
@@ -466,7 +455,7 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
   box-shadow: 0 2px 8px rgba(14,165,233,0.1);
 }
 
-/* ── Skeletons ──────────────────────────────────────────────────── */
+
 @keyframes shimmer {
   0% { background-position: -400px 0; }
   100% { background-position: 400px 0; }
@@ -484,7 +473,7 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
 .skeleton--chart  { height: 260px; width: 100%; border-radius: var(--radius-md); }
 .skeleton--consulta { height: 56px; border-radius: var(--radius-sm); }
 
-/* ── Scrollbar ──────────────────────────────────────────────────── */
+
 * { scrollbar-width: thin; scrollbar-color: rgba(14,165,233,0.2) transparent; }
 *::-webkit-scrollbar { width: 5px; }
 *::-webkit-scrollbar-thumb { background: rgba(14,165,233,0.25); border-radius: 3px; }

@@ -21,10 +21,22 @@ export async function getPatientById(id: number) {
   return data;
 }
 
-export async function createPatient(name: string, email: string, phone: string, cpf?: string, birth_date?: string, diagnostico?: string, prioridade?: string) {
+export async function createPatient(
+  name: string, email: string, phone: string,
+  cpf?: string, birth_date?: string,
+  diagnostico?: string, prioridade?: string
+) {
   const { data, error } = await supabase
     .from("patients")
-    .insert([{ name, email, phone, cpf, birth_date, diagnostico, prioridade }])
+    .insert([{
+      name,
+      email:       email       || null,
+      phone:       phone       || null,
+      cpf:         cpf         || null,
+      birth_date:  birth_date  || null,
+      diagnostico: diagnostico || null,
+      prioridade:  prioridade  || 'normal',
+    }])
     .select()
     .single();
 
@@ -33,18 +45,21 @@ export async function createPatient(name: string, email: string, phone: string, 
 }
 
 export async function updatePatient(
-  id: number,
-  name: string,
-  email: string,
-  phone: string,
-  cpf?: string,
-  birth_date?: string,
-  diagnostico?: string,
-  prioridade?: string
+  id: number, name: string, email: string, phone: string,
+  cpf?: string, birth_date?: string,
+  diagnostico?: string, prioridade?: string
 ) {
   const { data, error } = await supabase
     .from("patients")
-    .update({ name, email, phone, cpf, birth_date, diagnostico, prioridade })
+    .update({
+      name,
+      email:       email       || null,
+      phone:       phone       || null,
+      cpf:         cpf         || null,
+      birth_date:  birth_date  || null,
+      diagnostico: diagnostico || null,
+      prioridade:  prioridade  || 'normal',
+    })
     .eq("id", id)
     .select()
     .single();
