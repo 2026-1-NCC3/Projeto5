@@ -1,4 +1,4 @@
-import { supabase } from "../config/database";
+import { supabase } from "../config/supabaseClient";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 

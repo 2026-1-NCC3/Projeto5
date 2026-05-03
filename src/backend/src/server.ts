@@ -3,7 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 dotenv.config();
 
-import { supabase } from "./config/database";
+import { supabaseClient } from "./config/supabaseClient";
 import patientRoutes from "./routes/patientRoutes";
 import exerciseRoutes from "./routes/exerciseRoutes";
 import planRoutes from "./routes/planRoutes";
@@ -30,7 +30,7 @@ app.get("/", (_req, res) => {
 });
 
 app.get("/test-db", async (_req, res) => {
-  const { data, error } = await supabase
+  const { data, error } = await supabaseClient
     .from("patients")
     .select("count")
     .limit(1);

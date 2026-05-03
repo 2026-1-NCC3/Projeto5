@@ -4,7 +4,7 @@
   gap: 20px;
 }
 
-/* ── Header ── */
+
 .pac-header {
   display: flex;
   align-items: flex-start;
@@ -24,7 +24,6 @@
   margin: 0;
 }
 
-/* ── Cards ── */
 .pac-cards {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -90,7 +89,6 @@
 .pac-badge--neutral  { background: #e0f2fe; color: #0369a1; }
 .pac-badge--negative { background: #fee2e2; color: #991b1b; }
 
-/* Skeleton */
 .pac-skeleton {
   display: block;
   width: 52px;
@@ -106,7 +104,6 @@
   100% { background-position: -200% 0; }
 }
 
-/* ── Toolbar ── */
 .pac-topo {
   display: flex;
   align-items: center;
@@ -188,7 +185,6 @@
 
 .pac-btn-novo:hover { background: #2c8fa1; }
 
-/* ── Tabela ── */
 .pac-tabela-wrap {
   background: #fff;
   border-radius: 16px;
@@ -437,3 +433,73 @@
   .pac-form-grid { grid-template-columns: 1fr; }
   .pac-toolbar { flex-wrap: wrap; }
 }
+/* Modal largo */
+.pac-modal--wide {
+  max-width: 720px;
+}
+
+/* Modal pequeno (deletar) */
+.pac-modal--sm {
+  max-width: 400px;
+}
+
+/* Seções do formulário */
+.pac-secao {
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.pac-secao-titulo {
+  font-size: 13px;
+  font-weight: 700;
+  color: #374151;
+  margin: 0 0 16px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+/* Campo full width no grid */
+.pac-field--full {
+  grid-column: 1 / -1;
+}
+
+/* Textarea */
+.pac-textarea {
+  border: 1.5px solid #e8e8e8;
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 14px;
+  outline: none;
+  color: #1a1a1a;
+  font-family: inherit;
+  transition: border-color 0.2s;
+  background: #fff;
+  resize: vertical;
+}
+
+.pac-textarea:focus { border-color: #37A6BA; }
+
+/* Texto do modal de deletar */
+.pac-del-texto {
+  font-size: 14px;
+  color: #555;
+  line-height: 1.6;
+}
+
+/* Botão excluir */
+.pac-btn-excluir {
+  background: #e05b5b;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 24px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+  cursor: pointer;
+  font-family: inherit;
+  width: auto;
+}
+
+.pac-btn-excluir:hover { background: #c94444; }

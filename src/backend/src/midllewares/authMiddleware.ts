@@ -1,9 +1,7 @@
 import { Request, Response, NextFunction } from "express";
-import jwt from "jsonwebtoken";
+import { supabaseClient} from "../config/supabaseClient"; 
 
-const SECRET = process.env.JWT_SECRET!;
-
-export const authenticateToken = (
+export const authenticateToken = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -16,11 +14,14 @@ export const authenticateToken = (
 
   const token = authHeader.split(" ")[1];
 
-  try {
-    const decoded = jwt.verify(token, SECRET);
-    (req as any).user = decoded;
-    next();
-  } catch {
-    return res.status(403).json({ message: "Token inválido" });
+  const { data, error } = await supabaseClient.auth.getUser(token);
+
+  if (error || !data.user) {
+    return res.status(401).json({ message: "Token inválido" });
   }
+
+
+  (req as any).user = data.user;
+
+  next();
 };

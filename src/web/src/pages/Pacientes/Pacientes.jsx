@@ -18,6 +18,7 @@ const PRIORIDADE_CORES = {
 const formVazio = {
   name: '', cpf: '', birth_date: '', email: '', phone: '',
   diagnostico: '', prioridade: 'normal', status_conta: 'pendente',
+  queixa_principal: '', nivel_dor: '', data_avaliacao: '',
 };
 
 const formatarCPF = (valor) => {
@@ -29,15 +30,17 @@ const formatarCPF = (valor) => {
 };
 
 export default function Pacientes() {
-  const [pacientes,  setPacientes]  = useState([]);
-  const [busca,      setBusca]      = useState('');
-  const [modal,      setModal]      = useState(false);
-  const [form,       setForm]       = useState(formVazio);
-  const [loading,    setLoading]    = useState(false);
-  const [loadingDados, setLoadingDados] = useState(true);
-  const [erro,       setErro]       = useState('');
-  const [menuAberto, setMenuAberto] = useState(null);
-  const [editando,   setEditando]   = useState(null);
+  const [pacientes,     setPacientes]     = useState([]);
+  const [busca,         setBusca]         = useState('');
+  const [modal,         setModal]         = useState(false);
+  const [modalDeletar,  setModalDeletar]  = useState(false);
+  const [pacienteDel,   setPacienteDel]   = useState(null);
+  const [form,          setForm]          = useState(formVazio);
+  const [loading,       setLoading]       = useState(false);
+  const [loadingDados,  setLoadingDados]  = useState(true);
+  const [erro,          setErro]          = useState('');
+  const [menuAberto,    setMenuAberto]    = useState(null);
+  const [editando,      setEditando]      = useState(null);
 
   const carregar = async () => {
     setLoadingDados(true);
@@ -50,7 +53,6 @@ export default function Pacientes() {
 
   useEffect(() => { carregar(); }, []);
 
-  // ── Cálculo dos cards ──────────────────────────────────────────
   const agora = new Date();
   const totalPacientes  = pacientes.length;
   const pacientesAtivos = pacientes.filter(p => p.status_conta === 'ativo').length;
@@ -60,29 +62,10 @@ export default function Pacientes() {
   }).length;
 
   const cards = [
-    {
-      label: 'Total de pacientes',
-      value: totalPacientes,
-      badge: pacientesAtivos > 0 ? `${Math.round((pacientesAtivos / totalPacientes) * 100)}% ativos` : '—',
-      badgeType: 'positive',
-      sub: 'cadastrados na plataforma',
-    },
-    {
-      label: 'Pacientes ativos',
-      value: pacientesAtivos,
-      badge: totalPacientes > 0 ? `${Math.round((pacientesAtivos / totalPacientes) * 100)}%` : '—',
-      badgeType: 'neutral',
-      sub: 'da capacidade ideal',
-    },
-    {
-      label: 'Novos este mês',
-      value: novosMes,
-      badge: novosMes > 0 ? `+${novosMes}` : '0',
-      badgeType: 'positive',
-      sub: 'do último mês',
-    },
+    { label: 'Total de pacientes', value: totalPacientes,  badge: pacientesAtivos > 0 ? `${Math.round((pacientesAtivos / totalPacientes) * 100)}% ativos` : '—', badgeType: 'positive', sub: 'cadastrados na plataforma' },
+    { label: 'Pacientes ativos',   value: pacientesAtivos, badge: totalPacientes > 0 ? `${Math.round((pacientesAtivos / totalPacientes) * 100)}%` : '—', badgeType: 'neutral', sub: 'da capacidade ideal' },
+    { label: 'Novos este mês',     value: novosMes,        badge: novosMes > 0 ? `+${novosMes}` : '0', badgeType: 'positive', sub: 'do último mês' },
   ];
-  // ───────────────────────────────────────────────────────────────
 
   const abrirNovo = () => {
     setForm(formVazio);
@@ -93,14 +76,17 @@ export default function Pacientes() {
 
   const abrirEditar = (p) => {
     setForm({
-      name:         p.name,
-      cpf:          p.cpf || '',
-      birth_date:   p.birth_date || '',
-      email:        p.email || '',
-      phone:        p.phone || '',
-      diagnostico:  p.diagnostico || '',
-      prioridade:   p.prioridade || 'normal',
-      status_conta: p.status_conta || 'pendente',
+      name:             p.name,
+      cpf:              p.cpf || '',
+      birth_date:       p.birth_date || '',
+      email:            p.email || '',
+      phone:            p.phone || '',
+      diagnostico:      p.diagnostico || '',
+      prioridade:       p.prioridade || 'normal',
+      status_conta:     p.status_conta || 'pendente',
+      queixa_principal: p.queixa_principal || '',
+      nivel_dor:        p.nivel_dor || '',
+      data_avaliacao:   p.data_avaliacao || '',
     });
     setEditando(p.id);
     setErro('');
@@ -108,13 +94,19 @@ export default function Pacientes() {
     setMenuAberto(null);
   };
 
-  const deletar = async (id) => {
-    if (!confirm('Remover este paciente?')) return;
-    try {
-      await api.delete(`/api/patients/${id}`);
-      carregar();
-    } catch (err) { console.error('Erro ao deletar paciente:', err); }
+  const confirmarDeletar = (p) => {
+    setPacienteDel(p);
+    setModalDeletar(true);
     setMenuAberto(null);
+  };
+
+  const deletar = async () => {
+    try {
+      await api.delete(`/api/patients/${pacienteDel.id}`);
+      setModalDeletar(false);
+      setPacienteDel(null);
+      carregar();
+    } catch (err) { console.error('Erro ao deletar:', err); }
   };
 
   const salvar = async (e) => {
@@ -122,14 +114,26 @@ export default function Pacientes() {
     setErro('');
     setLoading(true);
     try {
+      const dadosLimpos = {
+        ...form,
+        cpf:              form.cpf.replace(/\D/g, '') || null,
+        nivel_dor:        form.nivel_dor ? Number(form.nivel_dor) : null,
+        birth_date:       form.birth_date       || null,
+        data_avaliacao:   form.data_avaliacao   || null,
+        diagnostico:      form.diagnostico      || null,
+        queixa_principal: form.queixa_principal || null,
+        phone:            form.phone            || null,
+        email:            form.email            || null,
+      };
       if (editando) {
-        await api.put(`/api/patients/${editando}`, form);
+        await api.put(`/api/patients/${editando}`, dadosLimpos);
       } else {
-        await api.post('/api/patients', form);
+        await api.post('/api/patients', dadosLimpos);
       }
       await carregar();
       setModal(false);
-    } catch {
+    } catch (err) {
+      console.error(err);
       setErro('Erro ao salvar paciente.');
     } finally {
       setLoading(false);
@@ -149,25 +153,19 @@ export default function Pacientes() {
   return (
     <div className="pac-page">
 
-      {/* ── Topo: título + descrição ── */}
       <div className="pac-header">
         <div>
           <h2 className="pac-titulo">Clínica</h2>
-          <p className="pac-descricao">
-            Gerencie seus pacientes, acompanhe status de tratamento e organize novos cadastros na plataforma
-          </p>
+          <p className="pac-descricao">Gerencie seus pacientes, acompanhe status de tratamento e organize novos cadastros</p>
         </div>
       </div>
 
-      {/* ── Cards de estatísticas ── */}
       <div className="pac-cards">
-        {cards.map((card) => (
+        {cards.map(card => (
           <div className="pac-card" key={card.label}>
             <span className="pac-card-label">{card.label}</span>
             <div className="pac-card-value">
-              {loadingDados
-                ? <span className="pac-skeleton" />
-                : card.value}
+              {loadingDados ? <span className="pac-skeleton" /> : card.value}
             </div>
             <div className="pac-card-footer">
               <span className={`pac-badge pac-badge--${card.badgeType}`}>{card.badge}</span>
@@ -177,32 +175,24 @@ export default function Pacientes() {
         ))}
       </div>
 
-      {/* ── Toolbar: busca + botões ── */}
       <div className="pac-topo">
         <div className="pac-toolbar">
           <div className="pac-busca">
             <Icon icon="solar:magnifer-linear" width="16" color="#aaa" />
-            <input
-              placeholder="Pesquisar"
-              value={busca}
-              onChange={e => setBusca(e.target.value)}
-            />
+            <input placeholder="Pesquisar" value={busca} onChange={e => setBusca(e.target.value)} />
           </div>
           <button className="pac-btn-filtro">
-            <Icon icon="solar:filter-linear" width="16" />
-            Filtro
+            <Icon icon="solar:filter-linear" width="16" /> Filtro
           </button>
           <button className="pac-btn-icone">
             <Icon icon="solar:share-circle-linear" width="18" />
           </button>
           <button className="pac-btn-novo" onClick={abrirNovo}>
-            <Icon icon="solar:add-circle-bold" width="18" />
-            Novo
+            <Icon icon="solar:add-circle-bold" width="18" /> Novo
           </button>
         </div>
       </div>
 
-      {/* ── Tabela ── */}
       <div className="pac-tabela-wrap">
         <table className="pac-tabela">
           <thead>
@@ -244,10 +234,7 @@ export default function Pacientes() {
                   </td>
                   <td className="pac-menu-cell">
                     <div style={{ position: 'relative' }}>
-                      <button
-                        className="pac-menu-btn"
-                        onClick={() => setMenuAberto(menuAberto === p.id ? null : p.id)}
-                      >
+                      <button className="pac-menu-btn" onClick={() => setMenuAberto(menuAberto === p.id ? null : p.id)}>
                         <Icon icon="solar:menu-dots-bold" width="18" />
                       </button>
                       {menuAberto === p.id && (
@@ -255,8 +242,8 @@ export default function Pacientes() {
                           <button onClick={() => abrirEditar(p)}>
                             <Icon icon="solar:pen-linear" width="14" /> Editar
                           </button>
-                          <button onClick={() => deletar(p.id)} className="pac-drop-danger">
-                            <Icon icon="solar:trash-bin-trash-linear" width="14" /> Remover
+                          <button onClick={() => confirmarDeletar(p)} className="pac-drop-danger">
+                            <Icon icon="solar:trash-bin-trash-linear" width="14" /> Excluir
                           </button>
                         </div>
                       )}
@@ -266,108 +253,129 @@ export default function Pacientes() {
               );
             })}
             {filtrados.length === 0 && (
-              <tr>
-                <td colSpan={6} className="pac-vazio">Nenhum paciente encontrado.</td>
-              </tr>
+              <tr><td colSpan={6} className="pac-vazio">Nenhum paciente encontrado.</td></tr>
             )}
           </tbody>
         </table>
       </div>
 
-      {/* ── Modal ── */}
+      {/* Modal cadastro */}
       {modal && (
         <div className="pac-overlay" onClick={() => setModal(false)}>
-          <div className="pac-modal" onClick={e => e.stopPropagation()}>
+          <div className="pac-modal pac-modal--wide" onClick={e => e.stopPropagation()}>
             <div className="pac-modal-header">
-              <h3>{editando ? 'Editar paciente' : 'Novo paciente'}</h3>
+              <h3>{editando ? 'Editar paciente' : 'Cadastrar paciente'}</h3>
               <button className="pac-modal-fechar" onClick={() => setModal(false)}>
                 <Icon icon="solar:close-circle-linear" width="22" />
               </button>
             </div>
 
             <form onSubmit={salvar} className="pac-form">
-              <div className="pac-form-grid">
-                <div className="pac-field">
-                  <label>Nome completo *</label>
-                  <input
-                    type="text"
-                    placeholder="Nome Completo"
-                    value={form.name}
-                    onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
-                    required
-                  />
+              <div className="pac-secao">
+                <p className="pac-secao-titulo">Informações pessoais</p>
+                <div className="pac-form-grid">
+                  <div className="pac-field pac-field--full">
+                    <label>Nome completo *</label>
+                    <input type="text" placeholder="Carlos Afonso" value={form.name}
+                      onChange={e => setForm(f => ({ ...f, name: e.target.value }))} required />
+                  </div>
+                  <div className="pac-field">
+                    <label>CPF *</label>
+                    <input type="text" placeholder="000.000.000-00" value={form.cpf}
+                      onChange={e => setForm(f => ({ ...f, cpf: formatarCPF(e.target.value) }))} />
+                  </div>
+                  <div className="pac-field">
+                    <label>Data de nascimento</label>
+                    <input type="date" value={form.birth_date}
+                      onChange={e => setForm(f => ({ ...f, birth_date: e.target.value }))} />
+                  </div>
+                  <div className="pac-field">
+                    <label>E-mail *</label>
+                    <input type="email" placeholder="@gmail.com" value={form.email}
+                      onChange={e => setForm(f => ({ ...f, email: e.target.value }))} />
+                  </div>
+                  <div className="pac-field">
+                    <label>Telefone *</label>
+                    <input type="text" placeholder="(00) 0000-0000" value={form.phone}
+                      onChange={e => setForm(f => ({ ...f, phone: e.target.value }))} />
+                  </div>
                 </div>
-                <div className="pac-field">
-                  <label>CPF</label>
-                  <input
-                    type="text"
-                    placeholder="000.000.000-00"
-                    value={form.cpf}
-                    onChange={e => setForm(f => ({ ...f, cpf: formatarCPF(e.target.value) }))}
-                  />
-                </div>
-                <div className="pac-field">
-                  <label>Data de nascimento</label>
-                  <input
-                    type="date"
-                    value={form.birth_date}
-                    onChange={e => setForm(f => ({ ...f, birth_date: e.target.value }))}
-                  />
-                </div>
-                <div className="pac-field">
-                  <label>Email</label>
-                  <input
-                    type="email"
-                    placeholder="emaildopaciente@email.com"
-                    value={form.email}
-                    onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
-                  />
-                </div>
-                <div className="pac-field">
-                  <label>Telefone</label>
-                  <input
-                    type="text"
-                    placeholder="(11) 99999-9999"
-                    value={form.phone}
-                    onChange={e => setForm(f => ({ ...f, phone: e.target.value }))}
-                  />
-                </div>
-                <div className="pac-field">
-                  <label>Diagnóstico</label>
-                  <input
-                    type="text"
-                    placeholder="Ex: Escoliose Idiopática"
-                    value={form.diagnostico}
-                    onChange={e => setForm(f => ({ ...f, diagnostico: e.target.value }))}
-                  />
-                </div>
-                <div className="pac-field">
-                  <label>Prioridade</label>
-                  <select
-                    value={form.prioridade}
-                    onChange={e => setForm(f => ({ ...f, prioridade: e.target.value }))}
-                  >
-                    <option value="baixa">Baixa</option>
-                    <option value="normal">Normal</option>
-                    <option value="alta">Alta</option>
-                  </select>
+              </div>
+
+              <div className="pac-secao">
+                <p className="pac-secao-titulo">Informações de tratamento</p>
+                <div className="pac-form-grid">
+                  <div className="pac-field">
+                    <label>Diagnóstico</label>
+                    <input type="text" placeholder="Ex: Escoliose" maxLength={15} value={form.diagnostico}
+                      onChange={e => setForm(f => ({ ...f, diagnostico: e.target.value }))} />
+                  </div>
+                  <div className="pac-field">
+                    <label>Nível de dor inicial (1-10)</label>
+                    <select value={form.nivel_dor} onChange={e => setForm(f => ({ ...f, nivel_dor: e.target.value }))}>
+                      <option value="">Selecione</option>
+                      {[1,2,3,4,5,6,7,8,9,10].map(n => (
+                        <option key={n} value={n}>{n}</option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="pac-field pac-field--full">
+                    <label>Queixa principal</label>
+                    <textarea placeholder="Descreva aqui..." rows={3} value={form.queixa_principal}
+                      onChange={e => setForm(f => ({ ...f, queixa_principal: e.target.value }))}
+                      className="pac-textarea" />
+                  </div>
+                  <div className="pac-field">
+                    <label>Data de avaliação</label>
+                    <input type="date" value={form.data_avaliacao}
+                      onChange={e => setForm(f => ({ ...f, data_avaliacao: e.target.value }))} />
+                  </div>
+                  <div className="pac-field">
+                    <label>Prioridade</label>
+                    <select value={form.prioridade} onChange={e => setForm(f => ({ ...f, prioridade: e.target.value }))}>
+                      <option value="baixa">Baixa</option>
+                      <option value="normal">Normal</option>
+                      <option value="alta">Alta</option>
+                    </select>
+                  </div>
                 </div>
               </div>
 
               {erro && <p className="pac-erro">{erro}</p>}
 
               <div className="pac-modal-footer">
-                <button type="button" className="pac-btn-cancelar" onClick={() => setModal(false)}>
-                  Cancelar
-                </button>
+                <button type="button" className="pac-btn-cancelar" onClick={() => setModal(false)}>Cancelar</button>
                 <button type="submit" className="pac-btn-salvar" disabled={loading}>
-                  {loading ? 'Salvando...' : 'Salvar'}
+                  <Icon icon="solar:diskette-bold" width="16" />
+                  {loading ? 'Salvando...' : 'Salvar paciente'}
                 </button>
               </div>
             </form>
           </div>
         </div>
       )}
+
+      {/* Modal deletar */}
+      {modalDeletar && pacienteDel && (
+        <div className="pac-overlay" onClick={() => setModalDeletar(false)}>
+          <div className="pac-modal pac-modal--sm" onClick={e => e.stopPropagation()}>
+            <div className="pac-modal-header">
+              <h3>Excluir paciente?</h3>
+              <button className="pac-modal-fechar" onClick={() => setModalDeletar(false)}>
+                <Icon icon="solar:close-circle-linear" width="22" />
+              </button>
+            </div>
+            <p className="pac-del-texto">
+              Tem certeza que deseja excluir <strong>{pacienteDel.name}</strong>?
+            </p>
+            <div className="pac-modal-footer" style={{ marginTop: '24px' }}>
+              <button className="pac-btn-cancelar" onClick={() => setModalDeletar(false)}>Cancelar</button>
+              <button className="pac-btn-excluir" onClick={deletar}>Excluir</button>
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }

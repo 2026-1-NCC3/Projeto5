@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { supabase } from "../config/database";
+import { supabase } from "../config/supabaseClient";
 import bcrypt from "bcrypt";
 
 export const verificarPaciente = async (req: Request, res: Response) => {

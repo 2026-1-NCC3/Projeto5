@@ -1,4 +1,4 @@
-import { supabase } from "../config/database";
+import { supabase } from "../config/supabaseClient";
 
 export const getPatientIdByUserId = async (userId: number): Promise<number> => {
   const { data: user, error: userError } = await supabase

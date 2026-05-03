@@ -11,13 +11,13 @@ import {
 
 const router = Router();
 
-router.get("/patients", listPatients); // lista os pacientes
-router.get("/patients/:id", getPatient); // detalhes de um paciente específico
+router.get("/patients", authenticateToken, listPatients); // lista os pacientes
+router.get("/patients/:id", authenticateToken, getPatient); // detalhes de um paciente específico
 
-router.post("/patients", addPatient); // adiciona um novo paciente
+router.post("/patients", authenticateToken, addPatient); // adiciona um novo paciente
 
-router.put("/patients/:id", editPatient); // edita as informações de um paciente existente
+router.put("/patients/:id", authenticateToken, editPatient); // edita as informações de um paciente existente
 
-router.delete("/patients/:id", removePatient); // remove um paciente do sistema
+router.delete("/patients/:id", authenticateToken, removePatient); // remove um paciente do sistema
 
 export default router;
