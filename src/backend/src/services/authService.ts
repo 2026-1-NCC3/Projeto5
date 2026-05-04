@@ -1,11 +1,11 @@
-import { supabase } from "../config/supabaseClient";
+import { supabaseClient } from "../config/supabaseClient";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 const SECRET = process.env.JWT_SECRET!;
 
 export const loginUser = async (email: string, password: string) => {
-  const { data: user, error } = await supabase
+  const { data: user, error } = await supabaseClient
     .from("users")
     .select("*")
     .eq("email", email)
@@ -43,7 +43,7 @@ export const registerUser = async (
   password: string
 ) => {
   // pra verificar se o usuário já existe
-  const { data: existing } = await supabase
+  const { data: existing } = await supabaseClient
     .from("users")
     .select("id")
     .eq("email", email)
@@ -55,7 +55,7 @@ export const registerUser = async (
 
   const hashedPassword = await bcrypt.hash(password, 10);
 
-  const { data: newUser, error } = await supabase
+  const { data: newUser, error } = await supabaseClient
     .from("users")
     .insert([{ name, email, password: hashedPassword, role: "patient" }])
     .select("id, name, email, role")

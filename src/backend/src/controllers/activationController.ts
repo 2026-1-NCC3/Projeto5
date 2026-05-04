@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { supabase } from "../config/supabaseClient";
+import { supabaseClient } from "../config/supabaseClient";
 import bcrypt from "bcrypt";
 
 export const verificarPaciente = async (req: Request, res: Response) => {
@@ -14,7 +14,7 @@ const converterData = (data: string) => {
 
   const birthDateFormatado = converterData(birth_date);
 
-  const { data: paciente, error } = await supabase
+  const { data: paciente, error } = await supabaseClient
     .from("patients")
     .select("*")
     .eq("cpf", cpf)
@@ -52,7 +52,7 @@ export const ativarConta = async (req: Request, res: Response) => {
   }
 
   // pra verificar se já tem usuário com esse email
-  const { data: userExistente } = await supabase
+  const { data: userExistente } = await supabaseClient
     .from("users")
     .select("id")
     .eq("email", email)
@@ -65,7 +65,7 @@ export const ativarConta = async (req: Request, res: Response) => {
   const hashedPassword = await bcrypt.hash(senha, 10);
 
   // criar o paciente como usuário no sistema
-  const { data: novoUser, error: userError } = await supabase
+  const { data: novoUser, error: userError } = await supabaseClient
     .from("users")
     .insert([{ name: email, email, password: hashedPassword, role: "patient" }])
     .select("id, email, role")
@@ -76,7 +76,7 @@ export const ativarConta = async (req: Request, res: Response) => {
   }
 
   // atualizar o status da conta do paciente para "ativo"
-  await supabase
+  await supabaseClient
     .from("patients")
     .update({ status_conta: "ativo" })
     .eq("id", paciente_id);

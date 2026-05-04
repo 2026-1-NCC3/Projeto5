@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getFullPlanByPatient = exports.addExerciseToPlan = exports.getPlansByPatient = exports.createPlan = void 0;
-const database_1 = require("../config/database");
+const supabaseClient_1 = require("../config/supabaseClient");
 const createPlan = async (patient_id, notes) => {
-    const { data, error } = await database_1.supabase
+    const { data, error } = await supabaseClient_1.supabaseClient
         .from("exercise_plans")
         .insert([{ patient_id, notes }])
         .select()
@@ -14,7 +14,7 @@ const createPlan = async (patient_id, notes) => {
 };
 exports.createPlan = createPlan;
 const getPlansByPatient = async (patientId) => {
-    const { data, error } = await database_1.supabase
+    const { data, error } = await supabaseClient_1.supabaseClient
         .from("exercise_plans")
         .select("*")
         .eq("patient_id", patientId)
@@ -25,7 +25,7 @@ const getPlansByPatient = async (patientId) => {
 };
 exports.getPlansByPatient = getPlansByPatient;
 const addExerciseToPlan = async (plan_id, exercise_id, frequency, instructions) => {
-    const { data, error } = await database_1.supabase
+    const { data, error } = await supabaseClient_1.supabaseClient
         .from("exercise_plan_items")
         .insert([{ plan_id, exercise_id, frequency, instructions }])
         .select()
@@ -36,7 +36,7 @@ const addExerciseToPlan = async (plan_id, exercise_id, frequency, instructions) 
 };
 exports.addExerciseToPlan = addExerciseToPlan;
 const getFullPlanByPatient = async (patientId) => {
-    const { data: plans, error: planError } = await database_1.supabase
+    const { data: plans, error: planError } = await supabaseClient_1.supabaseClient
         .from("exercise_plans")
         .select(`
       id, notes, created_at, patient_id,
@@ -49,7 +49,7 @@ const getFullPlanByPatient = async (patientId) => {
         .eq("patient_id", patientId);
     if (planError)
         throw new Error(planError.message);
-    const { data: logs } = await database_1.supabase
+    const { data: logs } = await supabaseClient_1.supabaseClient
         .from("exercise_logs")
         .select("exercise_id, pain_level, created_at")
         .eq("patient_id", patientId)

@@ -1,4 +1,4 @@
-import { supabase } from "../config/supabaseClient";
+import { supabaseClient } from "../config/supabaseClient";
 
 export const createExerciseLog = async (
   patient_id: number,
@@ -6,7 +6,7 @@ export const createExerciseLog = async (
   pain_level: number,
   notes: string
 ) => {
-  const { data, error } = await supabase
+  const { data, error } = await supabaseClient
     .from("exercise_logs")
     .insert([{ patient_id, exercise_id, pain_level, notes }])
     .select()
@@ -17,7 +17,7 @@ export const createExerciseLog = async (
 };
 
 export const getLogsByPatient = async (patientId: number) => {
-  const { data, error } = await supabase
+  const { data, error } = await supabaseClient
     .from("exercise_logs")
     .select("*")
     .eq("patient_id", patientId)
@@ -28,7 +28,7 @@ export const getLogsByPatient = async (patientId: number) => {
 };
 
 export const getPatientProgress = async (patientId: number) => {
-  const { data, error } = await supabase
+  const { data, error } = await supabaseClient
     .from("exercise_logs")
     .select("exercise_id, pain_level, created_at, exercises(title)")
     .eq("patient_id", patientId)

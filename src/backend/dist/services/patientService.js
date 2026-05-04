@@ -5,52 +5,61 @@ exports.getPatientById = getPatientById;
 exports.createPatient = createPatient;
 exports.updatePatient = updatePatient;
 exports.deletePatient = deletePatient;
-const database_1 = require("../config/database");
-async function getPatients() {
-    const { data, error } = await database_1.supabase
+const supabaseClient_1 = require("../config/supabaseClient");
+async function getPatients(userId) {
+    const { data, error } = await supabaseClient_1.supabaseClient
         .from("patients")
         .select("*")
+        .eq("user_id", userId)
         .order("id");
     if (error)
         throw new Error(error.message);
     return data;
 }
-async function getPatientById(id) {
-    const { data, error } = await database_1.supabase
+async function getPatientById(id, userId) {
+    const { data, error } = await supabaseClient_1.supabaseClient
         .from("patients")
         .select("*")
         .eq("id", id)
+        .eq("user_id", userId)
         .single();
     if (error)
         throw new Error(error.message);
     return data;
 }
-async function createPatient(name, email, phone) {
-    const { data, error } = await database_1.supabase
+async function createPatient(userId, data) {
+    const { data: result, error } = await supabaseClient_1.supabaseClient
         .from("patients")
-        .insert([{ name, email, phone }])
+        .insert([{
+            ...data,
+            user_id: userId
+        }])
         .select()
         .single();
-    if (error)
+    if (error) {
+        console.error("ERRO SUPABASE:", error);
         throw new Error(error.message);
-    return data;
+    }
+    return result;
 }
-async function updatePatient(id, name, email, phone) {
-    const { data, error } = await database_1.supabase
+async function updatePatient(id, userId, data) {
+    const { data: result, error } = await supabaseClient_1.supabaseClient
         .from("patients")
-        .update({ name, email, phone })
+        .update(data)
         .eq("id", id)
+        .eq("user_id", userId)
         .select()
         .single();
     if (error)
         throw new Error(error.message);
-    return data;
+    return result;
 }
-async function deletePatient(id) {
-    const { error } = await database_1.supabase
+async function deletePatient(id, userId) {
+    const { error } = await supabaseClient_1.supabaseClient
         .from("patients")
         .delete()
-        .eq("id", id);
+        .eq("id", id)
+        .eq("user_id", userId);
     if (error)
         throw new Error(error.message);
 }

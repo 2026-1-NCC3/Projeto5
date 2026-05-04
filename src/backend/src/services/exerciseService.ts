@@ -1,7 +1,7 @@
-import { supabase } from "../config/supabaseClient";
+import { supabaseClient } from "../config/supabaseClient";
 
 export const getExercises = async () => {
-  const { data, error } = await supabase
+  const { data, error } = await supabaseClient
     .from("exercises")
     .select("*")
     .order("id", { ascending: false });
@@ -17,7 +17,7 @@ export const createExercise = async (
   image_url: string,
   frequency: string
 ) => {
-  const { data, error } = await supabase
+  const { data, error } = await supabaseClient
     .from("exercises")
     .insert([{ title, description, video_url, image_url, frequency }])
     .select()

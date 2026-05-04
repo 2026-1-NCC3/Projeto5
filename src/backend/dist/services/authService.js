@@ -4,12 +4,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.registerUser = exports.loginUser = void 0;
-const database_1 = require("../config/database");
+const supabaseClient_1 = require("../config/supabaseClient");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const SECRET = process.env.JWT_SECRET;
 const loginUser = async (email, password) => {
-    const { data: user, error } = await database_1.supabase
+    const { data: user, error } = await supabaseClient_1.supabaseClient
         .from("users")
         .select("*")
         .eq("email", email)
@@ -35,7 +35,7 @@ const loginUser = async (email, password) => {
 exports.loginUser = loginUser;
 const registerUser = async (name, email, password) => {
     // pra verificar se o usuário já existe
-    const { data: existing } = await database_1.supabase
+    const { data: existing } = await supabaseClient_1.supabaseClient
         .from("users")
         .select("id")
         .eq("email", email)
@@ -44,7 +44,7 @@ const registerUser = async (name, email, password) => {
         throw new Error("Usuário já existe");
     }
     const hashedPassword = await bcrypt_1.default.hash(password, 10);
-    const { data: newUser, error } = await database_1.supabase
+    const { data: newUser, error } = await supabaseClient_1.supabaseClient
         .from("users")
         .insert([{ name, email, password: hashedPassword, role: "patient" }])
         .select("id, name, email, role")

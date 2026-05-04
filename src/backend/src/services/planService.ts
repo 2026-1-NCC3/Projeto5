@@ -1,7 +1,7 @@
-import { supabase } from "../config/supabaseClient";
+import { supabaseClient } from "../config/supabaseClient";
 
 export const createPlan = async (patient_id: number, notes: string) => {
-  const { data, error } = await supabase
+  const { data, error } = await supabaseClient
     .from("exercise_plans")
     .insert([{ patient_id, notes }])
     .select()
@@ -12,7 +12,7 @@ export const createPlan = async (patient_id: number, notes: string) => {
 };
 
 export const getPlansByPatient = async (patientId: number) => {
-  const { data, error } = await supabase
+  const { data, error } = await supabaseClient
     .from("exercise_plans")
     .select("*")
     .eq("patient_id", patientId)
@@ -28,7 +28,7 @@ export const addExerciseToPlan = async (
   frequency: string,
   instructions: string
 ) => {
-  const { data, error } = await supabase
+  const { data, error } = await supabaseClient
     .from("exercise_plan_items")
     .insert([{ plan_id, exercise_id, frequency, instructions }])
     .select()
@@ -39,7 +39,7 @@ export const addExerciseToPlan = async (
 };
 
 export const getFullPlanByPatient = async (patientId: number) => {
-  const { data: plans, error: planError } = await supabase
+  const { data: plans, error: planError } = await supabaseClient
     .from("exercise_plans")
     .select(`
       id, notes, created_at, patient_id,
@@ -53,7 +53,7 @@ export const getFullPlanByPatient = async (patientId: number) => {
 
   if (planError) throw new Error(planError.message);
 
-  const { data: logs } = await supabase
+  const { data: logs } = await supabaseClient
     .from("exercise_logs")
     .select("exercise_id, pain_level, created_at")
     .eq("patient_id", patientId)

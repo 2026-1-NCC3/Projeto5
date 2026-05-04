@@ -7,13 +7,14 @@ const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
-const database_1 = require("./config/database");
+const supabaseClient_1 = require("./config/supabaseClient");
 const patientRoutes_1 = __importDefault(require("./routes/patientRoutes"));
 const exerciseRoutes_1 = __importDefault(require("./routes/exerciseRoutes"));
 const planRoutes_1 = __importDefault(require("./routes/planRoutes"));
 const authRoutes_1 = __importDefault(require("./routes/authRoutes"));
 const exerciseLogRoutes_1 = __importDefault(require("./routes/exerciseLogRoutes"));
 const checkinRoutes_1 = __importDefault(require("./routes/checkinRoutes"));
+const activationRoutes_1 = __importDefault(require("./routes/activationRoutes"));
 const app = (0, express_1.default)();
 const PORT = Number(process.env.PORT) || 3001;
 app.use((0, cors_1.default)());
@@ -24,12 +25,12 @@ app.use("/api", planRoutes_1.default);
 app.use("/api", authRoutes_1.default);
 app.use("/api", exerciseLogRoutes_1.default);
 app.use("/api", checkinRoutes_1.default);
+app.use("/api", activationRoutes_1.default);
 app.get("/", (_req, res) => {
     res.send("API rodando");
 });
-// Rota de teste — verifica conexão com Supabase
 app.get("/test-db", async (_req, res) => {
-    const { data, error } = await database_1.supabase
+    const { data, error } = await supabaseClient_1.supabaseClient
         .from("patients")
         .select("count")
         .limit(1);
