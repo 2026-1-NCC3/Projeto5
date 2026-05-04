@@ -14,6 +14,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+
+import com.example.mayarpgapp.model.ConfiguracoesActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.text.SimpleDateFormat;
@@ -88,7 +90,7 @@ public class HomeActivity extends AppCompatActivity {
         });
         findViewById(R.id.menuSettings).setOnClickListener(v -> {
             drawerLayout.closeDrawer(GravityCompat.START);
-            // TODO: startActivity(new Intent(this, SettingsActivity.class));
+            startActivity(new Intent(HomeActivity.this, ConfiguracoesActivity.class));
         });
         findViewById(R.id.menuCheckin).setOnClickListener(v -> {
             drawerLayout.closeDrawer(GravityCompat.START);
@@ -210,9 +212,9 @@ public class HomeActivity extends AppCompatActivity {
                 } else if (id == R.id.nav_calendar) {
                     startActivity(new Intent(HomeActivity.this, AgendaActivity.class));
                     return true;
-                } else if (id == R.id.nav_chat) {
-                    // TODO: startActivity(new Intent(HomeActivity.this, ChatActivity.class));
-                    return true;
+                } else if (id == R.id.nav_settings) {
+                startActivity(new Intent(HomeActivity.this, ConfiguracoesActivity.class));
+                return true;
                 } else if (id == R.id.nav_profile) {
                     // Abre o perfil sem empilhar a HomeActivity no backstack
                     Intent intent = new Intent(HomeActivity.this, PerfilActivity.class);

@@ -45,8 +45,8 @@ public class LoginActivity extends AppCompatActivity {
         btnEntrar.setOnClickListener(v -> fazerLogin());
 
         tvEsqueceuSenha.setOnClickListener(v -> {
-            // TODO: tela esqueceu senha
-            Toast.makeText(this, "Em breve!", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, com.example.mayarpgapp.RecuperarSenhaActivity.class);
+            startActivity(intent);
         });
 
         String texto = "Primeiro acesso?\nAtive sua conta";

@@ -66,6 +66,10 @@
             android:exported="false"
             android:theme="@style/Theme.MaterialComponents.Light.NoActionBar" />
 
+        <activity android:name=".RecuperarSenhaActivity" />
+
+        <activity android:name=".model.ConfiguracoesActivity" />
+
     </application>
 
 </manifest>

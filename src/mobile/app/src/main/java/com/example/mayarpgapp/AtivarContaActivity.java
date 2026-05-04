@@ -99,7 +99,7 @@ public class AtivarContaActivity extends AppCompatActivity {
             String mes = partes[1];
             String ano = partes[2];
 
-            return ano + "-" + mes + "-" + dia; // YYYY-MM-DD
+            return dia + "-" + mes + "-" + ano; // DD-MM-AAAA
         } catch (Exception e) {
             return dataBr;
         }

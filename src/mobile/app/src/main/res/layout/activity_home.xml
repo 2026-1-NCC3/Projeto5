@@ -15,10 +15,10 @@
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingBottom="72dp"
+            android:background="@android:color/transparent"
             android:clipToPadding="false"
-            android:scrollbars="none"
-            android:background="@android:color/transparent">
+            android:paddingBottom="72dp"
+            android:scrollbars="none">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -35,33 +35,33 @@
                         android:id="@+id/ivMenu"
                         android:layout_width="28dp"
                         android:layout_height="28dp"
-                        android:layout_centerVertical="true"
                         android:layout_alignParentStart="true"
-                        android:src="@drawable/ic_menu"
-                        android:contentDescription="Menu" />
+                        android:layout_centerVertical="true"
+                        android:contentDescription="Menu"
+                        android:src="@drawable/ic_menu" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical">
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
 
                         <ImageView
                             android:id="@+id/ivNotification"
                             android:layout_width="26dp"
                             android:layout_height="26dp"
-                            android:src="@drawable/ic_notifications"
-                            android:contentDescription="Notificações" />
+                            android:contentDescription="Notificações"
+                            android:src="@drawable/ic_notifications" />
 
                         <ImageView
                             android:id="@+id/ivProfile"
                             android:layout_width="26dp"
                             android:layout_height="26dp"
                             android:layout_marginStart="14dp"
-                            android:src="@drawable/ic_person"
-                            android:contentDescription="Perfil" />
+                            android:contentDescription="Perfil"
+                            android:src="@drawable/ic_person" />
 
                     </LinearLayout>
                 </RelativeLayout>
@@ -69,35 +69,35 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
                     android:layout_marginTop="8dp"
-                    android:layout_marginBottom="16dp">
+                    android:layout_marginBottom="16dp"
+                    android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/tvGreeting"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Seja bem-vindo(a),"
-                        android:textSize="20sp"
-                        android:textColor="#222222" />
+                        android:textColor="#222222"
+                        android:textSize="20sp" />
 
                     <TextView
                         android:id="@+id/tvUserName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Usuário"
+                        android:textColor="#222222"
                         android:textSize="26sp"
-                        android:textStyle="bold"
-                        android:textColor="#222222" />
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/tvSubtitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
                         android:text="Realize seu check-in e verifique seu plano de exercícios"
-                        android:textSize="13sp"
                         android:textColor="#555555"
-                        android:layout_marginTop="4dp" />
+                        android:textSize="13sp" />
 
                 </LinearLayout>
 
@@ -105,15 +105,14 @@
                 <HorizontalScrollView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:scrollbars="none"
-                    android:layout_marginBottom="16dp">
+                    android:layout_marginBottom="16dp"
+                    android:scrollbars="none">
 
                     <LinearLayout
                         android:id="@+id/llDaysContainer"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-                    </LinearLayout>
+                        android:orientation="horizontal"></LinearLayout>
 
                 </HorizontalScrollView>
 
@@ -122,9 +121,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="110dp"
                     android:layout_marginBottom="16dp"
+                    app:cardBackgroundColor="#DCF0FA"
                     app:cardCornerRadius="16dp"
-                    app:cardElevation="2dp"
-                    app:cardBackgroundColor="#DCF0FA">
+                    app:cardElevation="2dp">
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -134,32 +133,32 @@
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:layout_centerVertical="true">
+                            android:layout_centerVertical="true"
+                            android:orientation="vertical">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Realize o"
+                                android:textColor="#1A3A5C"
                                 android:textSize="20sp"
-                                android:textStyle="bold"
-                                android:textColor="#1A3A5C" />
+                                android:textStyle="bold" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="check-in"
+                                android:textColor="#1A3A5C"
                                 android:textSize="20sp"
-                                android:textStyle="bold"
-                                android:textColor="#1A3A5C" />
+                                android:textStyle="bold" />
 
                             <TextView
                                 android:id="@+id/tvCheckinDate"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textSize="13sp"
+                                android:layout_marginTop="4dp"
                                 android:textColor="#6699BB"
-                                android:layout_marginTop="4dp" />
+                                android:textSize="13sp" />
 
                         </LinearLayout>
 
@@ -168,10 +167,10 @@
                             android:layout_height="90dp"
                             android:layout_alignParentEnd="true"
                             android:layout_centerVertical="true"
-                            android:src="@drawable/ic_checkin_illustration"
-                            android:scaleType="fitEnd"
+                            android:adjustViewBounds="true"
                             android:contentDescription="Check-in"
-                            android:adjustViewBounds="true" />
+                            android:scaleType="fitEnd"
+                            android:src="@drawable/ic_checkin_illustration" />
 
                     </RelativeLayout>
                 </androidx.cardview.widget.CardView>
@@ -180,20 +179,20 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
                     android:text="Plano de Exercícios"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
                     android:textColor="#222222"
-                    android:layout_marginBottom="8dp" />
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cardExercisePlan"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
+                    app:cardBackgroundColor="#2E4A6E"
                     app:cardCornerRadius="16dp"
-                    app:cardElevation="2dp"
-                    app:cardBackgroundColor="#2E4A6E">
+                    app:cardElevation="2dp">
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -203,23 +202,23 @@
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:layout_centerVertical="true">
+                            android:layout_centerVertical="true"
+                            android:orientation="vertical">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Dia 4"
+                                android:textColor="#FFFFFF"
                                 android:textSize="30sp"
-                                android:textStyle="bold"
-                                android:textColor="#FFFFFF" />
+                                android:textStyle="bold" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Reorganizar a postura"
-                                android:textSize="14sp"
-                                android:textColor="#AACCEE" />
+                                android:textColor="#AACCEE"
+                                android:textSize="14sp" />
 
                         </LinearLayout>
 
@@ -229,10 +228,10 @@
                             android:layout_height="44dp"
                             android:layout_alignParentEnd="true"
                             android:layout_centerVertical="true"
-                            android:src="@drawable/ic_arrow_forward"
                             android:background="@drawable/bg_circle_white_alpha"
+                            android:contentDescription="Ver exercícios"
                             android:padding="10dp"
-                            android:contentDescription="Ver exercícios" />
+                            android:src="@drawable/ic_arrow_forward" />
 
                     </RelativeLayout>
                 </androidx.cardview.widget.CardView>
