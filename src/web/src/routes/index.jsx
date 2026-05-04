@@ -3,10 +3,12 @@ import { useAuth } from '../hooks/useAuth'
 import Login from '../pages/Login/Login'
 import Dashboard from '../pages/Dashboard/Dashboard'
 import Patients from '../pages/Pacientes/Pacientes'
-import Layout from '../components/Layout' // Importando o novo Layout com a Sidebar
+import Layout from '../components/Layout'
 import EsqueceuSenha from '../pages/EsqueceuSenha/EsqueceuSenha'
 import ResetSenha from '../pages/EsqueceuSenha/ResetSenha'
 import Agenda from '../pages/Agenda/Agenda'
+import Conteudo from '../pages/Conteudo/Exercicios' // 👈 adicione o import
+import Exercicios from '../pages/Conteudo/Exercicios'
 
 function PrivateRoute({ children }) {
   const { user } = useAuth()
@@ -23,13 +25,14 @@ export default function AppRoutes() {
       <Route
         element={
           <PrivateRoute>
-            <Layout /> 
+            <Layout />
           </PrivateRoute>
         }
       >
         <Route path="/" element={<Dashboard />} />
-         <Route path="/agenda" element={<Agenda />} />
+        <Route path="/agenda" element={<Agenda />} />
         <Route path="/clinica" element={<Patients />} />
+        <Route path="/conteudo" element={<Exercicios />} /> // 
       </Route>
 
       <Route path="*" element={<Navigate to="/login" />} />
