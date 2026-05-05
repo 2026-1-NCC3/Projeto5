@@ -9,6 +9,7 @@ import ResetSenha from '../pages/EsqueceuSenha/ResetSenha'
 import Agenda from '../pages/Agenda/Agenda'
 import Conteudo from '../pages/Conteudo/Exercicios' // 👈 adicione o import
 import Exercicios from '../pages/Conteudo/Exercicios'
+import Configuracoes from '../pages/Configuracoes/Configuracoes'
 
 function PrivateRoute({ children }) {
   const { user } = useAuth()
@@ -32,7 +33,8 @@ export default function AppRoutes() {
         <Route path="/" element={<Dashboard />} />
         <Route path="/agenda" element={<Agenda />} />
         <Route path="/clinica" element={<Patients />} />
-        <Route path="/conteudo" element={<Exercicios />} /> // 
+        <Route path="/conteudo" element={<Exercicios />} /> 
+        <Route path="/configuracoes" element={<Configuracoes/>} /> // 
       </Route>
 
       <Route path="*" element={<Navigate to="/login" />} />

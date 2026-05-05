@@ -1,0 +1,212 @@
+/* =====================
+   Configuracoes.css
+   ===================== */
+
+   .config-page {
+    max-width: 1060px;
+    margin: 0 auto;
+    padding: 40px 24px;
+    font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    background: #f5f6fa;
+    min-height: 100vh;
+    box-sizing: border-box;
+  }
+  
+  /* Header */
+  .config-header {
+    margin-bottom: 32px;
+  }
+  
+  .config-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #1a1d23;
+    margin: 0 0 6px 0;
+    letter-spacing: -0.3px;
+  }
+  
+  .config-subtitle {
+    font-size: 14px;
+    color: #8a92a6;
+    margin: 0;
+  }
+  
+  /* Card */
+  .config-card {
+    background: #ffffff;
+    border-radius: 14px;
+    border: 1px solid #e8ebf0;
+    padding: 28px 32px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  }
+  
+  /* Section Header */
+  .config-section-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 28px;
+  }
+  
+  .config-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  
+  .config-icon--perfil {
+    background: #e0f4f4;
+    color: #1ab8b8;
+  }
+  
+  .config-icon--notif {
+    background: #ede8fb;
+    color: #7c5cbf;
+  }
+  
+  .config-icon--noturno {
+    background: #ede8fb;
+    color: #7c5cbf;
+  }
+  
+  .config-section-title {
+    font-size: 17px;
+    font-weight: 600;
+    color: #1a1d23;
+    margin: 0 0 3px 0;
+  }
+  
+  .config-section-desc {
+    font-size: 13px;
+    color: #8a92a6;
+    margin: 0;
+  }
+  
+  /* Form Grid */
+  .config-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px 28px;
+  }
+  
+  @media (max-width: 640px) {
+    .config-form-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  
+  .config-field {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+  }
+  
+  .config-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: #4b5263;
+  }
+  
+  .config-input {
+    padding: 10px 14px;
+    border: 1px solid #dde1ea;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #1a1d23;
+    background: #fafbfc;
+    outline: none;
+    transition: border-color 0.18s, box-shadow 0.18s;
+    font-family: inherit;
+  }
+  
+  .config-input:focus {
+    border-color: #1ab8b8;
+    box-shadow: 0 0 0 3px rgba(26, 184, 184, 0.12);
+    background: #fff;
+  }
+  
+  .config-value {
+    padding: 10px 14px;
+    border: 1px solid #e8ebf0;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #1a1d23;
+    background: #fafbfc;
+  }
+  
+  /* Toggle Row */
+  .config-toggle-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  
+  .config-toggle-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  
+  .config-toggle-icon {
+    color: #8a92a6;
+    flex-shrink: 0;
+  }
+  
+  .config-toggle-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1a1d23;
+    margin: 0 0 3px 0;
+  }
+  
+  .config-toggle-desc {
+    font-size: 12px;
+    color: #8a92a6;
+    margin: 0;
+  }
+  
+  /* Toggle Switch */
+  .config-toggle {
+    position: relative;
+    width: 48px;
+    height: 26px;
+    border-radius: 50px;
+    background: #d1d5df;
+    border: none;
+    cursor: pointer;
+    transition: background 0.22s;
+    flex-shrink: 0;
+    padding: 0;
+    outline: none;
+  }
+  
+  .config-toggle:focus-visible {
+    box-shadow: 0 0 0 3px rgba(26, 184, 184, 0.25);
+  }
+  
+  .config-toggle--on {
+    background: #1ab8b8;
+  }
+  
+  .config-toggle-thumb {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #ffffff;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.18);
+    transition: transform 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+    display: block;
+  }
+  
+  .config-toggle--on .config-toggle-thumb {
+    transform: translateX(22px);
+  }
