@@ -6,4 +6,24 @@
     <color name="green">#BBE8E5</color>
     <color name="salmon">#E56A5A</color>
     <color name="teal">#37A6BA</color>
+
+    <!-- Light mode -->
+    <color name="light_background">#FFFFFF</color>
+    <color name="light_surface">#F5F5F5</color>
+    <color name="light_text_primary">#000000</color>
+    <color name="light_text_secondary">#666666</color>
+    <color name="light_text_hint">#AAAAAA</color>
+    <color name="light_divider">#EEEEEE</color>
+    <color name="light_input_border">#CCCCCC</color>
+    <color name="light_card">#FFFFFF</color>
+
+    <!-- Dark mode -->
+    <color name="dark_background">#121212</color>
+    <color name="dark_surface">#1E1E1E</color>
+    <color name="dark_text_primary">#F1F1F1</color>
+    <color name="dark_text_secondary">#AAAAAA</color>
+    <color name="dark_text_hint">#666666</color>
+    <color name="dark_divider">#2C2C2C</color>
+    <color name="dark_input_border">#444444</color>
+    <color name="dark_card">#1E1E1E</color>
 </resources>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <attr name="attr_text_primary" format="color"/>
+    <attr name="attr_text_secondary" format="color"/>
+    <attr name="attr_text_hint" format="color"/>
+    <attr name="attr_background" format="color"/>
+    <attr name="attr_surface" format="color"/>
+    <attr name="attr_divider" format="color"/>
+    <attr name="attr_input_border" format="color"/>
+    <attr name="attr_card" format="color"/>
+</resources>

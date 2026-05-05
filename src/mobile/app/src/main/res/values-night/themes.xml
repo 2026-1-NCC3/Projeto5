@@ -1,7 +1,28 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.MayaRPGApp" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Base.Theme.MayaRpgApp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Cores da marca -->
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopLeft">0dp</item>
+        <item name="cornerSizeTopRight">0dp</item>
+        <item name="cornerSizeBottomLeft">32dp</item>
+        <item name="cornerSizeBottomRight">32dp</item>
+
+        <!-- Atributos semânticos usados nos layouts -->
+        <item name="colorSurface">@color/light_surface</item>
+        <item name="colorOnBackground">@color/light_text_primary</item>
+        <item name="colorOnSurface">@color/light_text_primary</item>
+
+        <!-- Atributos customizados -->
+        <item name="attr_text_primary">@color/light_text_primary</item>
+        <item name="attr_text_secondary">@color/light_text_secondary</item>
+        <item name="attr_text_hint">@color/light_text_hint</item>
+        <item name="attr_background">@color/light_background</item>
+        <item name="attr_surface">@color/light_surface</item>
+        <item name="attr_divider">@color/light_divider</item>
+        <item name="attr_input_border">@color/light_input_border</item>
+        <item name="attr_card">@color/light_card</item>
     </style>
+
+    <style name="Theme.MayaRpgApp" parent="Base.Theme.MayaRpgApp" />
 </resources>

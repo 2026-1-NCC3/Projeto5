@@ -1,8 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
     <style name="Base.Theme.MayaRPGApp" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+
     </style>
 
     <style name="ShapeAppearanceOverlay.App.CornerBottom" parent="">
@@ -11,6 +9,21 @@
         <item name="cornerSizeTopRight">0dp</item>
         <item name="cornerSizeBottomLeft">32dp</item>
         <item name="cornerSizeBottomRight">32dp</item>
+
+        <!-- Atributos semânticos -->
+        <item name="colorSurface">@color/dark_surface</item>
+        <item name="colorOnBackground">@color/dark_text_primary</item>
+        <item name="colorOnSurface">@color/dark_text_primary</item>
+
+        <!-- Atributos customizados -->
+        <item name="attr_text_primary">@color/dark_text_primary</item>
+        <item name="attr_text_secondary">@color/dark_text_secondary</item>
+        <item name="attr_text_hint">@color/dark_text_hint</item>
+        <item name="attr_background">@color/dark_background</item>
+        <item name="attr_surface">@color/dark_surface</item>
+        <item name="attr_divider">@color/dark_divider</item>
+        <item name="attr_input_border">@color/dark_input_border</item>
+        <item name="attr_card">@color/dark_card</item>
     </style>
 
     <style name="Theme.MayaRPGApp" parent="Base.Theme.MayaRPGApp" />
