@@ -17,8 +17,8 @@ const PRIORIDADE_CORES = {
 
 const formVazio = {
   name: '', cpf: '', birth_date: '', email: '', phone: '',
-  diagnostico: '', prioridade: 'normal', status_conta: 'pendente',
-  queixa_principal: '', nivel_dor: '', data_avaliacao: '',
+  diagnosis: '', priority: 'normal', status: 'pre_registered',
+  main_complaint: '', pain_level_initial: '', evaluation_date: '',
 };
 
 const formatarCPF = (valor) => {
@@ -81,12 +81,12 @@ export default function Pacientes() {
       birth_date:       p.birth_date || '',
       email:            p.email || '',
       phone:            p.phone || '',
-      diagnostico:      p.diagnostico || '',
-      prioridade:       p.prioridade || 'normal',
-      status_conta:     p.status_conta || 'pendente',
-      queixa_principal: p.queixa_principal || '',
-      nivel_dor:        p.nivel_dor || '',
-      data_avaliacao:   p.data_avaliacao || '',
+      diagnosis:        p.diagnosis || '',
+      priority:         p.priority || 'normal',
+      status:           p.status || 'pre_registered',
+      main_complaint:   p.main_complaint || '',
+      pain_level_initial: p.pain_level_initial || '',
+      evaluation_date: p.evaluation_date || '',
     });
     setEditando(p.id);
     setErro('');
@@ -109,37 +109,38 @@ export default function Pacientes() {
     } catch (err) { console.error('Erro ao deletar:', err); }
   };
 
-  const salvar = async (e) => {
-    e.preventDefault();
-    setErro('');
-    setLoading(true);
-    try {
-      const dadosLimpos = {
-        ...form,
-        cpf:              form.cpf.replace(/\D/g, '') || null,
-        nivel_dor:        form.nivel_dor ? Number(form.nivel_dor) : null,
-        birth_date:       form.birth_date       || null,
-        data_avaliacao:   form.data_avaliacao   || null,
-        diagnostico:      form.diagnostico      || null,
-        queixa_principal: form.queixa_principal || null,
-        phone:            form.phone            || null,
-        email:            form.email            || null,
-      };
-      if (editando) {
-        await api.put(`/api/patients/${editando}`, dadosLimpos);
-      } else {
-        await api.post('/api/patients', dadosLimpos);
-      }
-      await carregar();
-      setModal(false);
-    } catch (err) {
-      console.error(err);
-      setErro('Erro ao salvar paciente.');
-    } finally {
-      setLoading(false);
+const salvar = async (e) => {
+  e.preventDefault();
+  setErro('');
+  setLoading(true);
+  try {
+    const dadosLimpos = {
+      name:               form.name,
+      cpf:                form.cpf.replace(/\D/g, '') || null,
+      birth_date:         form.birth_date        || null,
+      email:              form.email             || null,
+      phone:              form.phone             || null,
+      diagnosis:          form.diagnosis         || null,
+      priority:           form.priority,
+      status:             form.status,
+      main_complaint:     form.main_complaint    || null,
+      pain_level_initial: form.pain_level_initial ? Number(form.pain_level_initial) : null,
+      evaluation_date:    form.evaluation_date   || null,
+    };
+    if (editando) {
+      await api.put(`/api/patients/${editando}`, dadosLimpos);
+    } else {
+      await api.post('/api/patients', dadosLimpos);
     }
-  };
-
+    await carregar();
+    setModal(false);
+  } catch (err) {
+    console.error(err);
+    setErro('Erro ao salvar paciente.');
+  } finally {
+    setLoading(false);
+  }
+};
   const filtrados = pacientes.filter(p =>
     p.name.toLowerCase().includes(busca.toLowerCase()) ||
     (p.email || '').toLowerCase().includes(busca.toLowerCase())
@@ -307,12 +308,12 @@ export default function Pacientes() {
                 <div className="pac-form-grid">
                   <div className="pac-field">
                     <label>Diagnóstico</label>
-                    <input type="text" placeholder="Ex: Escoliose" maxLength={15} value={form.diagnostico}
-                      onChange={e => setForm(f => ({ ...f, diagnostico: e.target.value }))} />
+                    <input type="text" placeholder="Ex: Escoliose" maxLength={15} value={form.diagnosis}
+                      onChange={e => setForm(f => ({ ...f, diagnosis: e.target.value }))} />
                   </div>
                   <div className="pac-field">
                     <label>Nível de dor inicial (1-10)</label>
-                    <select value={form.nivel_dor} onChange={e => setForm(f => ({ ...f, nivel_dor: e.target.value }))}>
+                    <select value={form.pain_level_initial} onChange={e => setForm(f => ({ ...f, pain_level_initial: e.target.value }))}>
                       <option value="">Selecione</option>
                       {[1,2,3,4,5,6,7,8,9,10].map(n => (
                         <option key={n} value={n}>{n}</option>
@@ -321,18 +322,18 @@ export default function Pacientes() {
                   </div>
                   <div className="pac-field pac-field--full">
                     <label>Queixa principal</label>
-                    <textarea placeholder="Descreva aqui..." rows={3} value={form.queixa_principal}
-                      onChange={e => setForm(f => ({ ...f, queixa_principal: e.target.value }))}
+                    <textarea placeholder="Descreva aqui..." rows={3} value={form.main_complaint}
+                      onChange={e => setForm(f => ({ ...f, main_complaint: e.target.value }))}
                       className="pac-textarea" />
                   </div>
                   <div className="pac-field">
                     <label>Data de avaliação</label>
-                    <input type="date" value={form.data_avaliacao}
-                      onChange={e => setForm(f => ({ ...f, data_avaliacao: e.target.value }))} />
+                    <input type="date" value={form.evaluation_date}
+                      onChange={e => setForm(f => ({ ...f, evaluation_date: e.target.value }))} />
                   </div>
                   <div className="pac-field">
                     <label>Prioridade</label>
-                    <select value={form.prioridade} onChange={e => setForm(f => ({ ...f, prioridade: e.target.value }))}>
+                    <select value={form.priority} onChange={e => setForm(f => ({ ...f, priority: e.target.value }))}>
                       <option value="baixa">Baixa</option>
                       <option value="normal">Normal</option>
                       <option value="alta">Alta</option>
