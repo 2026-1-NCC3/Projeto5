@@ -13,6 +13,7 @@ export async function getPatients(req: Request, res: Response) {
 
 export async function createPatient(req: Request, res: Response) {
   try {
+    console.log("Corpo da requisição:", req.body);
     const data = await service.createPatient(req.body);
     res.status(201).json(data);
   } catch (err: any) {

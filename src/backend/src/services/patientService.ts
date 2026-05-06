@@ -10,9 +10,9 @@ function mapToDB(data: any) {
     diagnosis: data.diagnosis,
     priority: data.priority,
     status: data.status,
-    main_complaint: data.main_complaint,
-    pain_level_initial: data.pain_level_initial,
-    evaluation_date: data.evaluation_date,
+    main_complaint: data.main_complaint || null,
+    pain_level_initial: data.pain_level_initial || null,
+    evaluation_date: data.evaluation_date || null,
   };
 }
 

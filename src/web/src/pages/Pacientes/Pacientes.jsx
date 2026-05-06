@@ -113,16 +113,27 @@ const salvar = async (e) => {
   e.preventDefault();
   setErro('');
   setLoading(true);
+  if (!form.cpf) {
+    setErro('CPF é obrigatório');
+    setLoading(false);
+    return;
+  }
+
+  if (!form.birth_date) {
+    setErro('Data de nascimento é obrigatória');
+    setLoading(false);
+    return;
+  }
   try {
     const dadosLimpos = {
       name:               form.name,
-      cpf:                form.cpf.replace(/\D/g, '') || null,
-      birth_date:         form.birth_date        || null,
+      cpf:                form.cpf.replace(/\D/g, ''),
+      birth_date:         form.birth_date,
       email:              form.email             || null,
       phone:              form.phone             || null,
       diagnosis:          form.diagnosis         || null,
       priority:           form.priority,
-      status:             form.status,
+      status:             form.status || 'pre_registered',
       main_complaint:     form.main_complaint    || null,
       pain_level_initial: form.pain_level_initial ? Number(form.pain_level_initial) : null,
       evaluation_date:    form.evaluation_date   || null,
@@ -282,13 +293,20 @@ const salvar = async (e) => {
                   </div>
                   <div className="pac-field">
                     <label>CPF *</label>
-                    <input type="text" placeholder="000.000.000-00" value={form.cpf}
-                      onChange={e => setForm(f => ({ ...f, cpf: formatarCPF(e.target.value) }))} />
+                    <input type="text"
+                     placeholder="000.000.000-00" 
+                     value={form.cpf}
+                     required
+                     onChange={e => setForm(f => ({ ...f, cpf: formatarCPF(e.target.value) }))} />
                   </div>
+
                   <div className="pac-field">
                     <label>Data de nascimento</label>
-                    <input type="date" value={form.birth_date}
-                      onChange={e => setForm(f => ({ ...f, birth_date: e.target.value }))} />
+                    <input type="date" 
+                    value={form.birth_date}
+                    required
+                    onChange={e => setForm(f => ({ ...f, birth_date: e.target.value }))} 
+                    />
                   </div>
                   <div className="pac-field">
                     <label>E-mail *</label>
