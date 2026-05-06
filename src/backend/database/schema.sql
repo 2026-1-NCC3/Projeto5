@@ -1,67 +1,119 @@
-CREATE TABLE users (    
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    email VARCHAR(100) UNIQUE NOT NULL,
-    password TEXT NOT NULL,
-    role VARCHAR(20) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+create table patients (
+  id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  name            TEXT NOT NULL,
+  cpf             TEXT NOT NULL UNIQUE,
+  birth_date      DATE NOT NULL,
+  phone           TEXT,
+  email           TEXT UNIQUE,
+  status          TEXT NOT NULL DEFAULT 'pre_registered', 
+  priority        TEXT NOT NULL DEFAULT 'normal',         
+  diagnosis       TEXT,
+  pain_level_initial INTEGER CHECK (pain_level_initial BETWEEN 1 AND 10),
+  main_complaint  TEXT,
+  evaluation_date DATE,
+  created_at      TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+create table patient_accounts (
+  id uuid primary key default gen_random_uuid(),
+
+  patient_id uuid references patients(id) on delete cascade,
+  auth_user_id uuid references auth.users(id) on delete cascade,
+
+  created_at timestamp with time zone default now(),
+
+  unique (patient_id),
+  unique (auth_user_id)
 );
 
-CREATE TABLE patients (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    email VARCHAR(100),
-    phone VARCHAR(20),
-    birth_date DATE,
-    status VARCHAR(20) DEFAULT 'active',
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+create table medical_records (
+  id uuid primary key default gen_random_uuid(),
+
+  patient_id uuid not null references patients(id) on delete cascade,
+
+  record_date date not null,
+
+  main_complaint text,
+  pain_level integer check (pain_level between 1 and 10),
+  injury_history text,
+  diagnosis text,
+  notes text,
+
+  created_at timestamp with time zone default now()
 );
 
-CREATE TABLE exercises (
-    id SERIAL PRIMARY KEY,
-    title VARCHAR(100) NOT NULL,
-    description TEXT,
-    video_url TEXT,
-    image_url TEXT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+create table appointments (
+  id uuid primary key default gen_random_uuid(),
+
+  patient_id uuid not null references patients(id) on delete cascade,
+
+  appointment_date timestamp with time zone not null,
+
+  status text not null default 'scheduled',
+
+  notes text,
+
+  created_at timestamp with time zone default now()
 );
 
-CREATE TABLE exercise_plans (
-    id SERIAL PRIMARY KEY,
-    patient_id INTEGER REFERENCES patients(id),
-    created_by INTEGER REFERENCES users(id),
-    notes TEXT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+create table exercises (
+  id uuid primary key default gen_random_uuid(),
+
+  title text not null,
+  description text,
+  image_url text,
+
+  created_at timestamp with time zone default now()
 );
 
-CREATE TABLE exercise_plan_items (
-    id SERIAL PRIMARY KEY,
-    plan_id INTEGER REFERENCES exercise_plans(id),
-    exercise_id INTEGER REFERENCES exercises(id),
-    frequency VARCHAR(50),
-    instructions TEXT
+create table plans (
+  id uuid primary key default gen_random_uuid(),
+
+  title text not null,
+  description text, 
+
+  created_at timestamp with time zone default now()
 );
 
-CREATE TABLE exercise_logs (
-    id SERIAL PRIMARY KEY,
-    patient_id INTEGER REFERENCES patients(id),
-    exercise_id INTEGER REFERENCES exercises(id),
-    pain_level INTEGER,
-    notes TEXT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+create table plan_exercises (
+  id uuid primary key default gen_random_uuid(),
+
+  plan_id uuid references plans(id) on delete cascade,
+  exercise_id uuid references exercises(id) on delete cascade,
+
+  frequency text, 
+
+  created_at timestamp with time zone default now()
 );
 
-CREATE TABLE appointments (
-    id SERIAL PRIMARY KEY,
-    patient_id INTEGER REFERENCES patients(id),
-    appointment_date TIMESTAMP,
-    notes TEXT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+create table checkins (
+  id uuid primary key default gen_random_uuid(),
+
+  patient_id uuid not null references patients(id) on delete cascade,
+
+  pain_level integer not null check (pain_level between 1 and 10),
+  notes text,
+
+  created_at timestamp with time zone default now()
 );
-CREATE TABLE checkins (
-    id          SERIAL PRIMARY KEY,
-    patient_id  INTEGER NOT NULL REFERENCES patients(id),
-    data        DATE NOT NULL DEFAULT CURRENT_DATE,
-    created_at  TIMESTAMP DEFAULT NOW(),
-    UNIQUE(patient_id, data) 
+
+create table exercise_progress (
+  id uuid primary key default gen_random_uuid(),
+
+  patient_id uuid not null references patients(id) on delete cascade,
+  exercise_id uuid not null references exercises(id) on delete cascade,
+
+  completed boolean default false,
+
+  date date not null default current_date,
+
+  created_at timestamp with time zone default now()
 );
+
+create table profiles (
+  id uuid primary key references auth.users(id) on delete cascade,
+
+  role text not null default 'patient', -- 'admin' ou 'patient'
+
+  created_at timestamp with time zone default now()
+);
+

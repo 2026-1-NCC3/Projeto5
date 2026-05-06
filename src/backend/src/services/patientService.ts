@@ -1,70 +1,74 @@
-import { supabaseClient } from "../config/supabaseClient";
+import { supabase } from "../config/supabaseClient";
+import { getPatientId } from "../utils/getPatientId";
 
-export async function getPatients(userId: string) {
-  const { data, error } = await supabaseClient
+function mapearCampos(form: any) {
+  return {
+    name:                form.name,
+    cpf:                 form.cpf,
+    birth_date:          form.birth_date,
+    email:               form.email,
+    phone:               form.phone,
+    diagnosis:           form.diagnostico,
+    priority:            form.prioridade,
+    status:              form.status_conta,
+    main_complaint:      form.queixa_principal,
+    pain_level_initial:  form.nivel_dor ? Number(form.nivel_dor) : null,
+    evaluation_date:     form.data_avaliacao,
+  };
+}
+
+export async function getAllPatients() {
+  const { data, error } = await supabase
     .from("patients")
     .select("*")
-    .eq("user_id", userId)
-    .order("id");
+    .order("created_at", { ascending: false });
 
-  if (error) throw new Error(error.message);
+  if (error) throw error;
   return data;
 }
 
-export async function getPatientById(id: number, userId: string) {
-  const { data, error } = await supabaseClient
+export async function createPatient(form: any) {
+  const { data, error } = await supabase
     .from("patients")
-    .select("*")
-    .eq("id", id)
-    .eq("user_id", userId)
+    .insert(mapearCampos(form))
+    .select()
     .single();
 
-  if (error) throw new Error(error.message);
+  if (error) throw error;
   return data;
 }
 
-export async function createPatient(userId: string, data: any) {
-  const { data: result, error } = await supabaseClient
+export async function updatePatient(id: string, form: any) {
+  const { data, error } = await supabase
     .from("patients")
-    .insert([{
-      ...data,
-      user_id: userId
-    }])
-    .select()
-    .single();
-
-  if (error) {
-    console.error("ERRO SUPABASE:", error);
-    throw new Error(error.message);
-  }
-
-  return result;
-}
-
-export async function updatePatient(
-  id: number,
-  userId: string,
-  data: any
-) {
-  const { data: result, error } = await supabaseClient
-    .from("patients")
-    .update(data)
+    .update(mapearCampos(form))
     .eq("id", id)
-    .eq("user_id", userId)
     .select()
     .single();
 
-  if (error) throw new Error(error.message);
-
-  return result;
+  if (error) throw error;
+  return data;
 }
 
-export async function deletePatient(id: number, userId: string) {
-  const { error } = await supabaseClient
+export async function deletePatient(id: string) {
+  const { error } = await supabase
     .from("patients")
     .delete()
-    .eq("id", id)
-    .eq("user_id", userId);
+    .eq("id", id);
 
-  if (error) throw new Error(error.message);
+  if (error) throw error;
+}
+
+export async function getMyPatient(authUserId: string) {
+  const patientId = await getPatientId(authUserId);
+
+  const { data, error } = await supabase
+    .from("patients")
+    .select("*")
+    .eq("id", patientId)
+    .single();
+
+  if (error) throw error;
+
+  return data;
 }
