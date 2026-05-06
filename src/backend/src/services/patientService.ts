@@ -1,6 +1,4 @@
 import { supabase } from "../config/supabaseClient";
-import { getPatientId } from "../utils/getPatientId";
-
 
 function mapToDB(data: any) {
   return {
@@ -9,12 +7,12 @@ function mapToDB(data: any) {
     birth_date: data.birth_date,
     email: data.email,
     phone: data.phone,
-    diagnosis: data.diagnostico,
-    priority: data.prioridade,
-    status: data.status_conta,
-    main_complaint: data.queixa_principal,
-    pain_level_initial: data.nivel_dor,
-    evaluation_date: data.data_avaliacao,
+    diagnosis: data.diagnosis,
+    priority: data.priority,
+    status: data.status,
+    main_complaint: data.main_complaint,
+    pain_level_initial: data.pain_level_initial,
+    evaluation_date: data.evaluation_date,
   };
 }
 
