@@ -35,6 +35,7 @@ function Login() {
       });
 
       if (error) throw error;
+      localStorage.setItem("token", data.session.access_token);
 
       login(data.user);
       navigate("/");

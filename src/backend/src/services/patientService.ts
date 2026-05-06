@@ -1,52 +1,49 @@
 import { supabase } from "../config/supabaseClient";
 import { getPatientId } from "../utils/getPatientId";
 
-function mapearCampos(form: any) {
+
+function mapToDB(data: any) {
   return {
-    name:                form.name,
-    cpf:                 form.cpf,
-    birth_date:          form.birth_date,
-    email:               form.email,
-    phone:               form.phone,
-    diagnosis:           form.diagnostico,
-    priority:            form.prioridade,
-    status:              form.status_conta,
-    main_complaint:      form.queixa_principal,
-    pain_level_initial:  form.nivel_dor ? Number(form.nivel_dor) : null,
-    evaluation_date:     form.data_avaliacao,
+    name: data.name,
+    cpf: data.cpf,
+    birth_date: data.birth_date,
+    email: data.email,
+    phone: data.phone,
+    diagnosis: data.diagnostico,
+    priority: data.prioridade,
+    status: data.status_conta,
+    main_complaint: data.queixa_principal,
+    pain_level_initial: data.nivel_dor,
+    evaluation_date: data.data_avaliacao,
   };
 }
 
 export async function getAllPatients() {
-  const { data, error } = await supabase
-    .from("patients")
-    .select("*")
-    .order("created_at", { ascending: false });
-
-  if (error) throw error;
+  const { data, error } = await supabase.from("patients").select("*");
+  if (error) throw new Error(error.message);
   return data;
 }
 
-export async function createPatient(form: any) {
+export async function createPatient(payload: any) {
   const { data, error } = await supabase
     .from("patients")
-    .insert(mapearCampos(form))
+    .insert([mapToDB(payload)])
     .select()
     .single();
 
-  if (error) throw error;
+  if (error) throw new Error(error.message);
   return data;
 }
 
-export async function updatePatient(id: string, form: any) {
+export async function updatePatient(id: string, payload: any) {
   const { data, error } = await supabase
     .from("patients")
-    .update(mapearCampos(form))
+    .update(mapToDB(payload))
     .eq("id", id)
     .select()
     .single();
 
-  if (error) throw error;
+  if (error) throw new Error(error.message);
   return data;
 }
 
@@ -56,19 +53,5 @@ export async function deletePatient(id: string) {
     .delete()
     .eq("id", id);
 
-  if (error) throw error;
-}
-
-export async function getMyPatient(authUserId: string) {
-  const patientId = await getPatientId(authUserId);
-
-  const { data, error } = await supabase
-    .from("patients")
-    .select("*")
-    .eq("id", patientId)
-    .single();
-
-  if (error) throw error;
-
-  return data;
+  if (error) throw new Error(error.message);
 }
