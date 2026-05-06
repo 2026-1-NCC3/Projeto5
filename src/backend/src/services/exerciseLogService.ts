@@ -1,39 +1,27 @@
-import { supabaseClient } from "../config/supabaseClient";
+import { supabase } from "../config/supabaseClient";
+import { getPatientId } from "../utils/getPatientId";
 
-export const createExerciseLog = async (
-  patient_id: number,
-  exercise_id: number,
-  pain_level: number,
-  notes: string
-) => {
-  const { data, error } = await supabaseClient
-    .from("exercise_logs")
-    .insert([{ patient_id, exercise_id, pain_level, notes }])
-    .select()
-    .single();
+interface CreateLogDTO {
+  exercise_id: string;
+}
 
-  if (error) throw new Error(error.message);
-  return data;
-};
+export async function logExercise(
+  authUserId: string,
+  data: CreateLogDTO
+) {
+  const patientId = await getPatientId(authUserId);
 
-export const getLogsByPatient = async (patientId: number) => {
-  const { data, error } = await supabaseClient
-    .from("exercise_logs")
-    .select("*")
-    .eq("patient_id", patientId)
-    .order("created_at", { ascending: false });
+  const { exercise_id } = data;
 
-  if (error) throw new Error(error.message);
-  return data;
-};
+  const { error } = await supabase
+    .from("exercise_progress")
+    .insert({
+      patient_id: patientId,
+      exercise_id,
+      completed_at: new Date()
+    });
 
-export const getPatientProgress = async (patientId: number) => {
-  const { data, error } = await supabaseClient
-    .from("exercise_logs")
-    .select("exercise_id, pain_level, created_at, exercises(title)")
-    .eq("patient_id", patientId)
-    .order("created_at", { ascending: true });
+  if (error) throw error;
 
-  if (error) throw new Error(error.message);
-  return data;
-};
+  return { message: "Exercício concluído!" };
+}

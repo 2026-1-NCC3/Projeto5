@@ -1,23 +1,13 @@
 import { Router } from "express";
-import { authenticateToken } from "../midllewares/authMiddleware";
-
-import {
-  listPatients,
-  getPatient,
-  addPatient,
-  editPatient,
-  removePatient
-} from "../controllers/patientController";
+import { getPatients, addPatient, editPatient, removePatient, getMe } from "../controllers/patientController";
+import { authMiddleware } from "../midllewares/authMiddleware";
 
 const router = Router();
 
-router.get("/patients", authenticateToken, listPatients); // lista os pacientes
-router.get("/patients/:id", authenticateToken, getPatient); // detalhes de um paciente específico
-
-router.post("/patients", authenticateToken, addPatient); // adiciona um novo paciente
-
-router.put("/patients/:id", authenticateToken, editPatient); // edita as informações de um paciente existente
-
-router.delete("/patients/:id", authenticateToken, removePatient); // remove um paciente do sistema
+router.get("/", getPatients);
+router.post("/", addPatient);
+router.put("/:id", editPatient);
+router.delete("/:id", removePatient);
+router.get("/me", authMiddleware, getMe);
 
 export default router;

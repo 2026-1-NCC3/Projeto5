@@ -1,10 +1,16 @@
 import { Router } from "express";
-import { listExercises, addExercise } from "../controllers/exerciseController";
+import {
+  createExerciseController,
+  getExercisesController
+} from "../controllers/exerciseController";
+import { authMiddleware } from "../midllewares/authMiddleware";
 
 const router = Router();
 
-router.get("/exercises", listExercises);
+// 👩‍⚕️ criar exercício (admin depois a gente trava)
+router.post("/", authMiddleware, createExerciseController);
 
-router.post("/exercises", addExercise);
+// 📋 listar exercícios
+router.get("/", authMiddleware, getExercisesController);
 
 export default router;

@@ -1,68 +1,18 @@
 import { Request, Response } from "express";
-import { createExerciseLog, getLogsByPatient } from "../services/exerciseLogService";
-import { getPatientProgress } from "../services/exerciseLogService";
+import { logExercise } from "../services/exerciseLogService";
+import { handleError } from "./baseController";
 
-export const addExerciseLog = async (req: Request, res: Response) => {
-
+export async function logExerciseController(
+  req: Request,
+  res: Response
+) {
   try {
+    const user = (req as any).user;
 
-    const { patient_id, exercise_id, pain_level, notes } = req.body;
+    const result = await logExercise(user.id, req.body);
 
-    const log = await createExerciseLog(
-      patient_id,
-      exercise_id,
-      pain_level,
-      notes
-    );
-
-    res.status(201).json(log);
-
+    return res.json(result);
   } catch (error: any) {
-
-    res.status(500).json({
-      message: error.message
-    });
-
+    return handleError(res, error);
   }
-
-};
-
-export const getPatientLogs = async (req: Request, res: Response) => {
-
-  try {
-
-    const { patientId } = req.params;
-
-    const logs = await getLogsByPatient(Number(patientId));
-
-    res.json(logs);
-
-  } catch (error: any) {
-
-    res.status(500).json({
-      message: error.message
-    });
-
-  }
-
-};
-
-export const getProgress = async (req: Request, res: Response) => {
-
-  try {
-
-    const { patientId } = req.params;
-
-    const progress = await getPatientProgress(Number(patientId));
-
-    res.json(progress);
-
-  } catch (error: any) {
-
-    res.status(500).json({
-      message: error.message
-    });
-
-  }
-
-};
+}

@@ -1,32 +1,36 @@
 import { Request, Response } from "express";
 import {
-  getPatientIdByUserId,
-  registrarCheckin,
-  getHistoricoCheckins,
+  createCheckin,
+  getMyCheckins
 } from "../services/checkinService";
- 
-export const fazerCheckin = async (req: Request, res: Response) => {
+import { handleError } from "./baseController";
+
+export async function createCheckinController(
+  req: Request,
+  res: Response
+) {
   try {
-    const userId = (req as any).user.id;
-    const patientId = await getPatientIdByUserId(userId);
-    const resultado = await registrarCheckin(patientId);
- 
-    const status = resultado.jaFez ? 200 : 201;
-    return res.status(status).json(resultado);
+    const user = (req as any).user;
+
+    const result = await createCheckin(user.id, req.body);
+
+    return res.json(result);
   } catch (error: any) {
-    return res.status(400).json({ message: error.message });
+    return handleError(res, error);
   }
-};
- 
-export const historicoCheckins = async (req: Request, res: Response) => {
+}
+
+export async function getMyCheckinsController(
+  req: Request,
+  res: Response
+) {
   try {
-    const userId = (req as any).user.id;
-    const dias = parseInt(req.query.dias as string) || 7;
-    const patientId = await getPatientIdByUserId(userId);
-    const resultado = await getHistoricoCheckins(patientId, dias);
- 
-    return res.status(200).json(resultado);
+    const user = (req as any).user;
+
+    const data = await getMyCheckins(user.id);
+
+    return res.json(data);
   } catch (error: any) {
-    return res.status(400).json({ message: error.message });
+    return handleError(res, error);
   }
-};
+}

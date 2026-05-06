@@ -1,27 +1,27 @@
 import { Request, Response, NextFunction } from "express";
-import { supabaseClient} from "../config/supabaseClient"; 
+import { supabase } from "../config/supabaseClient";
 
-export const authenticateToken = async (
+export async function authMiddleware(
   req: Request,
   res: Response,
   next: NextFunction
-) => {
-  const authHeader = req.headers.authorization;
+) {
+  const token = req.headers.authorization?.replace("Bearer ", "");
 
-  if (!authHeader) {
-    return res.status(401).json({ message: "Token não fornecido" });
+  if (!token) {
+    return res.status(401).json({ error: "Token não enviado" });
   }
 
-  const token = authHeader.split(" ")[1];
-
-  const { data, error } = await supabaseClient.auth.getUser(token);
+  const { data, error } = await supabase.auth.getUser(token);
 
   if (error || !data.user) {
-    return res.status(401).json({ message: "Token inválido" });
+    return res.status(401).json({ error: "Token inválido" });
   }
 
-
-  (req as any).user = data.user;
+(req as any).user = {
+  id: data.user.id,
+  email: data.user.email
+};
 
   next();
-};
+}

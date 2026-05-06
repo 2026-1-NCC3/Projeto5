@@ -55,7 +55,7 @@ export default function Pacientes() {
 
   const agora = new Date();
   const totalPacientes  = pacientes.length;
-  const pacientesAtivos = pacientes.filter(p => p.status_conta === 'ativo').length;
+  const pacientesAtivos = pacientes.filter(p => p.status === 'ativo').length;
   const novosMes        = pacientes.filter(p => {
     const d = new Date(p.created_at);
     return d.getFullYear() === agora.getFullYear() && d.getMonth() === agora.getMonth();
@@ -207,8 +207,8 @@ export default function Pacientes() {
           </thead>
           <tbody>
             {filtrados.map(p => {
-              const status   = STATUS_CORES[p.status_conta] || STATUS_CORES.pendente;
-              const priorCor = PRIORIDADE_CORES[p.prioridade] || PRIORIDADE_CORES.normal;
+              const status   = STATUS_CORES[p.status] || STATUS_CORES.pendente;
+              const priorCor = PRIORIDADE_CORES[p.priority] || PRIORIDADE_CORES.normal;
               return (
                 <tr key={p.id}>
                   <td>
@@ -223,12 +223,12 @@ export default function Pacientes() {
                       {status.label}
                     </span>
                   </td>
-                  <td className="pac-diag">{p.diagnostico || '—'}</td>
+                  <td className="pac-diag">{p.diagnosis || '—'}</td>
                   <td>
                     <div className="pac-prioridade">
                       <span className="pac-prioridade-dot" style={{ background: priorCor }} />
                       <span className="pac-prioridade-txt" style={{ color: priorCor }}>
-                        {p.prioridade ? p.prioridade.charAt(0).toUpperCase() + p.prioridade.slice(1) : 'Normal'}
+                        {p.priority ? p.priority.charAt(0).toUpperCase() + p.priority.slice(1) : 'Normal'}
                       </span>
                     </div>
                   </td>
@@ -276,7 +276,7 @@ export default function Pacientes() {
                 <div className="pac-form-grid">
                   <div className="pac-field pac-field--full">
                     <label>Nome completo *</label>
-                    <input type="text" placeholder="Carlos Afonso" value={form.name}
+                    <input type="text" placeholder="Nome do Paciente" value={form.name}
                       onChange={e => setForm(f => ({ ...f, name: e.target.value }))} required />
                   </div>
                   <div className="pac-field">
@@ -355,7 +355,6 @@ export default function Pacientes() {
         </div>
       )}
 
-      {/* Modal deletar */}
       {modalDeletar && pacienteDel && (
         <div className="pac-overlay" onClick={() => setModalDeletar(false)}>
           <div className="pac-modal pac-modal--sm" onClick={e => e.stopPropagation()}>

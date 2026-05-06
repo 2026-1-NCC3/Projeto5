@@ -1,28 +1,35 @@
-import { supabaseClient } from "../config/supabaseClient";
+import { supabaseAdmin } from "../config/supabaseClient";
 
-export const getExercises = async () => {
-  const { data, error } = await supabaseClient
+interface CreateExerciseDTO {
+  title: string;
+  description: string;
+  image_url?: string;
+}
+
+export async function createExercise(data: CreateExerciseDTO) {
+  const { title, description, image_url } = data;
+
+  const { error } = await supabaseAdmin
+    .from("exercises")
+    .insert({
+      title,
+      description,
+      image_url
+    });
+
+  if (error) throw error;
+
+  return { message: "Exercício criado com sucesso" };
+}
+
+
+export async function getExercises() {
+  const { data, error } = await supabaseAdmin
     .from("exercises")
     .select("*")
-    .order("id", { ascending: false });
+    .order("created_at", { ascending: false });
 
-  if (error) throw new Error(error.message);
+  if (error) throw error;
+
   return data;
-};
-
-export const createExercise = async (
-  title: string,
-  description: string,
-  video_url: string,
-  image_url: string,
-  frequency: string
-) => {
-  const { data, error } = await supabaseClient
-    .from("exercises")
-    .insert([{ title, description, video_url, image_url, frequency }])
-    .select()
-    .single();
-
-  if (error) throw new Error(error.message);
-  return data;
-};
+}

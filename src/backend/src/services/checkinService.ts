@@ -1,63 +1,42 @@
-import { supabaseClient } from "../config/supabaseClient";
+import { supabase } from "../config/supabaseClient";
+import { getPatientId } from "../utils/getPatientId";
 
-export const getPatientIdByUserId = async (userId: number): Promise<number> => {
-  const { data: user, error: userError } = await supabaseClient
-    .from("users")
-    .select("email")
-    .eq("id", userId)
-    .single();
+interface CreateCheckinDTO {
+  pain_level: number;
+  notes?: string;
+}
 
-  if (userError || !user) throw new Error("Usuário não encontrado");
+export async function createCheckin(
+  authUserId: string,
+  data: CreateCheckinDTO
+) {
+  const patientId = await getPatientId(authUserId);
 
-  const { data: patient, error: patientError } = await supabaseClient
-    .from("patients")
-    .select("id")
-    .eq("email", user.email)
-    .single();
+  const { pain_level, notes } = data;
 
-  if (patientError || !patient) throw new Error("Paciente não encontrado para este usuário");
-
-  return patient.id;
-};
-
-export const registrarCheckin = async (patientId: number) => {
-  const today = new Date().toISOString().split("T")[0];
-
-  const { data: existing } = await supabaseClient
+  const { error } = await supabase
     .from("checkins")
-    .select("id")
+    .insert({
+      patient_id: patientId,
+      pain_level,
+      notes
+    });
+
+  if (error) throw error;
+
+  return { message: "Check-in registrado com sucesso" };
+}
+
+export async function getMyCheckins(authUserId: string) {
+  const patientId = await getPatientId(authUserId);
+
+  const { data, error } = await supabase
+    .from("checkins")
+    .select("*")
     .eq("patient_id", patientId)
-    .eq("data", today)
-    .single();
+    .order("created_at", { ascending: false });
 
-  if (existing) {
-    return { jaFez: true, mensagem: "Check-in já realizado hoje", checkin: null };
-  }
+  if (error) throw error;
 
-  const { data, error } = await supabaseClient
-    .from("checkins")
-    .insert([{ patient_id: patientId, data: today }])
-    .select()
-    .single();
-
-  if (error) throw new Error(error.message);
-  return { jaFez: false, mensagem: "Check-in realizado com sucesso!", checkin: data };
-};
-
-export const getHistoricoCheckins = async (patientId: number, dias: number = 7) => {
-  const desde = new Date();
-  desde.setDate(desde.getDate() - dias);
-  const desdeStr = desde.toISOString().split("T")[0];
-
-  const { data, error } = await supabaseClient
-    .from("checkins")
-    .select("data")
-    .eq("patient_id", patientId)
-    .gte("data", desdeStr)
-    .order("data", { ascending: true });
-
-  if (error) throw new Error(error.message);
-
-  const datas = (data ?? []).map((row) => new Date(row.data).toISOString().split("T")[0]);
-  return { historico: datas, total: datas.length };
-};
+  return data;
+}

@@ -1,12 +1,9 @@
 import { Router } from "express";
-import { addExerciseLog, getPatientLogs, getProgress } from "../controllers/exerciseLogController";
+import { logExerciseController } from "../controllers/exerciseLogController";
+import { authMiddleware } from "../midllewares/authMiddleware";
 
 const router = Router();
 
-router.post("/", addExerciseLog);
-
-router.get("/patients/:patientId", getPatientLogs);
-
-router.get("/patients/:patientId/progress", getProgress);
+router.post("/", authMiddleware, logExerciseController);
 
 export default router;
