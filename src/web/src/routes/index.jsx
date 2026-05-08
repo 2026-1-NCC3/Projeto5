@@ -35,7 +35,6 @@ export default function AppRoutes() {
         <Route path="/clinica" element={<Patients />} />
         <Route path="/conteudo" element={<Exercicios />} /> 
         <Route path="/configuracoes" element={<Configuracoes/>} /> 
-        <Route path="/prontuario" element={<Prontuario/>} /> // 
       </Route>
 
       <Route path="*" element={<Navigate to="/login" />} />

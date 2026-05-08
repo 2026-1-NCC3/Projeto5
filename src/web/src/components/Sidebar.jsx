@@ -11,14 +11,12 @@ import fotoPerfil from '../assets/Maya.png';
 const navItems = [
   { to: '/',         icon: 'solar:widget-5-bold-duotone',          label: 'Dashboard' },
   { to: '/agenda',   icon: 'solar:calendar-bold-duotone',           label: 'Agenda' },
-  { to: '/prontuario', icon: 'solar:document-medicine-bold-duotone', label: 'Prontuário' },
   { to: '/clinica',  icon: 'solar:health-bold-duotone',             label: 'Clínica' },
   { to: '/conteudo', icon: 'solar:bone-crack-bold-duotone',         label: 'Conteúdo' },
 ];
 
 const supportItems = [
   { to: '/ajuda',          icon: 'solar:question-circle-bold-duotone', label: 'Ajuda' },
-  { to: '/reportar',       icon: 'solar:flag-bold-duotone',            label: 'Reportar' },
   { to: '/configuracoes',  icon: 'solar:settings-bold-duotone',        label: 'Configurações' },
 ];
 
