@@ -37,6 +37,29 @@ export async function createPatient(req: Request, res: Response) {
   }
 }
 
+export async function createMedicalRecord(
+  req: Request,
+  res: Response
+) {
+  try {
+
+    const patientId = req.params.id as string;
+
+    const data = await service.createMedicalRecord(
+      patientId,
+      req.body
+    );
+
+    res.status(201).json(data);
+
+  } catch (err: any) {
+
+    res.status(500).json({
+      error: err.message
+    });
+  }
+}
+
 export async function updatePatient(req: Request, res: Response) {
   try {
     const id = req.params.id as string;

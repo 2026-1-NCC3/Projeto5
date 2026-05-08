@@ -47,6 +47,34 @@ export async function createPatient(payload: any) {
   return data;
 }
 
+export async function createMedicalRecord(
+  patientId: string,
+  body: any
+) {
+
+  const { data, error } = await supabase
+    .from("medical_records")
+    .insert([
+      {
+        patient_id: patientId,
+        record_date: body.record_date,
+        main_complaint: body.main_complaint,
+        pain_level: body.pain_level || null,
+        injury_history: body.injury_history,
+        diagnosis: body.diagnosis,
+        notes: body.notes
+      }
+    ])
+    .select()
+    .single();
+
+  if (error) {
+    throw error;
+  }
+
+  return data;
+}
+
 export async function updatePatient(id: string, payload: any) {
   const { data, error } = await supabase
     .from("patients")

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getPatients, getPatientById, createPatient, updatePatient, deletePatient } from "../controllers/patientController";
+import { getPatients, getPatientById, createPatient, createMedicalRecord, updatePatient, deletePatient } from "../controllers/patientController";
 import { authMiddleware } from "../midllewares/authMiddleware";
 import { adminMiddleware } from "../midllewares/adminMiddleware";
 
@@ -8,6 +8,7 @@ const router = Router();
 router.get("/", getPatients);
 router.get("/:id", getPatientById);
 router.post("/", createPatient);
+router.post("/:id/medical-records", createMedicalRecord);
 router.put("/:id", adminMiddleware, updatePatient);
 router.delete("/:id", deletePatient);
 
