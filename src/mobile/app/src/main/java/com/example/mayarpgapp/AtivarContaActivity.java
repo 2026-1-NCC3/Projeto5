@@ -2,6 +2,7 @@ package com.example.mayarpgapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log; // Adicionado para debug
 import android.widget.EditText;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,8 +13,6 @@ import com.example.mayarpgapp.api.RetrofitClient;
 
 import com.google.gson.JsonObject;
 
-import okhttp3.MediaType;
-import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -52,11 +51,17 @@ public class AtivarContaActivity extends AppCompatActivity {
         btnContinuar.setEnabled(false);
         btnContinuar.setText("Verificando...");
 
+        // Prepara os dados formatados conforme o Supabase
+        String dataFormatada = formatarDataParaBanco(nascimento);
+        String cpfLimpo = cpf.replaceAll("[^0-9]", "");
+
         JsonObject body = new JsonObject();
-        body.addProperty("nome",       nome);
-        body.addProperty("birth_date", nascimento);
-        body.addProperty("cpf",        cpf);
+        body.addProperty("name",       nome);
+        body.addProperty("birth_date", dataFormatada);
+        body.addProperty("cpf",        cpfLimpo);
         body.addProperty("email",      email);
+
+        Log.d("API_DEBUG", "Enviando: " + body.toString());
 
         ApiService api = RetrofitClient.getInstance().create(ApiService.class);
 
@@ -67,20 +72,20 @@ public class AtivarContaActivity extends AppCompatActivity {
                 btnContinuar.setText("Continuar");
 
                 if (response.isSuccessful() && response.body() != null) {
-                    int pacienteId = response.body().get("paciente_id").getAsInt();
-                    String emailResp = response.body().get("email").getAsString();
-
-                    Intent intent = new Intent(AtivarContaActivity.this, CriarSenhaActivity.class);
-                    intent.putExtra("PACIENTE_ID", pacienteId);
-                    intent.putExtra("EMAIL", emailResp);
-                    startActivity(intent);
-                } else {
                     try {
-                        String erro = response.errorBody().string();
-                        Toast.makeText(AtivarContaActivity.this, "Paciente não encontrado. Contate a clínica.", Toast.LENGTH_LONG).show();
+                        String pacienteId = response.body().get("paciente_id").getAsString();
+                        String emailResp = response.body().get("email").getAsString();
+
+                        Intent intent = new Intent(AtivarContaActivity.this, CriarSenhaActivity.class);
+                        intent.putExtra("CPF", cpfLimpo);
+                        intent.putExtra("BIRTH_DATE", dataFormatada);
+                        intent.putExtra("EMAIL", emailResp);
+                        startActivity(intent);
                     } catch (Exception e) {
-                        Toast.makeText(AtivarContaActivity.this, "Erro ao verificar dados.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AtivarContaActivity.this, "Erro ao processar dados do servidor", Toast.LENGTH_SHORT).show();
                     }
+                } else {
+                    Toast.makeText(AtivarContaActivity.this, "Paciente não encontrado. Contate a clínica.", Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -88,20 +93,17 @@ public class AtivarContaActivity extends AppCompatActivity {
             public void onFailure(Call<JsonObject> call, Throwable t) {
                 btnContinuar.setEnabled(true);
                 btnContinuar.setText("Continuar");
-                Toast.makeText(AtivarContaActivity.this, "Erro de conexão", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AtivarContaActivity.this, "Erro de conexão: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
-    private String formatarData(String dataBr) {
+
+    private String formatarDataParaBanco(String dataBr) {
         try {
             String[] partes = dataBr.split("/");
-            String dia = partes[0];
-            String mes = partes[1];
-            String ano = partes[2];
-
-            return dia + "-" + mes + "-" + ano; // DD-MM-AAAA
+            return partes[2] + "-" + partes[1] + "-" + partes[0];
         } catch (Exception e) {
-            return dataBr;
+            return dataBr; // Se houver erro, envia o que foi digitado
         }
     }
 }

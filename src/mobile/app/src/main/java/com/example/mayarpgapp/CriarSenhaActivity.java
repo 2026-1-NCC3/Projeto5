@@ -19,7 +19,7 @@ public class CriarSenhaActivity extends AppCompatActivity {
 
     EditText etSenha, etConfirmar;
     AppCompatButton btnContinuar;
-    int pacienteId;
+    String cpf, birthDate;
     String email;
 
     @Override
@@ -27,7 +27,8 @@ public class CriarSenhaActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_criar_senha);
 
-        pacienteId = getIntent().getIntExtra("PACIENTE_ID", -1);
+        cpf       = getIntent().getStringExtra("CPF");
+        birthDate = getIntent().getStringExtra("BIRTH_DATE");
         email      = getIntent().getStringExtra("EMAIL");
 
         etSenha    = findViewById(R.id.etSenha);
@@ -61,9 +62,10 @@ public class CriarSenhaActivity extends AppCompatActivity {
         btnContinuar.setText("Criando conta...");
 
         JsonObject body = new JsonObject();
-        body.addProperty("paciente_id", pacienteId);
-        body.addProperty("email",       email);
-        body.addProperty("senha",       senha);
+        body.addProperty("cpf",        cpf);
+        body.addProperty("birth_date", birthDate);
+        body.addProperty("email",      email);
+        body.addProperty("password",   senha);
 
         ApiService api = RetrofitClient.getInstance().create(ApiService.class);
 

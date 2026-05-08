@@ -93,7 +93,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 if (response.isSuccessful() && response.body() != null) {
                     String token = response.body().getToken();
-                    String nome  = response.body().getUser().getName();
+                    String nome = response.body().getUser().getEmail();
 
                     RetrofitClient.setToken(token);
                     getSharedPreferences("APP", MODE_PRIVATE)
