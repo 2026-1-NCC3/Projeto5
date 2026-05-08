@@ -28,11 +28,8 @@ export default function Prontuario() {
   const navigate = useNavigate();
 
   const [aba, setAba] = useState(0);
-
   const [paciente, setPaciente] = useState(null);
-
   const [loading, setLoading] = useState(true);
-
   const [erro, setErro] = useState('');
 
   useEffect(() => {
@@ -165,6 +162,7 @@ export default function Prontuario() {
         </div>
       </div>
 
+      {/* ABAS */}
       <div className="pront-abas">
 
         {ABAS.map((a, i) => (
@@ -185,19 +183,84 @@ export default function Prontuario() {
 
       </div>
 
+      {/* CONTEÚDO */}
       <div className="pront-conteudo">
 
-        {aba === 0 && (
-          <AbaProntuario pacienteId={id} />
-        )}
+        {aba === 0 && <AbaProntuario />}
 
-        {aba === 1 && (
-          <AbaPlanoExercicio pacienteId={id} />
-        )}
+        {aba === 1 && <AbaPlanoExercicio />}
 
-        {aba === 2 && (
-          <AbaAtividade pacienteId={id} />
-        )}
+        {aba === 2 && <AbaAtividade />}
+
+      </div>
+
+    </div>
+  );
+}
+
+function AbaProntuario() {
+  return (
+    <div className="pront-aba-content">
+
+      <div className="pront-vazio">
+
+        <Icon
+          icon="solar:folder-open-linear"
+          width="56"
+          color="#ccc"
+        />
+
+        <p className="pront-vazio-titulo">
+          Sem registros clínicos
+        </p>
+
+        <p className="pront-vazio-sub">
+          Nenhum prontuário encontrado
+        </p>
+
+      </div>
+
+    </div>
+  );
+}
+
+function AbaPlanoExercicio() {
+  return (
+    <div className="pront-aba-content">
+
+      <div className="pront-vazio">
+
+        <Icon
+          icon="solar:running-round-linear"
+          width="56"
+          color="#ccc"
+        />
+
+        <p className="pront-vazio-titulo">
+          Nenhum plano encontrado
+        </p>
+
+      </div>
+
+    </div>
+  );
+}
+
+function AbaAtividade() {
+  return (
+    <div className="pront-aba-content">
+
+      <div className="pront-vazio">
+
+        <Icon
+          icon="solar:clipboard-list-linear"
+          width="56"
+          color="#ccc"
+        />
+
+        <p className="pront-vazio-titulo">
+          Nenhuma atividade encontrada
+        </p>
 
       </div>
 
