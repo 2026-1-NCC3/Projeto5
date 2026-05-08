@@ -51,5 +51,8 @@ export async function deletePatient(id: string) {
     .delete()
     .eq("id", id);
 
-  if (error) throw new Error(error.message);
+  if (error) {
+    console.error(error);
+    throw new Error(error.message);
+  }
 }

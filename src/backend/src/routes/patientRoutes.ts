@@ -8,6 +8,6 @@ const router = Router();
 router.get("/", getPatients);
 router.post("/", createPatient);
 router.put("/:id", adminMiddleware, updatePatient);
-router.delete("/:id", adminMiddleware, deletePatient);
+router.delete("/:id", deletePatient);
 
 export default router;
