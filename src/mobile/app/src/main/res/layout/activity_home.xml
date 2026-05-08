@@ -12,6 +12,7 @@
         android:orientation="vertical"
         android:padding="20dp">
 
+        <!-- ── CABEÇALHO ── -->
         <LinearLayout
             android:id="@+id/layout_cabecalho"
             android:layout_width="match_parent"
@@ -37,6 +38,7 @@
                 android:layout_marginTop="4dp" />
         </LinearLayout>
 
+        <!-- ── CALENDÁRIO SEMANAL ── -->
         <LinearLayout
             android:id="@+id/layout_calendario"
             android:layout_width="match_parent"
@@ -81,6 +83,7 @@
             </LinearLayout>
         </LinearLayout>
 
+        <!-- ── CARD CHECK-IN ── -->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/card_checkin"
             android:layout_width="match_parent"
@@ -109,7 +112,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/titulo_checkin"
-                    android:text="quarta-feira, 08 de maio"
+                    android:text=""
                     android:textColor="#B2DFDB"
                     android:textSize="12sp" />
 
@@ -134,6 +137,7 @@
             </RelativeLayout>
         </com.google.android.material.card.MaterialCardView>
 
+        <!-- ── CARDS DE ESTATÍSTICAS ── -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -153,9 +157,9 @@
                 <ImageView android:layout_width="20dp" android:layout_height="20dp"
                     app:srcCompat="@drawable/ic_vital" app:tint="#4DB6AC" />
                 <TextView android:id="@+id/txt_estatistica_1" android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:text="3" android:textSize="18sp" android:textStyle="bold" />
+                    android:text="0" android:textSize="18sp" android:textStyle="bold" />
                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:text="Esta semana" android:textSize="10sp" android:textColor="#999999" />
+                    android:text="Treinos" android:textSize="10sp" android:textColor="#999999" />
             </LinearLayout>
 
             <LinearLayout
@@ -170,15 +174,14 @@
                 <ImageView android:layout_width="20dp" android:layout_height="20dp"
                     app:srcCompat="@drawable/ic_check" app:tint="#81C784" />
                 <TextView android:id="@+id/txt_estatistica_2" android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:text="5" android:textSize="18sp" android:textStyle="bold" />
+                    android:text="0" android:textSize="18sp" android:textStyle="bold" />
                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:text="Esta semana" android:textSize="10sp" android:textColor="#999999" />
+                    android:text="Check-ins" android:textSize="10sp" android:textColor="#999999" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:background="@drawable/bg_card_white"
                 android:gravity="center"
                 android:orientation="vertical"
@@ -186,10 +189,435 @@
                 <ImageView android:layout_width="20dp" android:layout_height="20dp"
                     app:srcCompat="@drawable/ic_setadash" app:tint="#E57373" />
                 <TextView android:id="@+id/txt_estatistica_3" android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:text="3" android:textSize="18sp" android:textStyle="bold" />
+                    android:text="0" android:textSize="18sp" android:textStyle="bold" />
                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:text="Esta semana" android:textSize="10sp" android:textColor="#999999" />
+                    android:text="Perdidos" android:textSize="10sp" android:textColor="#999999" />
             </LinearLayout>
+        </LinearLayout>
+
+        <!-- ══════════════════════════════════════════ -->
+        <!-- ── SEÇÃO PLANO DE EXERCÍCIO (CONDICIONAL) ── -->
+        <!-- ══════════════════════════════════════════ -->
+        <LinearLayout
+            android:id="@+id/section_plano"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            android:layout_marginBottom="24dp">
+
+            <!-- Cabeçalho da seção -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Plano de exercício"
+                    android:textColor="#1A1A1A"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_centerVertical="true" />
+
+                <TextView
+                    android:id="@+id/btn_ver_plano"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Ver todos"
+                    android:textColor="#00897B"
+                    android:textSize="13sp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:padding="4dp" />
+            </RelativeLayout>
+
+            <!-- Card do plano -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp"
+                app:cardBackgroundColor="#FFFFFF">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:id="@+id/txt_plano_nome"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="#1A1A1A"
+                        android:layout_marginBottom="8dp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <!-- Badge: duração -->
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:background="@drawable/bg_badge_teal"
+                            android:paddingStart="10dp"
+                            android:paddingEnd="10dp"
+                            android:paddingTop="4dp"
+                            android:paddingBottom="4dp"
+                            android:layout_marginEnd="8dp">
+
+                            <ImageView
+                                android:layout_width="14dp"
+                                android:layout_height="14dp"
+                                app:srcCompat="@drawable/ic_vital"
+                                app:tint="#00897B"
+                                android:layout_marginEnd="4dp" />
+
+                            <TextView
+                                android:id="@+id/txt_plano_duracao"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="12sp"
+                                android:textColor="#00897B" />
+                        </LinearLayout>
+
+                        <!-- Badge: nível -->
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:background="@drawable/bg_badge_orange"
+                            android:paddingStart="10dp"
+                            android:paddingEnd="10dp"
+                            android:paddingTop="4dp"
+                            android:paddingBottom="4dp">
+
+                            <ImageView
+                                android:layout_width="14dp"
+                                android:layout_height="14dp"
+                                app:srcCompat="@drawable/ic_setadash"
+                                app:tint="#FF7043"
+                                android:layout_marginEnd="4dp" />
+
+                            <TextView
+                                android:id="@+id/txt_plano_nivel"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="12sp"
+                                android:textColor="#FF7043" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
+
+        <!-- ═══════════════════════════════════════ -->
+        <!-- ── SEÇÃO CONSULTAS (CONDICIONAL) ── -->
+        <!-- ═══════════════════════════════════════ -->
+        <LinearLayout
+            android:id="@+id/section_consultas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            android:layout_marginBottom="24dp">
+
+            <!-- Cabeçalho -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Consultas"
+                    android:textColor="#1A1A1A"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_centerVertical="true" />
+
+                <TextView
+                    android:id="@+id/btn_ver_consultas"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Ver todas"
+                    android:textColor="#00897B"
+                    android:textSize="13sp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:padding="4dp" />
+            </RelativeLayout>
+
+            <!-- Card da próxima consulta -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_proxima_consulta"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="@drawable/bg_card_consulta"
+                    android:padding="16dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="12dp">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_centerVertical="true">
+
+                            <TextView
+                                android:id="@+id/txt_consulta_tipo"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="16sp"
+                                android:textStyle="bold"
+                                android:textColor="#FFFFFF" />
+
+                            <TextView
+                                android:id="@+id/txt_consulta_medico"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="13sp"
+                                android:textColor="#C5CAE9" />
+                        </LinearLayout>
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            app:srcCompat="@drawable/ic_calendar"
+                            app:tint="#FFFFFF" />
+                    </RelativeLayout>
+
+                    <!-- Divider -->
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#3DFFFFFF"
+                        android:layout_marginBottom="12dp" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="6dp">
+
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            app:srcCompat="@drawable/ic_calendar"
+                            app:tint="#FFFFFF"
+                            android:layout_marginEnd="6dp" />
+
+                        <TextView
+                            android:id="@+id/txt_consulta_data"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="13sp"
+                            android:textColor="#FFFFFF" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            app:srcCompat="@drawable/ic_vital"
+                            app:tint="#FFFFFF"
+                            android:layout_marginEnd="6dp" />
+
+                        <TextView
+                            android:id="@+id/txt_consulta_horario"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="13sp"
+                            android:textColor="#FFFFFF" />
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
+
+        <!-- ══════════════════════════════════════════════ -->
+        <!-- ── SEÇÃO PROGRESSO DE EXERCÍCIOS (CONDICIONAL) ── -->
+        <!-- ══════════════════════════════════════════════ -->
+        <LinearLayout
+            android:id="@+id/section_progresso"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            android:layout_marginBottom="24dp">
+
+            <!-- Cabeçalho -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Progresso de exercícios"
+                    android:textColor="#1A1A1A"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_centerVertical="true" />
+
+                <TextView
+                    android:id="@+id/btn_ver_progresso"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Ver tudo"
+                    android:textColor="#00897B"
+                    android:textSize="13sp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:padding="4dp" />
+            </RelativeLayout>
+
+            <!-- Card de progresso -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp"
+                app:cardBackgroundColor="#FFFFFF">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <!-- Percentual + badge -->
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="12dp">
+
+                        <TextView
+                            android:id="@+id/txt_progresso_percentual"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="32sp"
+                            android:textStyle="bold"
+                            android:textColor="#1A1A1A" />
+
+                        <TextView
+                            android:id="@+id/txt_progresso_badge"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Semana atual"
+                            android:textSize="11sp"
+                            android:textColor="#FFFFFF"
+                            android:background="@drawable/bg_badge_teal"
+                            android:paddingStart="10dp"
+                            android:paddingEnd="10dp"
+                            android:paddingTop="4dp"
+                            android:paddingBottom="4dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true" />
+                    </RelativeLayout>
+
+                    <!-- Barra de progresso -->
+                    <ProgressBar
+                        android:id="@+id/progress_bar"
+                        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="8dp"
+                        android:progressDrawable="@drawable/progress_bar_teal"
+                        android:max="100"
+                        android:progress="0"
+                        android:layout_marginBottom="16dp" />
+
+                    <!-- Divisores de % abaixo da barra -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="3"
+                        android:layout_marginBottom="16dp">
+
+                        <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                            android:layout_weight="1" android:text="20%" android:textSize="10sp"
+                            android:textColor="#999999" android:gravity="start" />
+                        <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                            android:layout_weight="1" android:text="40%" android:textSize="10sp"
+                            android:textColor="#999999" android:gravity="center" />
+                        <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                            android:layout_weight="1" android:text="40%" android:textSize="10sp"
+                            android:textColor="#999999" android:gravity="end" />
+                    </LinearLayout>
+
+                    <!-- Estatísticas embaixo -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="3">
+
+                        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+                            android:layout_weight="1" android:gravity="center" android:orientation="vertical">
+                            <ImageView android:layout_width="28dp" android:layout_height="28dp"
+                                android:background="@drawable/circulo_pendente"
+                                app:srcCompat="@drawable/ic_vital" app:tint="#4DB6AC"
+                                android:padding="6dp" />
+                            <TextView android:id="@+id/txt_prog_em_progresso" android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" android:text="0"
+                                android:textSize="16sp" android:textStyle="bold" android:layout_marginTop="4dp" />
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:text="Em progresso" android:textSize="10sp" android:textColor="#999999" />
+                        </LinearLayout>
+
+                        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+                            android:layout_weight="1" android:gravity="center" android:orientation="vertical">
+                            <ImageView android:layout_width="28dp" android:layout_height="28dp"
+                                android:background="@drawable/circulo_feito"
+                                app:srcCompat="@drawable/ic_check" app:tint="#FFFFFF"
+                                android:padding="6dp" />
+                            <TextView android:id="@+id/txt_prog_completo" android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" android:text="0"
+                                android:textSize="16sp" android:textStyle="bold" android:layout_marginTop="4dp" />
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:text="Completo" android:textSize="10sp" android:textColor="#999999" />
+                        </LinearLayout>
+
+                        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+                            android:layout_weight="1" android:gravity="center" android:orientation="vertical">
+                            <ImageView android:layout_width="28dp" android:layout_height="28dp"
+                                android:background="@drawable/circulo_pendente"
+                                app:srcCompat="@drawable/ic_setadash" app:tint="#E57373"
+                                android:padding="6dp" />
+                            <TextView android:id="@+id/txt_prog_proximos" android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" android:text="0"
+                                android:textSize="16sp" android:textStyle="bold" android:layout_marginTop="4dp" />
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:text="Próximos" android:textSize="10sp" android:textColor="#999999" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
 
     </LinearLayout>

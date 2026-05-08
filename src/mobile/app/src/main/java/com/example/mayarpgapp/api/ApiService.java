@@ -5,6 +5,9 @@ import com.example.mayarpgapp.model.LoginRequest;
 import com.example.mayarpgapp.model.CheckinResponse;
 import com.example.mayarpgapp.model.HistoricoResponse;
 import com.example.mayarpgapp.model.Exercise;
+import com.example.mayarpgapp.model.Consulta;
+import com.example.mayarpgapp.model.PlanoExercicio;
+import com.example.mayarpgapp.model.Progresso;
 import com.google.gson.JsonObject;
 
 import java.util.List;
@@ -39,4 +42,18 @@ public interface ApiService {
 
     @GET("exercises")
     Call<List<Exercise>> getExercises(@Header("Authorization") String token);
+
+    // ─── NOVOS ENDPOINTS ────────────────────────────────────────────────────
+
+    /** Retorna o plano de exercício ativo do paciente (null/404 se não houver) */
+    @GET("plano")
+    Call<PlanoExercicio> getPlanoExercicio(@Header("Authorization") String token);
+
+    /** Retorna as consultas do paciente (lista vazia se não houver) */
+    @GET("consultas")
+    Call<List<Consulta>> getConsultas(@Header("Authorization") String token);
+
+    /** Retorna o progresso de exercícios do paciente */
+    @GET("progresso")
+    Call<Progresso> getProgresso(@Header("Authorization") String token);
 }
