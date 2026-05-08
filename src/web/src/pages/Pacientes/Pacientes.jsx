@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Icon } from '@iconify/react';
 import './Pacientes.css';
 import api from '../../services/api';
@@ -10,7 +11,7 @@ const STATUS_CORES = {
 };
 
 const PRIORIDADE_CORES = {
-  normal: '#f5a623',
+  normal: '#f5a623', 
   alta:   '#e05b5b',
   baixa:  '#37A6BA',
 };
@@ -30,6 +31,8 @@ const formatarCPF = (valor) => {
 };
 
 export default function Pacientes() {
+  const navigate = useNavigate();
+
   const [pacientes,     setPacientes]     = useState([]);
   const [busca,         setBusca]         = useState('');
   const [modal,         setModal]         = useState(false);
@@ -39,7 +42,6 @@ export default function Pacientes() {
   const [loading,       setLoading]       = useState(false);
   const [loadingDados,  setLoadingDados]  = useState(true);
   const [erro,          setErro]          = useState('');
-  const [menuAberto,    setMenuAberto]    = useState(null);
   const [editando,      setEditando]      = useState(null);
 
   const carregar = async () => {
@@ -91,13 +93,11 @@ export default function Pacientes() {
     setEditando(p.id);
     setErro('');
     setModal(true);
-    setMenuAberto(null);
   };
 
   const confirmarDeletar = (p) => {
     setPacienteDel(p);
     setModalDeletar(true);
-    setMenuAberto(null);
   };
 
   const deletar = async () => {
@@ -212,62 +212,137 @@ const salvar = async (e) => {
               <th>Paciente</th>
               <th>Última consulta</th>
               <th>Status</th>
+              <th>E-mail</th>
+              <th>Telefone</th>
               <th>Diagnóstico</th>
               <th>Prioridade</th>
               <th></th>
             </tr>
           </thead>
-          <tbody>
-            {filtrados.map(p => {
-              const status   = STATUS_CORES[p.status] || STATUS_CORES.pendente;
-              const priorCor = PRIORIDADE_CORES[p.priority] || PRIORIDADE_CORES.normal;
-              return (
-                <tr key={p.id}>
-                  <td>
-                    <div className="pac-nome-cell">
-                      <div className="pac-avatar">{p.name[0].toUpperCase()}</div>
-                      <span className="pac-nome">{p.name}</span>
-                    </div>
-                  </td>
-                  <td className="pac-data">{formatarData(p.created_at)}</td>
-                  <td>
-                    <span className="pac-status" style={{ background: status.bg, color: status.color }}>
-                      {status.label}
-                    </span>
-                  </td>
-                  <td className="pac-diag">{p.diagnosis || '—'}</td>
-                  <td>
-                    <div className="pac-prioridade">
-                      <span className="pac-prioridade-dot" style={{ background: priorCor }} />
-                      <span className="pac-prioridade-txt" style={{ color: priorCor }}>
-                        {p.priority ? p.priority.charAt(0).toUpperCase() + p.priority.slice(1) : 'Normal'}
-                      </span>
-                    </div>
-                  </td>
-                  <td className="pac-menu-cell">
-                    <div style={{ position: 'relative' }}>
-                      <button className="pac-menu-btn" onClick={() => setMenuAberto(menuAberto === p.id ? null : p.id)}>
-                        <Icon icon="solar:menu-dots-bold" width="18" />
-                      </button>
-                      {menuAberto === p.id && (
-                        <div className="pac-dropdown">
-                          <button onClick={() => abrirEditar(p)}>
-                            <Icon icon="solar:pen-linear" width="14" /> Editar
-                          </button>
-                          <button onClick={() => confirmarDeletar(p)} className="pac-drop-danger">
-                            <Icon icon="solar:trash-bin-trash-linear" width="14" /> Excluir
-                          </button>
-                        </div>
-                      )}
-                    </div>
-                  </td>
-                </tr>
-              );
-            })}
-            {filtrados.length === 0 && (
-              <tr><td colSpan={6} className="pac-vazio">Nenhum paciente encontrado.</td></tr>
-            )}
-          </tbody>
+
+<tbody>
+  {filtrados.map(p => {
+    const status = STATUS_CORES[p.status] || STATUS_CORES.pendente;
+    const priorCor = PRIORIDADE_CORES[p.priority] || PRIORIDADE_CORES.normal;
+
+    return (
+      <tr key={p.id} style={{ cursor: 'pointer' }}>
+        <td onClick={() => navigate(`/paciente/${p.id}`)}>
+          <div className="pac-nome-cell">
+            <div className="pac-avatar">
+              {p.name[0].toUpperCase()}
+            </div>
+            <span className="pac-nome">{p.name}</span>
+          </div>
+        </td>
+
+        <td className="pac-data">
+          {formatarData(p.created_at)}
+        </td>
+
+        <td>
+          <span
+            className="pac-status"
+            style={{
+              background: status.bg,
+              color: status.color
+            }}
+          >
+            {status.label}
+          </span>
+        </td>
+
+        <td className="pac-data">
+          {p.email || '—'}
+        </td>
+
+        <td className="pac-data">
+          {p.phone || '—'}
+        </td>
+
+        <td className="pac-diag">
+          {p.diagnosis || '—'}
+        </td>
+
+        <td>
+          <div className="pac-prioridade">
+            <span
+              className="pac-prioridade-dot"
+              style={{ background: priorCor }}
+            />
+
+            <span
+              className="pac-prioridade-txt"
+              style={{ color: priorCor }}
+            >
+              {p.priority
+                ? p.priority.charAt(0).toUpperCase() + p.priority.slice(1)
+                : 'Normal'}
+            </span>
+          </div>
+        </td>
+
+        <td className="pac-menu-cell">
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 4
+            }}
+          >
+            <button
+              className="pac-menu-btn"
+              title="Prontuário"
+              onClick={(e) => {
+              e.stopPropagation(); navigate(`/paciente/${p.id}`);
+            }}
+            >
+              <Icon
+                icon="solar:document-medicine-linear"
+                width="18"
+              />
+            </button>
+
+            <button
+            type='button'
+              className="pac-menu-btn"
+              title="Editar"
+               onClick={(e) => {
+               e.stopPropagation(); abrirEditar(p);
+               }}
+            >
+              <Icon
+                icon="solar:pen-linear"
+                width="16"
+              />
+            </button>
+
+            <button
+              type='button'
+              className="pac-menu-btn pac-drop-danger"
+              title="Excluir"
+              onClick={(e) => {e.stopPropagation(); confirmarDeletar(p);
+            }}
+            >
+              <Icon
+                icon="solar:trash-bin-trash-linear"
+                width="16"
+              />
+            </button>
+          </div>
+        </td>
+      </tr>
+    );
+  })}
+
+  {filtrados.length === 0 && (
+    <tr>
+      <td colSpan={8} className="pac-vazio">
+        Nenhum paciente encontrado.
+      </td>
+    </tr>
+  )}
+</tbody>
         </table>
       </div>
 

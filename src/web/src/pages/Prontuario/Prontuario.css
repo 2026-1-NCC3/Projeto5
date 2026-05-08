@@ -1,0 +1,453 @@
+.pront-page {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.pront-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  color: #aaa;
+  font-size: 14px;
+}
+
+/* ── Header ── */
+.pront-voltar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  color: #555;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 20px;
+  font-family: inherit;
+  width: auto;
+}
+.pront-voltar:hover { color: #37A6BA; }
+
+.pront-header {
+  background: #fff;
+  border-radius: 16px;
+  padding: 24px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  margin-bottom: 0;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.pront-perfil {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.pront-avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: #e8f7fa;
+  color: #37A6BA;
+  font-size: 20px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.pront-nome {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 6px 0;
+}
+
+.pront-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.pront-cpf, .pront-genero {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 13px;
+  color: #888;
+}
+
+.pront-genero {
+  background: #ede9fe;
+  color: #7c3aed;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-weight: 600;
+}
+
+.pront-proxima {
+  background: #f0fbfc;
+  border: 1.5px solid #c8eef4;
+  border-radius: 12px;
+  padding: 14px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 160px;
+}
+
+.pront-proxima-label {
+  font-size: 11px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.pront-proxima-data {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.pront-proxima-hora {
+  font-size: 13px;
+  color: #555;
+}
+
+/* ── Abas ── */
+.pront-abas {
+  display: flex;
+  gap: 0;
+  border-bottom: 2px solid #f0f0f0;
+  background: #fff;
+  padding: 0 28px;
+  margin-top: 16px;
+}
+
+.pront-aba {
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  padding: 14px 18px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #888;
+  cursor: pointer;
+  margin-bottom: -2px;
+  font-family: inherit;
+  transition: color 0.2s;
+  width: auto;
+}
+
+.pront-aba:hover { color: #37A6BA; }
+
+.pront-aba--ativa {
+  color: #37A6BA;
+  border-bottom-color: #37A6BA;
+}
+
+/* ── Conteúdo ── */
+.pront-conteudo {
+  padding: 24px 0;
+}
+
+.pront-aba-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Toolbar da aba prontuário */
+.pront-aba-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pront-busca {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #fff;
+  border: 1.5px solid #e8e8e8;
+  border-radius: 10px;
+  padding: 9px 14px;
+  flex: 1;
+}
+
+.pront-busca input {
+  border: none;
+  outline: none;
+  font-size: 13px;
+  color: #333;
+  background: transparent;
+  width: 100%;
+  font-family: inherit;
+}
+
+.pront-btn-calendario {
+  background: #fff;
+  border: 1.5px solid #e8e8e8;
+  border-radius: 10px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #555;
+  cursor: pointer;
+}
+
+.pront-btn-novo {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #37A6BA;
+  border: none;
+  border-radius: 20px;
+  padding: 10px 18px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+  cursor: pointer;
+  font-family: inherit;
+  white-space: nowrap;
+  width: auto;
+}
+
+.pront-btn-novo:hover { background: #2c8fa1; }
+.pront-btn-novo--right { align-self: flex-end; }
+
+/* Estado vazio */
+.pront-vazio {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 64px 24px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+
+.pront-vazio-titulo {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+.pront-vazio-sub {
+  font-size: 13px;
+  color: #aaa;
+  text-align: center;
+  margin: 0;
+  max-width: 320px;
+}
+
+/* ── Plano de exercício ── */
+.pront-plano-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.pront-plano-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.pront-plano-titulo {
+  font-size: 15px;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.pront-exercicio {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: #f9fafb;
+  border-radius: 12px;
+  padding: 14px 16px;
+}
+
+.pront-exercicio-img {
+  width: 56px;
+  height: 56px;
+  border-radius: 10px;
+  background: #e8f7fa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.pront-exercicio-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+}
+
+.pront-exercicio-nome {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.pront-exercicio-desc,
+.pront-exercicio-orient {
+  font-size: 12px;
+  color: #aaa;
+}
+
+.pront-exercicio-stats {
+  display: flex;
+  gap: 12px;
+}
+
+.pront-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.pront-stat-label {
+  font-size: 11px;
+  color: #aaa;
+  font-weight: 600;
+}
+
+.pront-stat-valor {
+  background: #f0f0f0;
+  border-radius: 8px;
+  padding: 4px 12px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #333;
+}
+
+/* ── Atividade ── */
+.pront-atividade-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 2fr;
+  gap: 16px;
+}
+
+.pront-ativ-card {
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.pront-ativ-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.pront-ativ-icon--blue   { background: #e0f7fa; }
+.pront-ativ-icon--purple { background: #f3e8ff; }
+
+.pront-ativ-valor {
+  display: block;
+  font-size: 28px;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.pront-ativ-label {
+  font-size: 12px;
+  color: #888;
+}
+
+.pront-ativ-grafico {
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.pront-ativ-grafico-titulo {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.pront-ativ-grafico-vazio {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  color: #ccc;
+  min-height: 80px;
+}
+
+.pront-historico {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  padding: 24px;
+}
+
+.pront-historico-titulo {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 4px 0;
+}
+
+.pront-historico-sub {
+  font-size: 13px;
+  color: #aaa;
+  margin: 0;
+}
+
+/* Menu btn reaproveitado */
+.pac-menu-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #aaa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  transition: background 0.15s;
+}
+.pac-menu-btn:hover { background: #f0f0f0; color: #555; }
+
+@media (max-width: 768px) {
+  .pront-atividade-grid { grid-template-columns: 1fr; }
+  .pront-header { flex-direction: column; align-items: flex-start; }
+}

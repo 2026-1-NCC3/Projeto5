@@ -21,6 +21,20 @@ export async function getAllPatients() {
   if (error) throw new Error(error.message);
   return data;
 }
+export async function getPatientById(id: string) {
+
+  const { data, error } = await supabase
+    .from("patients")
+    .select("*")
+    .eq("id", id)
+    .single();
+
+  if (error) {
+    throw error;
+  }
+
+  return data;
+}
 
 export async function createPatient(payload: any) {
   const { data, error } = await supabase

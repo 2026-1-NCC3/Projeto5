@@ -10,6 +10,22 @@ export async function getPatients(req: Request, res: Response) {
     res.status(500).json({ error: err.message });
   }
 }
+export async function getPatientById(req: Request, res: Response) {
+  try {
+    const id = req.params.id as string;
+
+    const data = await service.getPatientById(id);
+
+    res.json(data);
+
+  } catch (err: any) {
+
+    res.status(500).json({
+      error: err.message
+    });
+
+  }
+}
 
 export async function createPatient(req: Request, res: Response) {
   try {
