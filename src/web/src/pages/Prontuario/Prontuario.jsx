@@ -207,10 +207,20 @@ function AbaProntuario({ pacienteId }) {
     e.preventDefault();
 
     try {
+        const dados = {
+      record_date: form.record_date,
+      main_complaint: form.main_complaint,
+      pain_level: form.pain_level
+        ? Number(form.pain_level)
+        : null,
+      injury_history: form.injury_history,
+      diagnosis: form.diagnosis,
+      notes: form.notes
+    };
 
       await api.post(
         `/api/patients/${pacienteId}/medical-records`,
-        form
+        dados
       );
 
       setModal(false);

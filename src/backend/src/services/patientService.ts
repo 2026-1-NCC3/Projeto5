@@ -52,6 +52,12 @@ export async function createMedicalRecord(
   body: any
 ) {
 
+  console.log("PATIENT ID:");
+  console.log(patientId);
+
+  console.log("BODY:");
+  console.log(body);
+
   const { data, error } = await supabase
     .from("medical_records")
     .insert([
@@ -59,7 +65,7 @@ export async function createMedicalRecord(
         patient_id: patientId,
         record_date: body.record_date,
         main_complaint: body.main_complaint,
-        pain_level: body.pain_level || null,
+        pain_level: body.pain_level,
         injury_history: body.injury_history,
         diagnosis: body.diagnosis,
         notes: body.notes
@@ -67,6 +73,9 @@ export async function createMedicalRecord(
     ])
     .select()
     .single();
+
+  console.log("SUPABASE ERROR:");
+  console.log(error);
 
   if (error) {
     throw error;
