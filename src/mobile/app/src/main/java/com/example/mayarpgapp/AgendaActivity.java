@@ -5,7 +5,7 @@ import android.widget.TextView;
 import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class AgendaActivity extends BaseActivity {
+public class AgendaActivity extends AppCompatActivity {
     private TextView tvEmUmDia;           // Badge "Em 1 dia"
     private TextView tvDataProxima;       // Data da próxima consulta
     private TextView tvAvatarProxima;     // Iniciais da médica no círculo avatar
@@ -24,6 +24,7 @@ public class AgendaActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_agenda);
 
         initViews();
     }
@@ -68,6 +69,4 @@ public class AgendaActivity extends BaseActivity {
             });
         }
     }
-    @Override protected int getLayoutId() { return R.layout.activity_agenda; }
-    @Override protected int getNavItemId() { return R.id.nav_btn_consultas; }
 }

@@ -5,7 +5,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class PerfilActivity extends BaseActivity {
+public class PerfilActivity extends AppCompatActivity {
 
     // Componentes do topo: foto e nome de destaque
     private ImageView ivFotoPerfil;
@@ -22,6 +22,7 @@ public class PerfilActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_perfil);
 
         initViews();
     }
@@ -41,6 +42,4 @@ public class PerfilActivity extends BaseActivity {
         // Informação de contato
         tvTelefone = findViewById(R.id.tvTelefone);
     }
-    @Override protected int getLayoutId() { return R.layout.activity_perfil; }
-    @Override protected int getNavItemId() { return R.id.nav_btn_perfil; }
 }

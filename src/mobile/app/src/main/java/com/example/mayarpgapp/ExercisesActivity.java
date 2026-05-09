@@ -18,7 +18,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ExercisesActivity extends BaseActivity {
+public class ExercisesActivity extends AppCompatActivity {
 
     // Componentes da tela
     private RecyclerView rvExercises;
@@ -29,6 +29,7 @@ public class ExercisesActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_exercises);
 
         // Instancia a API e inicia os componentes
         apiService = RetrofitClient.getInstance().create(ApiService.class);
@@ -98,7 +99,4 @@ public class ExercisesActivity extends BaseActivity {
         SharedPreferences prefs = getSharedPreferences("auth", MODE_PRIVATE);
         return prefs.getString("token", "");
     }
-
-    @Override protected int getLayoutId() { return R.layout.activity_exercises; }
-    @Override protected int getNavItemId() { return R.id.nav_btn_exercicios; }
 }
