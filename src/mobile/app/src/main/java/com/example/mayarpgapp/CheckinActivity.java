@@ -27,7 +27,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class CheckinActivity extends AppCompatActivity {
+public class CheckinActivity extends BaseActivity {
 
     private LinearLayout llDaysContainer;
     private TextView tvDataHoje, tvStatus;
@@ -40,7 +40,6 @@ public class CheckinActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_checkin);
 
         apiService = RetrofitClient.getInstance().create(ApiService.class);
 
@@ -231,4 +230,6 @@ public class CheckinActivity extends AppCompatActivity {
     private int dpToPx(int dp) {
         return Math.round(dp * getResources().getDisplayMetrics().density);
     }
+    @Override protected int getLayoutId() { return R.layout.activity_checkin; }
+    @Override protected int getNavItemId() { return R.id.nav_btn_historico; }
 }

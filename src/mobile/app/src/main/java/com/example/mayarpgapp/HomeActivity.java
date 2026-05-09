@@ -25,7 +25,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends BaseActivity {
 
     // ── Cabeçalho ──
     private TextView txtSaudacao;
@@ -61,7 +61,6 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
 
         // Recupera o token salvo (ajuste conforme sua implementação de login)
         token = "Bearer " + getSharedPreferences("prefs", MODE_PRIVATE)
@@ -325,4 +324,6 @@ public class HomeActivity extends AppCompatActivity {
             return dataISO; // retorna o original se falhar
         }
     }
+    @Override protected int getLayoutId() { return R.layout.activity_home; }
+    @Override protected int getNavItemId() { return R.id.nav_btn_home; }
 }
