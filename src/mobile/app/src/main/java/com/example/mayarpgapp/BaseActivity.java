@@ -30,8 +30,8 @@ public abstract class BaseActivity extends AppCompatActivity {
             }
         });
         findViewById(R.id.nav_btn_consultas).setOnClickListener(v -> {
-            if (!(this instanceof AgendaActivity)) {
-                startActivity(new Intent(this, AgendaActivity.class));
+            if (!(this instanceof ConsultaActivity)) {
+                startActivity(new Intent(this, ConsultaActivity.class));
                 overridePendingTransition(0, 0);
             }
         });

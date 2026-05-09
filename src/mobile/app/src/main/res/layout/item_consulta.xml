@@ -26,7 +26,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/txt_item_tipo"
+                    android:id="@+id/txt_consulta_tipo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="15sp"
@@ -34,7 +34,7 @@
                     android:textColor="#1A1A1A" />
 
                 <TextView
-                    android:id="@+id/txt_item_medico"
+                    android:id="@+id/txt_consulta_medico"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="12sp"
@@ -42,15 +42,13 @@
                     android:layout_marginTop="2dp" />
             </LinearLayout>
 
-            <!-- Ícone: agendada = roxo calendário / concluída = verde check -->
             <ImageView
-                android:id="@+id/img_item_status"
+                android:id="@+id/ic_consulta_status"
                 android:layout_width="22dp"
                 android:layout_height="22dp"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                app:srcCompat="@drawable/ic_calendar"
-                app:tint="#7C4DFF" />
+                app:srcCompat="@drawable/ic_calendar_proximas" />
         </RelativeLayout>
 
         <!-- Divider -->
@@ -69,13 +67,12 @@
             <ImageView
                 android:layout_width="14dp"
                 android:layout_height="14dp"
-                app:srcCompat="@drawable/ic_calendar"
-                app:tint="#999999"
+                app:srcCompat="@drawable/ic_data"
                 android:layout_marginEnd="6dp"
                 android:layout_gravity="center_vertical" />
 
             <TextView
-                android:id="@+id/txt_item_data"
+                android:id="@+id/txt_consulta_data"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="13sp"
@@ -90,13 +87,12 @@
             <ImageView
                 android:layout_width="14dp"
                 android:layout_height="14dp"
-                app:srcCompat="@drawable/ic_vital"
-                app:tint="#999999"
+                app:srcCompat="@drawable/ic_horario"
                 android:layout_marginEnd="6dp"
                 android:layout_gravity="center_vertical" />
 
             <TextView
-                android:id="@+id/txt_item_horario"
+                android:id="@+id/txt_consulta_horario"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="13sp"

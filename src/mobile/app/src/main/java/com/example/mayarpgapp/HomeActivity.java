@@ -7,17 +7,17 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.mayarpgapp.api.ApiService;
 import com.example.mayarpgapp.api.RetrofitClient;
 import com.example.mayarpgapp.model.Consulta;
+import com.example.mayarpgapp.model.ConsultaResponse;
 import com.example.mayarpgapp.model.PlanoExercicio;
 import com.example.mayarpgapp.model.Progresso;
 import com.google.android.material.button.MaterialButton;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -27,42 +27,26 @@ import retrofit2.Response;
 
 public class HomeActivity extends BaseActivity {
 
-    // ── Cabeçalho ──
     private TextView txtSaudacao;
     private TextView txtSubtituloCheckin;
-
-    // ── Calendário ──
     private ImageView[] circulosDosDias;
-
-    // ── Botão check-in ──
     private MaterialButton btnRegistrar;
-
-    // ── Estatísticas ──
     private TextView txtEstatistica1, txtEstatistica2, txtEstatistica3;
-
-    // ── Seção Plano ──
     private View sectionPlano;
     private TextView txtPlanoNome, txtPlanoDuracao, txtPlanoNivel, btnVerPlano;
-
-    // ── Seção Consultas ──
     private View sectionConsultas;
     private TextView txtConsultaTipo, txtConsultaMedico, txtConsultaData, txtConsultaHorario;
     private TextView btnVerConsultas;
-
-    // ── Seção Progresso ──
     private View sectionProgresso;
     private TextView txtProgressoPercentual, txtProgEmProgresso, txtProgCompleto, txtProgProximos;
     private ProgressBar progressBar;
     private TextView btnVerProgresso;
-
-    // ── Token do usuário ──
     private String token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Recupera o token salvo (ajuste conforme sua implementação de login)
         token = "Bearer " + getSharedPreferences("prefs", MODE_PRIVATE)
                 .getString("token", "");
 
@@ -71,14 +55,9 @@ public class HomeActivity extends BaseActivity {
         configurarDataCheckin();
         configurarCalendarioSemanal();
         configurarBotoes();
-
-        // Chamadas à API
         carregarDadosHome();
     }
 
-    // ─────────────────────────────────────────────────────────
-    // INICIALIZAÇÃO DE VIEWS
-    // ─────────────────────────────────────────────────────────
     private void inicializarViews() {
         txtSaudacao         = findViewById(R.id.txt_saudacao);
         txtSubtituloCheckin = findViewById(R.id.subtitulo_checkin);
@@ -98,14 +77,12 @@ public class HomeActivity extends BaseActivity {
         txtEstatistica2 = findViewById(R.id.txt_estatistica_2);
         txtEstatistica3 = findViewById(R.id.txt_estatistica_3);
 
-        // Plano
         sectionPlano    = findViewById(R.id.section_plano);
         txtPlanoNome    = findViewById(R.id.txt_plano_nome);
         txtPlanoDuracao = findViewById(R.id.txt_plano_duracao);
         txtPlanoNivel   = findViewById(R.id.txt_plano_nivel);
         btnVerPlano     = findViewById(R.id.btn_ver_plano);
 
-        // Consultas
         sectionConsultas   = findViewById(R.id.section_consultas);
         txtConsultaTipo    = findViewById(R.id.txt_consulta_tipo);
         txtConsultaMedico  = findViewById(R.id.txt_consulta_medico);
@@ -113,19 +90,15 @@ public class HomeActivity extends BaseActivity {
         txtConsultaHorario = findViewById(R.id.txt_consulta_horario);
         btnVerConsultas    = findViewById(R.id.btn_ver_consultas);
 
-        // Progresso
-        sectionProgresso      = findViewById(R.id.section_progresso);
-        txtProgressoPercentual= findViewById(R.id.txt_progresso_percentual);
-        progressBar           = findViewById(R.id.progress_bar);
-        txtProgEmProgresso    = findViewById(R.id.txt_prog_em_progresso);
-        txtProgCompleto       = findViewById(R.id.txt_prog_completo);
-        txtProgProximos       = findViewById(R.id.txt_prog_proximos);
-        btnVerProgresso       = findViewById(R.id.btn_ver_progresso);
+        sectionProgresso       = findViewById(R.id.section_progresso);
+        txtProgressoPercentual = findViewById(R.id.txt_progresso_percentual);
+        progressBar            = findViewById(R.id.progress_bar);
+        txtProgEmProgresso     = findViewById(R.id.txt_prog_em_progresso);
+        txtProgCompleto        = findViewById(R.id.txt_prog_completo);
+        txtProgProximos        = findViewById(R.id.txt_prog_proximos);
+        btnVerProgresso        = findViewById(R.id.btn_ver_progresso);
     }
 
-    // ─────────────────────────────────────────────────────────
-    // SAUDAÇÃO DINÂMICA
-    // ─────────────────────────────────────────────────────────
     private void configurarSaudacao() {
         int hora = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
         String saudacao;
@@ -139,22 +112,14 @@ public class HomeActivity extends BaseActivity {
         txtSaudacao.setText(saudacao);
     }
 
-    // ─────────────────────────────────────────────────────────
-    // DATA DINÂMICA NO CARD DE CHECK-IN
-    // ─────────────────────────────────────────────────────────
     private void configurarDataCheckin() {
         SimpleDateFormat sdf = new SimpleDateFormat("EEEE, dd 'de' MMMM", new Locale("pt", "BR"));
         txtSubtituloCheckin.setText(sdf.format(Calendar.getInstance().getTime()));
     }
 
-    // ─────────────────────────────────────────────────────────
-    // CALENDÁRIO SEMANAL
-    // ─────────────────────────────────────────────────────────
     private void configurarCalendarioSemanal() {
         Calendar calendario = Calendar.getInstance(new Locale("pt", "BR"));
         int diaSemanaHoje = calendario.get(Calendar.DAY_OF_WEEK);
-
-        // TODO: substituir pelo histórico real vindo da API (getHistorico)
         boolean[] historicoCheckins = {false, true, true, true, false, false, false};
 
         for (int i = 0; i < circulosDosDias.length; i++) {
@@ -175,9 +140,6 @@ public class HomeActivity extends BaseActivity {
         }
     }
 
-    // ─────────────────────────────────────────────────────────
-    // BOTÕES E NAVEGAÇÃO
-    // ─────────────────────────────────────────────────────────
     private void configurarBotoes() {
         btnRegistrar.setOnClickListener(v ->
                 startActivity(new Intent(this, CheckinActivity.class)));
@@ -185,17 +147,13 @@ public class HomeActivity extends BaseActivity {
         btnVerPlano.setOnClickListener(v ->
                 startActivity(new Intent(this, ExercisesActivity.class)));
 
-        // Ajuste o destino abaixo conforme suas Activities de consultas e progresso
         btnVerConsultas.setOnClickListener(v ->
-                startActivity(new Intent(this, AgendaActivity.class)));
+                startActivity(new Intent(this, ConsultaActivity.class)));
 
         btnVerProgresso.setOnClickListener(v ->
-                startActivity(new Intent(this, CheckinActivity.class))); // troque se tiver ProgressoActivity
+                startActivity(new Intent(this, CheckinActivity.class)));
     }
 
-    // ─────────────────────────────────────────────────────────
-    // CARREGA TODOS OS DADOS DA HOME VIA API
-    // ─────────────────────────────────────────────────────────
     private void carregarDadosHome() {
         ApiService api = RetrofitClient.getInstance().create(ApiService.class);
         carregarPlano(api);
@@ -203,7 +161,6 @@ public class HomeActivity extends BaseActivity {
         carregarProgresso(api);
     }
 
-    // ── Plano de exercício ──────────────────────────────────
     private void carregarPlano(ApiService api) {
         api.getPlanoExercicio(token).enqueue(new Callback<PlanoExercicio>() {
             @Override
@@ -213,15 +170,11 @@ public class HomeActivity extends BaseActivity {
                     if (plano.temExercicios()) {
                         exibirPlano(plano);
                     }
-                    // Se não tiver exercícios, a seção permanece GONE
                 }
-                // Se 404 ou erro, seção permanece GONE
             }
 
             @Override
-            public void onFailure(Call<PlanoExercicio> call, Throwable t) {
-                // Sem conexão: seção permanece oculta silenciosamente
-            }
+            public void onFailure(Call<PlanoExercicio> call, Throwable t) { }
         });
     }
 
@@ -230,52 +183,38 @@ public class HomeActivity extends BaseActivity {
         txtPlanoNome.setText(plano.getNome());
         txtPlanoDuracao.setText(plano.getDuracaoTotal());
         txtPlanoNivel.setText(plano.getNivel());
-
-        // Atualiza estatísticas (card 1 = total de exercícios do plano)
         if (plano.getExercicios() != null) {
             txtEstatistica1.setText(String.valueOf(plano.getExercicios().size()));
         }
     }
 
-    // ── Consultas ──────────────────────────────────────────
     private void carregarConsultas(ApiService api) {
-        api.getConsultas(token).enqueue(new Callback<List<Consulta>>() {
+        api.getConsultas(token).enqueue(new Callback<ConsultaResponse>() {
             @Override
-            public void onResponse(Call<List<Consulta>> call, Response<List<Consulta>> response) {
+            public void onResponse(Call<ConsultaResponse> call, Response<ConsultaResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    List<Consulta> consultas = response.body();
-                    if (!consultas.isEmpty()) {
-                        exibirConsultas(consultas);
+                    List<Consulta> proximas = response.body().getProximas();
+                    if (proximas != null && !proximas.isEmpty()) {
+                        exibirConsultas(proximas);
                     }
                 }
             }
 
             @Override
-            public void onFailure(Call<List<Consulta>> call, Throwable t) {
-                // Seção permanece oculta
-            }
+            public void onFailure(Call<ConsultaResponse> call, Throwable t) { }
         });
     }
 
-    private void exibirConsultas(List<Consulta> consultas) {
-        // Mostra sempre a primeira (próxima) consulta
-        Consulta proxima = consultas.get(0);
-
+    private void exibirConsultas(List<Consulta> proximas) {
+        Consulta proxima = proximas.get(0);
         sectionConsultas.setVisibility(View.VISIBLE);
-        txtConsultaTipo.setText(proxima.getTipo());
-        txtConsultaMedico.setText("com " + proxima.getMedico());
-        txtConsultaData.setText(formatarData(proxima.getData()));
-        txtConsultaHorario.setText(proxima.getHorarioInicio() + " - " + proxima.getHorarioFim());
-
-        // Atualiza estatísticas (card 2 = total de consultas agendadas)
-        long agendadas = 0;
-        for (Consulta c : consultas) {
-            if (!c.isConcluida()) agendadas++;
-        }
-        txtEstatistica2.setText(String.valueOf(agendadas));
+        txtConsultaTipo.setText("Fisioterapia");
+        txtConsultaMedico.setText("com Dra. Maya");
+        txtConsultaData.setText(formatarData(proxima.getAppointmentDate()));
+        txtConsultaHorario.setText(formatarHorario(proxima.getAppointmentDate()));
+        txtEstatistica2.setText(String.valueOf(proximas.size()));
     }
 
-    // ── Progresso ──────────────────────────────────────────
     private void carregarProgresso(ApiService api) {
         api.getProgresso(token).enqueue(new Callback<Progresso>() {
             @Override
@@ -289,9 +228,7 @@ public class HomeActivity extends BaseActivity {
             }
 
             @Override
-            public void onFailure(Call<Progresso> call, Throwable t) {
-                // Seção permanece oculta
-            }
+            public void onFailure(Call<Progresso> call, Throwable t) { }
         });
     }
 
@@ -302,28 +239,32 @@ public class HomeActivity extends BaseActivity {
         txtProgEmProgresso.setText(String.valueOf(progresso.getEmProgresso()));
         txtProgCompleto.setText(String.valueOf(progresso.getCompleto()));
         txtProgProximos.setText(String.valueOf(progresso.getProximos()));
-
-        // Atualiza estatísticas (card 3 = dias perdidos = total - completo)
         txtEstatistica3.setText(String.valueOf(progresso.getProximos()));
     }
 
-    // ─────────────────────────────────────────────────────────
-    // UTILITÁRIOS
-    // ─────────────────────────────────────────────────────────
-
-    /**
-     * Converte "2025-05-15" → "Quinta, 15 de Maio"
-     * Ajuste o formato conforme o que a sua API retorna.
-     */
     private String formatarData(String dataISO) {
         try {
-            SimpleDateFormat entrada = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+            SimpleDateFormat entrada = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault());
             SimpleDateFormat saida   = new SimpleDateFormat("EEEE, dd 'de' MMMM", new Locale("pt", "BR"));
             return saida.format(entrada.parse(dataISO));
         } catch (Exception e) {
-            return dataISO; // retorna o original se falhar
+            return dataISO;
         }
     }
+
+    private String formatarHorario(String dateISO) {
+        try {
+            SimpleDateFormat entrada = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault());
+            SimpleDateFormat saida = new SimpleDateFormat("HH:mm", Locale.getDefault());
+            Date date = entrada.parse(dateISO);
+            String inicio = saida.format(date);
+            String fim = saida.format(new Date(date.getTime() + 3600000));
+            return inicio + " - " + fim;
+        } catch (Exception e) {
+            return dateISO;
+        }
+    }
+
     @Override protected int getLayoutId() { return R.layout.activity_home; }
     @Override protected int getNavItemId() { return R.id.nav_btn_home; }
 }

@@ -1,6 +1,7 @@
 package com.example.mayarpgapp.api;
 
 import com.example.mayarpgapp.model.AuthResponse;
+import com.example.mayarpgapp.model.ConsultaResponse;
 import com.example.mayarpgapp.model.LoginRequest;
 import com.example.mayarpgapp.model.CheckinResponse;
 import com.example.mayarpgapp.model.HistoricoResponse;
@@ -50,8 +51,8 @@ public interface ApiService {
     Call<PlanoExercicio> getPlanoExercicio(@Header("Authorization") String token);
 
     /** Retorna as consultas do paciente (lista vazia se não houver) */
-    @GET("consultas")
-    Call<List<Consulta>> getConsultas(@Header("Authorization") String token);
+    @GET("appointments")
+    Call<ConsultaResponse> getConsultas(@Header("Authorization") String token);
 
     /** Retorna o progresso de exercícios do paciente */
     @GET("progresso")

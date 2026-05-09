@@ -62,7 +62,7 @@
             android:theme="@style/Theme.MaterialComponents.Light.NoActionBar" />
 
         <activity
-            android:name=".AgendaActivity"
+            android:name=".ConsultaActivity"
             android:exported="false"
             android:theme="@style/Theme.MaterialComponents.Light.NoActionBar" />
 
