@@ -221,9 +221,11 @@
   font-family: inherit;
   white-space: nowrap;
   width: auto;
+  transition: background 0.15s;
 }
 
-.pront-btn-novo:hover { background: #2c8fa1; }
+.pront-btn-novo:hover:not(:disabled) { background: #2c8fa1; }
+.pront-btn-novo:disabled { opacity: 0.6; cursor: not-allowed; }
 .pront-btn-novo--right { align-self: flex-end; }
 
 /* Estado vazio */
@@ -431,7 +433,6 @@
   margin: 0;
 }
 
-/* Menu btn reaproveitado */
 .pac-menu-btn {
   background: none;
   border: none;
@@ -450,4 +451,424 @@
 @media (max-width: 768px) {
   .pront-atividade-grid { grid-template-columns: 1fr; }
   .pront-header { flex-direction: column; align-items: flex-start; }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   PLANO DE EXERCÍCIO
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Estado vazio com borda tracejada ── */
+.plano-empty-wrapper {
+  display: flex;
+  justify-content: center;
+  padding: 1rem 0;
+}
+
+.plano-empty-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  background: #fff;
+  border: 1.5px dashed #9FE1CB;
+  border-radius: 16px;
+  padding: 2.5rem 2rem;
+  max-width: 360px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+}
+
+/* ── Visualização do plano ativo ── */
+.plano-view-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.plano-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  overflow: hidden;
+}
+
+.plano-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid #f4f4f4;
+}
+
+.plano-ativo-label {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.plano-card-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.plano-icon-btn {
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: transparent;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #888;
+  transition: background 0.15s, color 0.15s;
+}
+
+.plano-icon-btn:hover {
+  background: #f0f0f0;
+  color: #333;
+}
+
+.plano-icon-btn--danger:hover {
+  background: #fde8e8;
+  color: #c0392b;
+}
+
+.plano-exercise-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.plano-exercise-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 20px;
+  border-bottom: 1px solid #f8f8f8;
+}
+
+.plano-exercise-item:last-child {
+  border-bottom: none;
+}
+
+.plano-exercise-item-thumb {
+  width: 56px;
+  height: 48px;
+  border-radius: 10px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.plano-thumb-placeholder {
+  width: 100%;
+  height: 100%;
+  background: #E1F5EE;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+}
+
+.plano-exercise-item-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.plano-exercise-item-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin: 0 0 2px;
+}
+
+.plano-exercise-item-desc {
+  font-size: 12px;
+  color: #aaa;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.plano-exercise-item-stats {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.plano-stat-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  background: #f5f5f5;
+  border-radius: 8px;
+  padding: 6px 10px;
+  min-width: 64px;
+}
+
+.plano-stat-label {
+  font-size: 11px;
+  color: #aaa;
+  font-weight: 600;
+}
+
+.plano-stat-value {
+  font-size: 13px;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.plano-new-row {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* ── Formulário ── */
+.plano-form-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.plano-form-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 20px;
+}
+
+/* ── Bloco de exercício no form ── */
+.plano-exercise-block {
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.plano-exercise-block:last-of-type {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.plano-exercise-block-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.plano-field-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #444;
+}
+
+.plano-required {
+  color: #e74c3c;
+  margin-left: 2px;
+}
+
+.plano-remove-btn {
+  background: none;
+  border: none;
+  color: #ccc;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 4px;
+  border-radius: 6px;
+  transition: color 0.15s, background 0.15s;
+}
+
+.plano-remove-btn:hover {
+  color: #e74c3c;
+  background: #fde8e8;
+}
+
+.plano-exercise-selector {
+  display: flex;
+  align-items: center;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #fff;
+  margin-bottom: 10px;
+  position: relative;
+  height: 48px;
+}
+
+.plano-exercise-thumb {
+  width: 56px;
+  height: 48px;
+  border-right: 1px solid #e8e8e8;
+  flex-shrink: 0;
+}
+
+.plano-exercise-select {
+  flex: 1;
+  border: none;
+  outline: none;
+  padding: 0 32px 0 12px;
+  font-size: 13px;
+  color: #999;
+  background: transparent;
+  cursor: pointer;
+  appearance: none;
+  font-family: inherit;
+  height: 100%;
+}
+
+.plano-exercise-select:focus { color: #1a1a1a; }
+
+.plano-select-arrow {
+  position: absolute;
+  right: 12px;
+  color: #bbb;
+  pointer-events: none;
+}
+
+/* ── Linha de parâmetros ── */
+.plano-params-row {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.plano-param-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 74px;
+}
+
+.plano-param-group--wide {
+  flex: 1;
+}
+
+.plano-param-label {
+  font-size: 12px;
+  color: #666;
+  font-weight: 600;
+}
+
+.plano-param-select {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 7px 24px 7px 10px;
+  font-size: 13px;
+  color: #333;
+  background: #fff url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23aaa' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat right 8px center;
+  appearance: none;
+  font-family: inherit;
+  height: 36px;
+  width: 100%;
+  cursor: pointer;
+}
+
+.plano-param-select:focus {
+  outline: none;
+  border-color: #37A6BA;
+}
+
+.plano-notes-input {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 8px 10px;
+  font-size: 13px;
+  color: #333;
+  resize: vertical;
+  font-family: inherit;
+  line-height: 1.4;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.plano-notes-input:focus {
+  outline: none;
+  border-color: #37A6BA;
+}
+
+.plano-notes-input::placeholder { color: #ccc; }
+
+/* ── Adicionar exercício ── */
+.plano-add-exercise-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 20px;
+  background: none;
+  border: none;
+  color: #37A6BA;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  font-family: inherit;
+  transition: color 0.15s;
+}
+
+.plano-add-exercise-btn:hover { color: #2c8fa1; }
+
+/* ── Footer do formulário ── */
+.plano-form-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.plano-footer-left {
+  display: flex;
+  gap: 10px;
+}
+
+.plano-cancel-btn {
+  background: #fff;
+  color: #555;
+  border: 1px solid #e0e0e0;
+  border-radius: 20px;
+  padding: 10px 20px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s;
+}
+
+.plano-cancel-btn:hover:not(:disabled) { background: #f5f5f5; }
+.plano-cancel-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.plano-delete-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #e74c3c;
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  padding: 10px 20px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s;
+}
+
+.plano-delete-btn:hover:not(:disabled) { background: #c0392b; }
+.plano-delete-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+/* ── Erro ── */
+.plano-error {
+  color: #e74c3c;
+  font-size: 13px;
+  margin: 0;
+  padding: 10px 14px;
+  background: #fde8e8;
+  border-radius: 10px;
 }
