@@ -9,6 +9,7 @@ import com.example.mayarpgapp.model.Exercise;
 import com.example.mayarpgapp.model.Consulta;
 import com.example.mayarpgapp.model.PlanoExercicio;
 import com.example.mayarpgapp.model.Progresso;
+import com.example.mayarpgapp.model.Paciente;
 import com.google.gson.JsonObject;
 
 import java.util.List;
@@ -57,4 +58,7 @@ public interface ApiService {
     /** Retorna o progresso de exercícios do paciente */
     @GET("progresso")
     Call<Progresso> getProgresso(@Header("Authorization") String token);
+
+    @GET("patients/me")
+    Call<Paciente> getPerfil(@Header("Authorization") String token);
 }
