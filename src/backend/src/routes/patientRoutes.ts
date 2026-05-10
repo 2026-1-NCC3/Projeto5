@@ -20,7 +20,6 @@ const router = Router();
 
 router.get("/me", authMiddleware, getMeController);
 router.get("/", getPatients);
-router.get("/:id", getPatientById);
 router.post("/", createPatient);
 
 // Medical records
@@ -33,6 +32,8 @@ router.post("/:id/exercise-plan", createExercisePlanController);
 router.put("/:id/exercise-plan/:planId", updateExercisePlanController);
 router.delete("/:id/exercise-plan/:planId", deleteExercisePlanController);
 
+// Rotas genéricas por último
+router.get("/:id", getPatientById);
 router.put("/:id", adminMiddleware, updatePatient);
 router.delete("/:id", deletePatient);
 
