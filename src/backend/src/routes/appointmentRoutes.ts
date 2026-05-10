@@ -1,14 +1,14 @@
-import { Router } from "express";
-import { authMiddleware } from "../midllewares/authMiddleware";
-import {
-  createAppointmentController,
-  getAppointmentsController
-} from "../controllers/appointmentController";
+import { Router } from 'express';
 
+import {
+  createAppointment,
+  getAppointments
+} from '../controllers/appointmentController';
 
 const router = Router();
 
-router.post("/", createAppointmentController);
-router.get("/", authMiddleware, getAppointmentsController);
+router.get('/', getAppointments);
+
+router.post('/', createAppointment);
 
 export default router;

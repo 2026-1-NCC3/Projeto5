@@ -1,41 +1,35 @@
-import { supabase } from "../config/supabaseClient";
+import { supabase } from '../config/supabaseClient';
 
-export async function createAppointment(data: any) {
-  const { patient_id, appointment_date, notes } = data;
+export async function createAppointment(
+  body: any
+) {
 
-  const { error } = await supabase
-    .from("appointments")
-    .insert({
-      patient_id,
-      appointment_date,
-      status: "scheduled",
-      notes: notes || null,
-      created_at: new Date()
-    });
+  const { data, error } =
+    await supabase
+      .from('appointments')
+      .insert(body)
+      .select()
+      .single();
 
   if (error) throw error;
 
-  return { message: "Consulta agendada com sucesso" };
+  return data;
 }
 
-export async function getAppointmentsByPatient(patientId: string) {
-  const now = new Date().toISOString();
+export async function getAppointments() {
 
-  const { data, error } = await supabase
-    .from("appointments")
-    .select("*")
-    .eq("patient_id", patientId)
-    .order("appointment_date", { ascending: true });
+  const { data, error } =
+    await supabase
+      .from('appointments')
+      .select(`
+        *,
+        patients (
+          id,
+          name
+        )
+      `);
 
   if (error) throw error;
 
-  const proximas = (data || []).filter(
-    (a) => a.status === "scheduled" && a.appointment_date >= now
-  );
-
-  const historico = (data || []).filter(
-    (a) => a.status === "completed" || a.appointment_date < now
-  );
-
-  return { proximas, historico };
+  return data;
 }

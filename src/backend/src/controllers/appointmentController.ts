@@ -1,28 +1,42 @@
-import { Request, Response } from "express";
-import { getPatientId } from "../utils/getPatientId";
-import {
-  createAppointment,
-  getAppointmentsByPatient
-} from "../services/appointmentService";
+import { Request, Response } from 'express';
+import * as service from '../services/appointmentService';
 
-export async function createAppointmentController(req: Request, res: Response) {
+export async function createAppointment(
+  req: Request,
+  res: Response
+) {
   try {
-    const result = await createAppointment(req.body);
-    return res.json(result);
+
+    const data =
+      await service.createAppointment(
+        req.body
+      );
+
+    res.status(201).json(data);
+
   } catch (err: any) {
-    return res.status(400).json({ error: err.message });
+
+    res.status(500).json({
+      error: err.message
+    });
   }
 }
 
-export async function getAppointmentsController(req: Request, res: Response) {
+export async function getAppointments(
+  req: Request,
+  res: Response
+) {
   try {
-    const authUserId = (req as any).user.id; // vem do authMiddleware
-    const patientId = await getPatientId(authUserId);
-    if (!patientId) return res.status(404).json({ error: "Paciente não encontrado" });
 
-    const data = await getAppointmentsByPatient(patientId);
-    return res.json(data);
+    const data =
+      await service.getAppointments();
+
+    res.json(data);
+
   } catch (err: any) {
-    return res.status(400).json({ error: err.message });
+
+    res.status(500).json({
+      error: err.message
+    });
   }
 }
