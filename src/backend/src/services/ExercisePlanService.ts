@@ -1,8 +1,7 @@
-import { supabase } from "../config/supabaseClient";
+import { supabaseAdmin } from "../config/supabaseClient";
 
 export async function getExercisePlanByPatient(patientId: string) {
-  // Busca o patient_plan mais recente com todos os exercícios
-  const { data, error } = await supabase
+  const { data, error } = await supabaseAdmin
     .from("patient_plans")
     .select(`
       id,
@@ -31,7 +30,6 @@ export async function getExercisePlanByPatient(patientId: string) {
   if (error) throw error;
   if (!data) return null;
 
-  // Normaliza para o formato que o frontend espera
   const plan = data.plans as any;
   return {
     id: data.id,
@@ -57,8 +55,7 @@ export async function createExercisePlan(
   patientId: string,
   body: { exercises: any[] }
 ) {
-  // 1. Cria o plan
-  const { data: plan, error: planError } = await supabase
+  const { data: plan, error: planError } = await supabaseAdmin
     .from("plans")
     .insert({ title: "Plano de Exercícios", description: "" })
     .select()
@@ -66,7 +63,6 @@ export async function createExercisePlan(
 
   if (planError) throw planError;
 
-  // 2. Cria as linhas plan_exercises
   const planExercises = body.exercises
     .filter((ex: any) => ex.exerciseId)
     .map((ex: any) => ({
@@ -76,14 +72,13 @@ export async function createExercisePlan(
     }));
 
   if (planExercises.length > 0) {
-    const { error: peError } = await supabase
+    const { error: peError } = await supabaseAdmin
       .from("plan_exercises")
       .insert(planExercises);
     if (peError) throw peError;
   }
 
-  // 3. Associa ao paciente
-  const { data: pp, error: ppError } = await supabase
+  const { error: ppError } = await supabaseAdmin
     .from("patient_plans")
     .insert({ patient_id: patientId, plan_id: plan.id })
     .select()
@@ -99,8 +94,7 @@ export async function updateExercisePlan(
   patientId: string,
   body: { exercises: any[] }
 ) {
-  // Busca o plan_id vinculado ao patient_plan
-  const { data: pp, error: ppError } = await supabase
+  const { data: pp, error: ppError } = await supabaseAdmin
     .from("patient_plans")
     .select("plan_id")
     .eq("id", patientPlanId)
@@ -109,15 +103,13 @@ export async function updateExercisePlan(
   if (ppError) throw ppError;
   const planId = pp.plan_id;
 
-  // Remove plan_exercises antigas
-  const { error: delError } = await supabase
+  const { error: delError } = await supabaseAdmin
     .from("plan_exercises")
     .delete()
     .eq("plan_id", planId);
 
   if (delError) throw delError;
 
-  // Recria as linhas
   const planExercises = body.exercises
     .filter((ex: any) => ex.exerciseId)
     .map((ex: any) => ({
@@ -127,7 +119,7 @@ export async function updateExercisePlan(
     }));
 
   if (planExercises.length > 0) {
-    const { error: peError } = await supabase
+    const { error: peError } = await supabaseAdmin
       .from("plan_exercises")
       .insert(planExercises);
     if (peError) throw peError;
@@ -137,8 +129,7 @@ export async function updateExercisePlan(
 }
 
 export async function deleteExercisePlan(patientPlanId: string) {
-  // Busca o plan_id para deletar em cascata
-  const { data: pp, error: ppError } = await supabase
+  const { data: pp, error: ppError } = await supabaseAdmin
     .from("patient_plans")
     .select("plan_id")
     .eq("id", patientPlanId)
@@ -146,16 +137,14 @@ export async function deleteExercisePlan(patientPlanId: string) {
 
   if (ppError) throw ppError;
 
-  // Deleta patient_plan (cascade cuida do resto via FK se configurado)
-  const { error: delPP } = await supabase
+  const { error: delPP } = await supabaseAdmin
     .from("patient_plans")
     .delete()
     .eq("id", patientPlanId);
 
   if (delPP) throw delPP;
 
-  // Deleta o plan também
-  const { error: delPlan } = await supabase
+  const { error: delPlan } = await supabaseAdmin
     .from("plans")
     .delete()
     .eq("id", pp.plan_id);
