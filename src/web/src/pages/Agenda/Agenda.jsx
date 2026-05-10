@@ -145,7 +145,7 @@ export default function Agenda() {
         <h2 className="agenda-titulo">Agendamentos</h2>
         <div className="agenda-acoes">
           <div className="filtros-tabs">
-            {['Próximos', 'Pendentes', 'Cancelados'].map(f => (
+            {['Próximos', 'Cancelados'].map(f => (
               <button
                 key={f}
                 className={`tab ${filtro === f ? 'tab-ativa' : ''}`}
@@ -162,9 +162,6 @@ export default function Agenda() {
             </div>
             <button className="btn-filtro">
               <Icon icon="solar:filter-linear" width="16" /> Filtro
-            </button>
-            <button className="btn-icone">
-              <Icon icon="solar:share-circle-linear" width="18" />
             </button>
             <button className="btn-novo" onClick={() => abrirModal(null, null)}>
               <Icon icon="solar:add-circle-bold" width="18" /> Novo
