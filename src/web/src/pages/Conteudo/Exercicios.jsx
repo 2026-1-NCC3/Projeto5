@@ -1,8 +1,8 @@
 import { useState, useRef, useCallback, useEffect } from "react";
 import "./Exercicios.css";
 import api from "../../services/api";
+import { supabase } from "../../services/supabase";
 
-// ── Icons ──────────────────────────────────────────────────────────────────
 const UploadIcon = () => (
   <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
     <polyline points="16 16 12 12 8 16" />
@@ -46,8 +46,13 @@ const SparkleIcon = () => (
   </svg>
 );
 
-// ── Main Component ─────────────────────────────────────────────────────────
-export default function Exercicios() {
+const ArrowLeftIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <polyline points="15 18 9 12 15 6" />
+  </svg>
+);
+
+export default function Exercicios({ aoVoltar }) {
   const [imageFile, setImageFile] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
   const [titulo, setTitulo] = useState("");
@@ -55,190 +60,203 @@ export default function Exercicios() {
   const [associarPlano, setAssociarPlano] = useState(false);
   const [planoId, setPlanoId] = useState(null);
   const [planos, setPlanos] = useState([]);
-  const [saving, setSaving] = useState(false);
-  const [saved, setSaved] = useState(false);
-  const [errors, setErrors] = useState({});
+  const [salvando, setSalvando] = useState(false);
+  const [salvo, setSalvo] = useState(false);
+  const [erros, setErros] = useState({});
 
-  // Busca planos reais da API ao montar
   useEffect(() => {
     api.get("/api/plans/my").then(({ data }) => {
       if (Array.isArray(data)) {
-        const mapped = data
+        const mapeados = data
           .filter((pp) => pp.plans)
           .map((pp) => ({ id: pp.plans.id, nome: pp.plans.title }));
-        setPlanos(mapped);
+        setPlanos(mapeados);
       }
-    }).catch((err) => {
-      console.error("Erro ao buscar planos:", err);
-    });
+    }).catch((err) => console.error("Erro ao buscar planos:", err));
   }, []);
 
-// ── Toggle Switch ──────────────────────────────────────────────────────────
-const Toggle = ({ checked, onChange }) => (
-  <button
-    className={`ex-toggle${checked ? " ex-toggle--on" : ""}`}
-    onClick={() => onChange(!checked)}
-    type="button"
-    aria-pressed={checked}
-  >
-    <span className="ex-toggle__thumb" />
-  </button>
-);
-
-// ── Select customizado ─────────────────────────────────────────────────────
-const PlanoSelect = ({ value, onChange, planos }) => {
-  const [open, setOpen] = useState(false);
-  const selected = planos.find(p => p.id === value);
-
-  return (
-    <div className={`ex-select${open ? " ex-select--open" : ""}`}>
-      <button
-        className="ex-select__trigger"
-        type="button"
-        onClick={() => setOpen(o => !o)}
-      >
-        <span className={selected ? "ex-select__value" : "ex-select__placeholder"}>
-          {selected ? selected.nome : "Selecione um plano..."}
-        </span>
-        <ChevronIcon />
-      </button>
-      {open && (
-        <div className="ex-select__dropdown">
-          {planos.map(p => (
-            <button
-              key={p.id}
-              className={`ex-select__option${value === p.id ? " ex-select__option--selected" : ""}`}
-              type="button"
-              onClick={() => { onChange(p.id); setOpen(false); }}
-            >
-              <span>{p.nome}</span>
-              {value === p.id && <CheckIcon />}
-            </button>
-          ))}
-        </div>
-      )}
-    </div>
+  const Toggle = ({ checked, onChange }) => (
+    <button
+      className={`ex-toggle${checked ? " ex-toggle--on" : ""}`}
+      onClick={() => onChange(!checked)}
+      type="button"
+      aria-pressed={checked}
+    >
+      <span className="ex-toggle__thumb" />
+    </button>
   );
-};
 
-// ── Upload Zone ────────────────────────────────────────────────────────────
-const UploadZone = ({ preview, onFile, onRemove }) => {
-  const inputRef = useRef(null);
-  const [dragging, setDragging] = useState(false);
+  const PlanoSelect = ({ value, onChange, planos }) => {
+    const [aberto, setAberto] = useState(false);
+    const selecionado = planos.find(p => p.id === value);
 
-  const handleDrop = useCallback((e) => {
-    e.preventDefault();
-    setDragging(false);
-    const file = e.dataTransfer.files[0];
-    if (file && file.type.startsWith("image/")) onFile(file);
-  }, [onFile]);
-
-  const handleChange = (e) => {
-    const file = e.target.files[0];
-    if (file) onFile(file);
-  };
-
-  if (preview) {
     return (
-      <div className="ex-upload ex-upload--preview">
-        <img src={preview} alt="Preview do exercício" className="ex-upload__preview-img" />
-        <div className="ex-upload__preview-overlay">
-          <button className="ex-upload__remove-btn" type="button" onClick={onRemove}>
-            <TrashIcon /> Remover imagem
-          </button>
-          <button className="ex-upload__change-btn" type="button" onClick={() => inputRef.current?.click()}>
-            <ImageIcon /> Trocar imagem
-          </button>
-        </div>
-        <input ref={inputRef} type="file" accept="image/*" className="ex-upload__input" onChange={handleChange} />
+      <div className={`ex-select${aberto ? " ex-select--open" : ""}`}>
+        <button className="ex-select__trigger" type="button" onClick={() => setAberto(o => !o)}>
+          <span className={selecionado ? "ex-select__value" : "ex-select__placeholder"}>
+            {selecionado ? selecionado.nome : "Selecione um plano..."}
+          </span>
+          <ChevronIcon />
+        </button>
+        {aberto && (
+          <div className="ex-select__dropdown">
+            {planos.map(p => (
+              <button
+                key={p.id}
+                className={`ex-select__option${value === p.id ? " ex-select__option--selected" : ""}`}
+                type="button"
+                onClick={() => { onChange(p.id); setAberto(false); }}
+              >
+                <span>{p.nome}</span>
+                {value === p.id && <CheckIcon />}
+              </button>
+            ))}
+          </div>
+        )}
       </div>
     );
-  }
-
-  return (
-    <div
-      className={`ex-upload${dragging ? " ex-upload--dragging" : ""}`}
-      onDragOver={(e) => { e.preventDefault(); setDragging(true); }}
-      onDragLeave={() => setDragging(false)}
-      onDrop={handleDrop}
-      onClick={() => inputRef.current?.click()}
-      role="button"
-      tabIndex={0}
-      onKeyDown={(e) => e.key === "Enter" && inputRef.current?.click()}
-    >
-      <input ref={inputRef} type="file" accept="image/*" className="ex-upload__input" onChange={handleChange} />
-      <div className="ex-upload__icon"><UploadIcon /></div>
-      <p className="ex-upload__title">Arraste a imagem aqui</p>
-      <p className="ex-upload__sub">ou clique para selecionar</p>
-      <button className="ex-upload__btn" type="button" onClick={(e) => { e.stopPropagation(); inputRef.current?.click(); }}>
-        Selecionar Arquivo
-      </button>
-      <p className="ex-upload__hint">PNG, JPG ou GIF · Máx 10MB</p>
-    </div>
-  );
-};
-
-  const handleFile = (file) => {
-    setImageFile(file);
-    setImagePreview(URL.createObjectURL(file));
-    setErrors(e => ({ ...e, imagem: null }));
   };
 
-  const handleRemoveImage = () => {
+  const ZonaUpload = ({ preview, aoEnviarArquivo, aoRemover }) => {
+    const inputRef = useRef(null);
+    const [arrastando, setArrastando] = useState(false);
+
+    const handleDrop = useCallback((e) => {
+      e.preventDefault();
+      setArrastando(false);
+      const arquivo = e.dataTransfer.files[0];
+      if (arquivo && arquivo.type.startsWith("image/")) aoEnviarArquivo(arquivo);
+    }, [aoEnviarArquivo]);
+
+    const handleChange = (e) => {
+      const arquivo = e.target.files[0];
+      if (arquivo) aoEnviarArquivo(arquivo);
+    };
+
+    if (preview) {
+      return (
+        <div className="ex-upload ex-upload--preview">
+          <img src={preview} alt="Preview do exercício" className="ex-upload__preview-img" />
+          <div className="ex-upload__preview-overlay">
+            <button className="ex-upload__remove-btn" type="button" onClick={aoRemover}>
+              <TrashIcon /> Remover imagem
+            </button>
+            <button className="ex-upload__change-btn" type="button" onClick={() => inputRef.current?.click()}>
+              <ImageIcon /> Trocar imagem
+            </button>
+          </div>
+          <input ref={inputRef} type="file" accept="image/*" className="ex-upload__input" onChange={handleChange} />
+        </div>
+      );
+    }
+
+    return (
+      <div
+        className={`ex-upload${arrastando ? " ex-upload--dragging" : ""}`}
+        onDragOver={(e) => { e.preventDefault(); setArrastando(true); }}
+        onDragLeave={() => setArrastando(false)}
+        onDrop={handleDrop}
+        onClick={() => inputRef.current?.click()}
+        role="button"
+        tabIndex={0}
+        onKeyDown={(e) => e.key === "Enter" && inputRef.current?.click()}
+      >
+        <input ref={inputRef} type="file" accept="image/*" className="ex-upload__input" onChange={handleChange} />
+        <div className="ex-upload__icon"><UploadIcon /></div>
+        <p className="ex-upload__title">Arraste a imagem aqui</p>
+        <p className="ex-upload__sub">ou clique para selecionar</p>
+        <button className="ex-upload__btn" type="button" onClick={(e) => { e.stopPropagation(); inputRef.current?.click(); }}>
+          Selecionar Arquivo
+        </button>
+        <p className="ex-upload__hint">PNG, JPG ou GIF · Máx 10MB</p>
+      </div>
+    );
+  };
+
+  const handleArquivo = (arquivo) => {
+    setImageFile(arquivo);
+    setImagePreview(URL.createObjectURL(arquivo));
+    setErros(e => ({ ...e, imagem: null }));
+  };
+
+  const handleRemoverImagem = () => {
     setImageFile(null);
     setImagePreview(null);
   };
 
-  const validate = () => {
+  const validar = () => {
     const e = {};
     if (!titulo.trim()) e.titulo = "O título é obrigatório";
     if (!descricao.trim()) e.descricao = "A descrição é obrigatória";
     if (associarPlano && !planoId) e.plano = "Selecione um plano";
-    setErrors(e);
+    setErros(e);
     return Object.keys(e).length === 0;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!validate()) return;
+    if (!validar()) return;
 
-    setSaving(true);
+    setSalvando(true);
     try {
-      // Upload da imagem para Supabase Storage ou converte para base64
-      // Por ora envia sem image_url (pode ser adicionado quando houver bucket configurado)
+      let image_url = null;
+
+      if (imageFile) {
+        const ext = imageFile.name.split(".").pop();
+        const fileName = `${Date.now()}.${ext}`;
+
+        const { error: uploadError } = await supabase.storage
+          .from("exercises")
+          .upload(fileName, imageFile, { upsert: true });
+
+        if (uploadError) throw uploadError;
+
+        const { data: urlData } = supabase.storage
+          .from("exercises")
+          .getPublicUrl(fileName);
+
+        image_url = urlData.publicUrl;
+      }
+
       await api.post("/api/exercises", {
         title: titulo,
         description: descricao,
-        image_url: null,
+        image_url,
       });
 
-      setSaving(false);
-      setSaved(true);
-      handleClear();
-      setTimeout(() => setSaved(false), 3000);
+      setSalvando(false);
+      setSalvo(true);
+      handleLimpar();
+      setTimeout(() => setSalvo(false), 3000);
     } catch (err) {
       console.error("Erro ao salvar exercício:", err);
-      setSaving(false);
+      setSalvando(false);
     }
   };
 
-  const handleClear = () => {
+  const handleLimpar = () => {
     setImageFile(null);
     setImagePreview(null);
     setTitulo("");
     setDescricao("");
     setAssociarPlano(false);
     setPlanoId(null);
-    setErrors({});
+    setErros({});
   };
 
   return (
     <div className="ex-page">
       <div className="ex-container">
-        {/* Header */}
+
+        {aoVoltar && (
+          <button className="ex-btn-voltar" onClick={aoVoltar}>
+            <ArrowLeftIcon /> Voltar para lista
+          </button>
+        )}
+
         <div className="ex-header">
           <div className="ex-header__text">
-            <h1 className="ex-header__title">Exercícios</h1>
+            <h1 className="ex-header__title">Novo Exercício</h1>
             <p className="ex-header__desc">
               Crie um exercício para adicionar ao plano, faça upload da imagem da execução
               e o descreva para que seus pacientes realizem da forma correta.
@@ -247,61 +265,52 @@ const UploadZone = ({ preview, onFile, onRemove }) => {
         </div>
 
         <form className="ex-form" onSubmit={handleSubmit} noValidate>
-          {/* Upload */}
           <div className="ex-field">
             <label className="ex-label">Faça upload da imagem do exercício:</label>
-            <UploadZone
-              preview={imagePreview}
-              onFile={handleFile}
-              onRemove={handleRemoveImage}
-            />
-            {errors.imagem && <span className="ex-error">{errors.imagem}</span>}
+            <ZonaUpload preview={imagePreview} aoEnviarArquivo={handleArquivo} aoRemover={handleRemoverImagem} />
+            {erros.imagem && <span className="ex-error">{erros.imagem}</span>}
           </div>
 
-          {/* Divider */}
           <div className="ex-divider" />
 
-          {/* Título */}
           <div className="ex-field">
             <label className="ex-label" htmlFor="titulo">
               Título: <span className="ex-label__required">*</span>
             </label>
             <input
               id="titulo"
-              className={`ex-input${errors.titulo ? " ex-input--error" : ""}`}
+              className={`ex-input${erros.titulo ? " ex-input--error" : ""}`}
               type="text"
               placeholder="Ex: Agachamento com apoio, Extensão lombar..."
               value={titulo}
-              onChange={e => { setTitulo(e.target.value); setErrors(v => ({ ...v, titulo: null })); }}
+              onChange={e => { setTitulo(e.target.value); setErros(v => ({ ...v, titulo: null })); }}
               maxLength={80}
             />
             <div className="ex-field__meta">
-              {errors.titulo && <span className="ex-error">{errors.titulo}</span>}
+              {erros.titulo && <span className="ex-error">{erros.titulo}</span>}
               <span className="ex-char-count">{titulo.length}/80</span>
             </div>
           </div>
 
-          {/* Descrição */}
           <div className="ex-field">
             <label className="ex-label" htmlFor="descricao">
               Descrição: <span className="ex-label__required">*</span>
             </label>
             <textarea
               id="descricao"
-              className={`ex-textarea${errors.descricao ? " ex-textarea--error" : ""}`}
+              className={`ex-textarea${erros.descricao ? " ex-textarea--error" : ""}`}
               placeholder="Descreva como o exercício deve ser executado, séries, repetições, cuidados importantes..."
               value={descricao}
-              onChange={e => { setDescricao(e.target.value); setErrors(v => ({ ...v, descricao: null })); }}
+              onChange={e => { setDescricao(e.target.value); setErros(v => ({ ...v, descricao: null })); }}
               rows={5}
               maxLength={600}
             />
             <div className="ex-field__meta">
-              {errors.descricao && <span className="ex-error">{errors.descricao}</span>}
+              {erros.descricao && <span className="ex-error">{erros.descricao}</span>}
               <span className="ex-char-count">{descricao.length}/600</span>
             </div>
           </div>
 
-          {/* Associar a plano */}
           <div className="ex-field">
             <div className="ex-toggle-row">
               <div className="ex-toggle-row__text">
@@ -314,32 +323,30 @@ const UploadZone = ({ preview, onFile, onRemove }) => {
               </div>
               <Toggle checked={associarPlano} onChange={setAssociarPlano} />
             </div>
-
             {associarPlano && (
               <div className="ex-plano-select">
                 <PlanoSelect
                   value={planoId}
-                  onChange={(id) => { setPlanoId(id); setErrors(v => ({ ...v, plano: null })); }}
+                  onChange={(id) => { setPlanoId(id); setErros(v => ({ ...v, plano: null })); }}
                   planos={planos}
                 />
-                {errors.plano && <span className="ex-error">{errors.plano}</span>}
+                {erros.plano && <span className="ex-error">{erros.plano}</span>}
               </div>
             )}
           </div>
 
-          {/* Actions */}
           <div className="ex-actions">
-            <button type="button" className="ex-btn ex-btn--ghost" onClick={handleClear}>
+            <button type="button" className="ex-btn ex-btn--ghost" onClick={handleLimpar}>
               Limpar campos
             </button>
             <button
               type="submit"
-              className={`ex-btn ex-btn--primary${saving ? " ex-btn--loading" : ""}${saved ? " ex-btn--saved" : ""}`}
-              disabled={saving}
+              className={`ex-btn ex-btn--primary${salvando ? " ex-btn--loading" : ""}${salvo ? " ex-btn--saved" : ""}`}
+              disabled={salvando}
             >
-              {saving ? (
+              {salvando ? (
                 <><span className="ex-btn__spinner" /> Salvando...</>
-              ) : saved ? (
+              ) : salvo ? (
                 <><CheckIcon /> Exercício salvo!</>
               ) : (
                 <><SparkleIcon /> Salvar Exercício</>

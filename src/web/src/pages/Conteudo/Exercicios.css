@@ -509,6 +509,18 @@ textarea { resize: vertical; }
   animation: spin 0.7s linear infinite;
   flex-shrink: 0;
 }
+
+.ex-erro-servidor {
+  background: #fef2f2;
+  border: 1.5px solid #fecaca;
+  border-radius: var(--radius-md);
+  color: #ef4444;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+}
+
 @keyframes spin { to { transform: rotate(360deg); } }
 
 /* ── Responsive ───────────────────────────────────────────────────── */
