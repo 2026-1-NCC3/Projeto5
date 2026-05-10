@@ -89,18 +89,6 @@
     cursor: pointer;
   }
   
-  .btn-icone {
-    background: #f4f4f4;
-    border: none;
-    border-radius: 8px;
-    width: 36px;
-    height: 36px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #555;
-    cursor: pointer;
-  }
   
   .btn-novo {
     display: flex;
@@ -116,7 +104,6 @@
     cursor: pointer;
   }
   
-  /* Navegação do calendário */
   .agenda-nav {
     display: flex;
     align-items: center;
@@ -189,7 +176,6 @@
     border-radius: 8px;
   }
   
-  /* Grade */
   .calendario-wrap {
     border: 1px solid #e8e8e8;
     border-radius: 12px;
@@ -437,3 +423,8 @@
   
   .btn-salvar:hover { background: #2c8fa1; }
   .btn-cancelar:hover { background: #eaeaea; }
+  .modal-erro {
+  color: #e05b5b;
+  font-size: 13px;
+  text-align: center;
+}

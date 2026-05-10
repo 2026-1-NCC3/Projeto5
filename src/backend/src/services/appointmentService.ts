@@ -8,7 +8,7 @@ export async function createAppointment(
     await supabase
       .from('appointments')
       .insert(body)
-      .select()
+      .select('*, patients (id, name)')
       .single();
 
   if (error) throw error;
@@ -23,11 +23,8 @@ export async function getAppointments() {
       .from('appointments')
       .select(`
         *,
-        patients (
-          id,
-          name
-        )
-      `);
+        patients (id,name) `)
+      .order('appointment_date', { ascending: true });
 
   if (error) throw error;
 
