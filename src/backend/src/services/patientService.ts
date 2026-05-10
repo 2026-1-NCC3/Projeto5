@@ -107,3 +107,14 @@ export async function deletePatient(id: string) {
     throw new Error(error.message);
   }
 }
+
+export async function getMedicalRecordsByPatient(patientId: string) {
+  const { data, error } = await supabase
+    .from("medical_records")
+    .select("*")
+    .eq("patient_id", patientId)
+    .order("record_date", { ascending: false });
+
+  if (error) throw error;
+  return data;
+}

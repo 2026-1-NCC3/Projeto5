@@ -872,3 +872,66 @@
   background: #fde8e8;
   border-radius: 10px;
 }
+/* ── Listagem de Registros ── */
+.pront-registros-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 16px;
+}
+
+.pront-registro-card {
+  background: #fff;
+  border: 1px solid #e8f5f0;
+  border-radius: 14px;
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+
+.pront-registro-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  justify-content: space-between;
+}
+
+.pront-registro-data {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #4a9f80;
+}
+
+.pront-registro-dor {
+  font-size: 12px;
+  background: #fde8e8;
+  color: #c0392b;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-weight: 600;
+}
+
+.pront-registro-campo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.pront-registro-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #9aa;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.pront-registro-valor {
+  font-size: 14px;
+  color: #2d3a36;
+  line-height: 1.5;
+}

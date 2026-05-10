@@ -1,5 +1,6 @@
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import "./Exercicios.css";
+import api from "../../services/api";
 
 // ── Icons ──────────────────────────────────────────────────────────────────
 const UploadIcon = () => (
@@ -45,14 +46,32 @@ const SparkleIcon = () => (
   </svg>
 );
 
-// ── Mock planos (substituir por fetch do Supabase) ─────────────────────────
-const PLANOS_MOCK = [
-  { id: 1, nome: "Plano Lombar Básico" },
-  { id: 2, nome: "Reabilitação Joelho" },
-  { id: 3, nome: "Fortalecimento Cervical" },
-  { id: 4, nome: "Mobilidade Ombro" },
-  { id: 5, nome: "RPG Postural Avançado" },
-];
+// ── Main Component ─────────────────────────────────────────────────────────
+export default function Exercicios() {
+  const [imageFile, setImageFile] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
+  const [titulo, setTitulo] = useState("");
+  const [descricao, setDescricao] = useState("");
+  const [associarPlano, setAssociarPlano] = useState(false);
+  const [planoId, setPlanoId] = useState(null);
+  const [planos, setPlanos] = useState([]);
+  const [saving, setSaving] = useState(false);
+  const [saved, setSaved] = useState(false);
+  const [errors, setErrors] = useState({});
+
+  // Busca planos reais da API ao montar
+  useEffect(() => {
+    api.get("/api/plans/my").then(({ data }) => {
+      if (Array.isArray(data)) {
+        const mapped = data
+          .filter((pp) => pp.plans)
+          .map((pp) => ({ id: pp.plans.id, nome: pp.plans.title }));
+        setPlanos(mapped);
+      }
+    }).catch((err) => {
+      console.error("Erro ao buscar planos:", err);
+    });
+  }, []);
 
 // ── Toggle Switch ──────────────────────────────────────────────────────────
 const Toggle = ({ checked, onChange }) => (
@@ -159,18 +178,6 @@ const UploadZone = ({ preview, onFile, onRemove }) => {
   );
 };
 
-// ── Main Component ─────────────────────────────────────────────────────────
-export default function Exercicios() {
-  const [imageFile, setImageFile] = useState(null);
-  const [imagePreview, setImagePreview] = useState(null);
-  const [titulo, setTitulo] = useState("");
-  const [descricao, setDescricao] = useState("");
-  const [associarPlano, setAssociarPlano] = useState(false);
-  const [planoId, setPlanoId] = useState(null);
-  const [saving, setSaving] = useState(false);
-  const [saved, setSaved] = useState(false);
-  const [errors, setErrors] = useState({});
-
   const handleFile = (file) => {
     setImageFile(file);
     setImagePreview(URL.createObjectURL(file));
@@ -184,7 +191,6 @@ export default function Exercicios() {
 
   const validate = () => {
     const e = {};
-    if (!imageFile) e.imagem = "Adicione uma imagem do exercício";
     if (!titulo.trim()) e.titulo = "O título é obrigatório";
     if (!descricao.trim()) e.descricao = "A descrição é obrigatória";
     if (associarPlano && !planoId) e.plano = "Selecione um plano";
@@ -197,12 +203,23 @@ export default function Exercicios() {
     if (!validate()) return;
 
     setSaving(true);
-    // TODO: substituir pelo insert real no Supabase
-    // const { data, error } = await supabase.from('exercicios').insert({...})
-    await new Promise(r => setTimeout(r, 1200));
-    setSaving(false);
-    setSaved(true);
-    setTimeout(() => setSaved(false), 3000);
+    try {
+      // Upload da imagem para Supabase Storage ou converte para base64
+      // Por ora envia sem image_url (pode ser adicionado quando houver bucket configurado)
+      await api.post("/api/exercises", {
+        title: titulo,
+        description: descricao,
+        image_url: null,
+      });
+
+      setSaving(false);
+      setSaved(true);
+      handleClear();
+      setTimeout(() => setSaved(false), 3000);
+    } catch (err) {
+      console.error("Erro ao salvar exercício:", err);
+      setSaving(false);
+    }
   };
 
   const handleClear = () => {
@@ -303,7 +320,7 @@ export default function Exercicios() {
                 <PlanoSelect
                   value={planoId}
                   onChange={(id) => { setPlanoId(id); setErrors(v => ({ ...v, plano: null })); }}
-                  planos={PLANOS_MOCK}
+                  planos={planos}
                 />
                 {errors.plano && <span className="ex-error">{errors.plano}</span>}
               </div>

@@ -430,7 +430,7 @@ export default function Prontuario() {
       <div className="pront-conteudo">
         {aba === 0 && <AbaProntuario pacienteId={id} />}
         {aba === 1 && <AbaPlanoExercicio pacienteId={id} />}
-        {aba === 2 && <AbaAtividade />}
+        {aba === 2 && <AbaAtividade pacienteId={id} />}
       </div>
 
     </div>
@@ -442,6 +442,8 @@ export default function Prontuario() {
 function AbaProntuario({ pacienteId }) {
 
   const [modal, setModal] = useState(false);
+  const [registros, setRegistros] = useState([]);
+  const [loadingRegistros, setLoadingRegistros] = useState(true);
   const [form, setForm] = useState({
     record_date: '',
     main_complaint: '',
@@ -450,6 +452,22 @@ function AbaProntuario({ pacienteId }) {
     diagnosis: '',
     notes: ''
   });
+
+  const buscarRegistros = async () => {
+    setLoadingRegistros(true);
+    try {
+      const { data } = await api.get(`/api/patients/${pacienteId}/medical-records`);
+      setRegistros(data || []);
+    } catch (err) {
+      console.error('Erro ao buscar prontuários:', err);
+    } finally {
+      setLoadingRegistros(false);
+    }
+  };
+
+  useEffect(() => {
+    if (pacienteId) buscarRegistros();
+  }, [pacienteId]);
 
   const salvarProntuario = async (e) => {
     e.preventDefault();
@@ -465,9 +483,16 @@ function AbaProntuario({ pacienteId }) {
       await api.post(`/api/patients/${pacienteId}/medical-records`, dados);
       setModal(false);
       setForm({ record_date: '', main_complaint: '', pain_level: '', injury_history: '', diagnosis: '', notes: '' });
+      buscarRegistros();
     } catch (err) {
       console.error('Erro ao salvar prontuário:', err);
     }
+  };
+
+  const formatarData = (dateStr) => {
+    if (!dateStr) return '';
+    const d = new Date(dateStr + 'T00:00:00');
+    return d.toLocaleDateString('pt-BR');
   };
 
   return (
@@ -479,11 +504,57 @@ function AbaProntuario({ pacienteId }) {
         </button>
       </div>
 
-      <div className="pront-vazio">
-        <Icon icon="solar:folder-open-linear" width="56" color="#ccc" />
-        <p className="pront-vazio-titulo">Sem registros clínicos</p>
-        <p className="pront-vazio-sub">Nenhum prontuário encontrado</p>
-      </div>
+      {loadingRegistros ? (
+        <div className="pront-loading">Carregando registros...</div>
+      ) : registros.length === 0 ? (
+        <div className="pront-vazio">
+          <Icon icon="solar:folder-open-linear" width="56" color="#ccc" />
+          <p className="pront-vazio-titulo">Sem registros clínicos</p>
+          <p className="pront-vazio-sub">Nenhum prontuário encontrado</p>
+        </div>
+      ) : (
+        <div className="pront-registros-lista">
+          {registros.map((reg) => (
+            <div key={reg.id} className="pront-registro-card">
+              <div className="pront-registro-header">
+                <span className="pront-registro-data">
+                  <Icon icon="solar:calendar-linear" width="14" />
+                  {formatarData(reg.record_date)}
+                </span>
+                {reg.pain_level && (
+                  <span className="pront-registro-dor">
+                    Dor: {reg.pain_level}/10
+                  </span>
+                )}
+              </div>
+              {reg.main_complaint && (
+                <div className="pront-registro-campo">
+                  <span className="pront-registro-label">Queixa principal</span>
+                  <span className="pront-registro-valor">{reg.main_complaint}</span>
+                </div>
+              )}
+              {reg.diagnosis && (
+                <div className="pront-registro-campo">
+                  <span className="pront-registro-label">Diagnóstico</span>
+                  <span className="pront-registro-valor">{reg.diagnosis}</span>
+                </div>
+              )}
+              {reg.injury_history && (
+                <div className="pront-registro-campo">
+                  <span className="pront-registro-label">Histórico de lesões</span>
+                  <span className="pront-registro-valor">{reg.injury_history}</span>
+                </div>
+              )}
+              {reg.notes && (
+                <div className="pront-registro-campo">
+                  <span className="pront-registro-label">Observações</span>
+                  <span className="pront-registro-valor">{reg.notes}</span>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
 
       {modal && (
         <div className="pac-overlay" onClick={() => setModal(false)}>
@@ -539,13 +610,67 @@ function AbaProntuario({ pacienteId }) {
   );
 }
 
-function AbaAtividade() {
+function AbaAtividade({ pacienteId }) {
+  const [checkins, setCheckins] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (!pacienteId) return;
+    const buscar = async () => {
+      try {
+        // Busca exercise_logs/progresso do paciente via endpoint de checkins
+        const { data } = await api.get(`/api/checkins`);
+        setCheckins(data || []);
+      } catch (err) {
+        console.error('Erro ao buscar atividades:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    buscar();
+  }, [pacienteId]);
+
+  const formatarData = (dateStr) => {
+    if (!dateStr) return '';
+    return new Date(dateStr).toLocaleDateString('pt-BR', {
+      day: '2-digit', month: '2-digit', year: 'numeric',
+      hour: '2-digit', minute: '2-digit'
+    });
+  };
+
+  if (loading) return <div className="pront-loading">Carregando atividades...</div>;
+
   return (
     <div className="pront-aba-content">
-      <div className="pront-vazio">
-        <Icon icon="solar:clipboard-list-linear" width="56" color="#ccc" />
-        <p className="pront-vazio-titulo">Nenhuma atividade encontrada</p>
-      </div>
+      {checkins.length === 0 ? (
+        <div className="pront-vazio">
+          <Icon icon="solar:clipboard-list-linear" width="56" color="#ccc" />
+          <p className="pront-vazio-titulo">Nenhuma atividade encontrada</p>
+          <p className="pront-vazio-sub">Ainda não há check-ins ou atividades registradas</p>
+        </div>
+      ) : (
+        <div className="pront-registros-lista">
+          {checkins.map((c) => (
+            <div key={c.id} className="pront-registro-card">
+              <div className="pront-registro-header">
+                <span className="pront-registro-data">
+                  <Icon icon="solar:calendar-linear" width="14" />
+                  {formatarData(c.created_at)}
+                </span>
+                {c.pain_level && (
+                  <span className="pront-registro-dor">Dor: {c.pain_level}/10</span>
+                )}
+              </div>
+              {c.notes && (
+                <div className="pront-registro-campo">
+                  <span className="pront-registro-label">Observações</span>
+                  <span className="pront-registro-valor">{c.notes}</span>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

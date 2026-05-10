@@ -1,16 +1,42 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./Configuracoes.css";
+import api from "../../services/api";
 
 export default function Configuracoes() {
-  const form = {
-    nome: "Mary Yamamoto",
-    email: "mary.yamamoto@example.com",
-    telefone: "(11) 98765-4321",
-    especialidade: "Clínico Geral",
-  };
-
+  const [perfil, setPerfil] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [notificacoesEmail, setNotificacoesEmail] = useState(true);
   const [modoNoturno, setModoNoturno] = useState(false);
+
+  useEffect(() => {
+    const buscarPerfil = async () => {
+      try {
+        const { data } = await api.get("/api/patients/me");
+        setPerfil(data);
+      } catch (err) {
+        console.error("Erro ao buscar perfil:", err);
+        // Fallback para não quebrar a tela
+        setPerfil(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+    buscarPerfil();
+  }, []);
+
+  const form = perfil
+    ? {
+        nome: perfil.name || "—",
+        email: perfil.email || "—",
+        telefone: perfil.phone || "—",
+        especialidade: perfil.diagnosis || "—",
+      }
+    : {
+        nome: "—",
+        email: "—",
+        telefone: "—",
+        especialidade: "—",
+      };
 
   return (
     <div className="config-page">
@@ -18,6 +44,12 @@ export default function Configuracoes() {
         <h1 className="config-title">Configurações</h1>
         <p className="config-subtitle">Gerencie as preferências da sua conta</p>
       </div>
+
+      {loading && (
+        <div className="config-card" style={{ textAlign: 'center', color: '#9aa', padding: '32px' }}>
+          Carregando dados do perfil...
+        </div>
+      )}
 
       {/* Perfil */}
       <div className="config-card">
