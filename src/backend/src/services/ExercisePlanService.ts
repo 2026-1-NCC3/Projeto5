@@ -36,18 +36,21 @@ export async function getExercisePlanByPatient(patientId: string) {
     planId: plan?.id,
     title: plan?.title,
     description: plan?.description,
-    exercises: (plan?.plan_exercises ?? []).map((pe: any) => ({
-      id: pe.id,
-      exerciseId: pe.exercises?.id ?? "",
-      title: pe.exercises?.title ?? "",
-      description: pe.exercises?.description ?? "",
-      image_url: pe.exercises?.image_url ?? null,
-      frequency: pe.frequency ?? "",
-      series: "",
-      reps: "",
-      rest: "",
-      notes: "",
-    })),
+    exercises: (plan?.plan_exercises ?? []).map((pe: any) => {
+      const [series = '', reps = '', rest = ''] = (pe.frequency ?? '').split(' | ');
+      return {
+        id: pe.id,
+        exerciseId: pe.exercises?.id ?? '',
+        title: pe.exercises?.title ?? '',
+        description: pe.exercises?.description ?? '',
+        image_url: pe.exercises?.image_url ?? null,
+        frequency: pe.frequency ?? '',
+        series,
+        reps,
+        rest,
+        notes: '',
+      };
+    }),
   };
 }
 

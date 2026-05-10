@@ -2,7 +2,8 @@ import { Router } from "express";
 import { supabaseAdmin } from "../config/supabaseClient";
 import {
   createExerciseController,
-  getExercisesController
+  getExercisesController,
+  getExerciseCatalogController
 } from "../controllers/exerciseController";
 import { authMiddleware } from "../midllewares/authMiddleware";
 
@@ -33,5 +34,7 @@ router.delete("/:id", authMiddleware, async (req, res) => {
   if (error) return res.status(500).json({ error: error.message });
   return res.json({ message: "Exercício excluído" });
 });
+
+router.get("/catalog", authMiddleware, getExerciseCatalogController);
 
 export default router;

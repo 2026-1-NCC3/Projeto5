@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback, useEffect } from "react";
+import { useState, useRef, useCallback } from "react";
 import "./Exercicios.css";
 import api from "../../services/api";
 import { supabase } from "../../services/supabase";
@@ -34,12 +34,6 @@ const CheckIcon = () => (
   </svg>
 );
 
-const ChevronIcon = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-    <polyline points="6 9 12 15 18 9" />
-  </svg>
-);
-
 const SparkleIcon = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
     <path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6L12 2z" />
@@ -57,65 +51,9 @@ export default function Exercicios({ aoVoltar }) {
   const [imagePreview, setImagePreview] = useState(null);
   const [titulo, setTitulo] = useState("");
   const [descricao, setDescricao] = useState("");
-  const [associarPlano, setAssociarPlano] = useState(false);
-  const [planoId, setPlanoId] = useState(null);
-  const [planos, setPlanos] = useState([]);
   const [salvando, setSalvando] = useState(false);
   const [salvo, setSalvo] = useState(false);
   const [erros, setErros] = useState({});
-
-  useEffect(() => {
-    api.get("/api/plans/my").then(({ data }) => {
-      if (Array.isArray(data)) {
-        const mapeados = data
-          .filter((pp) => pp.plans)
-          .map((pp) => ({ id: pp.plans.id, nome: pp.plans.title }));
-        setPlanos(mapeados);
-      }
-    }).catch((err) => console.error("Erro ao buscar planos:", err));
-  }, []);
-
-  const Toggle = ({ checked, onChange }) => (
-    <button
-      className={`ex-toggle${checked ? " ex-toggle--on" : ""}`}
-      onClick={() => onChange(!checked)}
-      type="button"
-      aria-pressed={checked}
-    >
-      <span className="ex-toggle__thumb" />
-    </button>
-  );
-
-  const PlanoSelect = ({ value, onChange, planos }) => {
-    const [aberto, setAberto] = useState(false);
-    const selecionado = planos.find(p => p.id === value);
-
-    return (
-      <div className={`ex-select${aberto ? " ex-select--open" : ""}`}>
-        <button className="ex-select__trigger" type="button" onClick={() => setAberto(o => !o)}>
-          <span className={selecionado ? "ex-select__value" : "ex-select__placeholder"}>
-            {selecionado ? selecionado.nome : "Selecione um plano..."}
-          </span>
-          <ChevronIcon />
-        </button>
-        {aberto && (
-          <div className="ex-select__dropdown">
-            {planos.map(p => (
-              <button
-                key={p.id}
-                className={`ex-select__option${value === p.id ? " ex-select__option--selected" : ""}`}
-                type="button"
-                onClick={() => { onChange(p.id); setAberto(false); }}
-              >
-                <span>{p.nome}</span>
-                {value === p.id && <CheckIcon />}
-              </button>
-            ))}
-          </div>
-        )}
-      </div>
-    );
-  };
 
   const ZonaUpload = ({ preview, aoEnviarArquivo, aoRemover }) => {
     const inputRef = useRef(null);
@@ -188,7 +126,6 @@ export default function Exercicios({ aoVoltar }) {
     const e = {};
     if (!titulo.trim()) e.titulo = "O título é obrigatório";
     if (!descricao.trim()) e.descricao = "A descrição é obrigatória";
-    if (associarPlano && !planoId) e.plano = "Selecione um plano";
     setErros(e);
     return Object.keys(e).length === 0;
   };
@@ -239,8 +176,6 @@ export default function Exercicios({ aoVoltar }) {
     setImagePreview(null);
     setTitulo("");
     setDescricao("");
-    setAssociarPlano(false);
-    setPlanoId(null);
     setErros({});
   };
 
@@ -309,30 +244,6 @@ export default function Exercicios({ aoVoltar }) {
               {erros.descricao && <span className="ex-error">{erros.descricao}</span>}
               <span className="ex-char-count">{descricao.length}/600</span>
             </div>
-          </div>
-
-          <div className="ex-field">
-            <div className="ex-toggle-row">
-              <div className="ex-toggle-row__text">
-                <span className="ex-label" style={{ marginBottom: 0 }}>
-                  Associar a um plano existente
-                </span>
-                <span className="ex-toggle-row__hint">
-                  Vincule este exercício a um plano de tratamento já criado
-                </span>
-              </div>
-              <Toggle checked={associarPlano} onChange={setAssociarPlano} />
-            </div>
-            {associarPlano && (
-              <div className="ex-plano-select">
-                <PlanoSelect
-                  value={planoId}
-                  onChange={(id) => { setPlanoId(id); setErros(v => ({ ...v, plano: null })); }}
-                  planos={planos}
-                />
-                {erros.plano && <span className="ex-error">{erros.plano}</span>}
-              </div>
-            )}
           </div>
 
           <div className="ex-actions">

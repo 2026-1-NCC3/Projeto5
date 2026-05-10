@@ -4,11 +4,7 @@ import { Icon } from '@iconify/react';
 import api from '../../services/api';
 import './Prontuario.css';
 
-const ABAS = [
-  'Prontuário',
-  'Plano de exercício',
-  'Atividade'
-];
+const ABAS = ['Prontuário', 'Plano de exercício', 'Atividade'];
 
 const formatarCPF = (cpf) => {
   if (!cpf) return '000.000.000-00';
@@ -27,8 +23,6 @@ function emptyExercise(id) {
   return { id, exerciseId: '', title: '', series: '', reps: '', rest: '', notes: '' };
 }
 
-// ─── Ícone de imagem placeholder ─────────────────────────────────────────────
-
 function ThumbPlaceholder() {
   return (
     <div className="plano-thumb-placeholder">
@@ -37,9 +31,9 @@ function ThumbPlaceholder() {
   );
 }
 
-// ─── Linha de exercício no formulário ────────────────────────────────────────
-
 function ExerciseRow({ exercise, index, total, catalogOptions, onChange, onRemove }) {
+  const exercicioAtual = catalogOptions.find(ex => ex.id === exercise.exerciseId);
+
   return (
     <div className="plano-exercise-block">
       <div className="plano-exercise-block-header">
@@ -59,7 +53,15 @@ function ExerciseRow({ exercise, index, total, catalogOptions, onChange, onRemov
 
       <div className="plano-exercise-selector">
         <div className="plano-exercise-thumb">
-          <ThumbPlaceholder />
+          {exercicioAtual?.image_url ? (
+            <img
+              src={exercicioAtual.image_url}
+              alt={exercicioAtual.name}
+              style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '8px' }}
+            />
+          ) : (
+            <ThumbPlaceholder />
+          )}
         </div>
         <select
           className="plano-exercise-select"
@@ -112,9 +114,7 @@ function ExerciseRow({ exercise, index, total, catalogOptions, onChange, onRemov
   );
 }
 
-// ─── Visualização do plano ativo ──────────────────────────────────────────────
-
-function PlanView({ plan, onEdit, onDelete, onNewPlan }) {
+function PlanView({ plan, catalog, onEdit, onDelete, onNewPlan }) {
   return (
     <div className="plano-view-wrapper">
       <div className="plano-card">
@@ -131,29 +131,40 @@ function PlanView({ plan, onEdit, onDelete, onNewPlan }) {
         </div>
 
         <div className="plano-exercise-list">
-          {plan.exercises.map((ex, i) => (
-            <div key={ex.id} className="plano-exercise-item">
-              <div className="plano-exercise-item-thumb">
-                <ThumbPlaceholder />
+          {plan.exercises.map((ex, i) => {
+            const info = catalog.find(c => c.id === ex.exerciseId);
+            return (
+              <div key={ex.id} className="plano-exercise-item">
+                <div className="plano-exercise-item-thumb">
+                  {info?.image_url ? (
+                    <img
+                      src={info.image_url}
+                      alt={info.name}
+                      style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '8px' }}
+                    />
+                  ) : (
+                    <ThumbPlaceholder />
+                  )}
+                </div>
+                <div className="plano-exercise-item-info">
+                  <p className="plano-exercise-item-name">{ex.title || `Exercício ${i + 1}`}</p>
+                  <p className="plano-exercise-item-desc">{ex.notes || 'Orientação...'}</p>
+                </div>
+                <div className="plano-exercise-item-stats">
+                  {[
+                    { label: 'Séries',     value: ex.series || '0' },
+                    { label: 'Repetições', value: ex.reps   || '0' },
+                    { label: 'Descanso',   value: ex.rest   || '0s' },
+                  ].map(({ label, value }) => (
+                    <div key={label} className="plano-stat-badge">
+                      <span className="plano-stat-label">{label}</span>
+                      <span className="plano-stat-value">{value}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
-              <div className="plano-exercise-item-info">
-                <p className="plano-exercise-item-name">{ex.title || `Exercício ${i + 1}`}</p>
-                <p className="plano-exercise-item-desc">{ex.notes || 'Orientação...'}</p>
-              </div>
-              <div className="plano-exercise-item-stats">
-                {[
-                  { label: 'Séries',     value: ex.series || '0' },
-                  { label: 'Repetições', value: ex.reps   || '0' },
-                  { label: 'Descanso',   value: ex.rest   || '0s' },
-                ].map(({ label, value }) => (
-                  <div key={label} className="plano-stat-badge">
-                    <span className="plano-stat-label">{label}</span>
-                    <span className="plano-stat-value">{value}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
 
@@ -167,10 +178,7 @@ function PlanView({ plan, onEdit, onDelete, onNewPlan }) {
   );
 }
 
-// ─── Aba completa de plano de exercício ───────────────────────────────────────
-
 function AbaPlanoExercicio({ pacienteId }) {
-
   const [status, setStatus]               = useState('loading');
   const [plan, setPlan]                   = useState(null);
   const [catalog, setCatalog]             = useState([]);
@@ -246,7 +254,7 @@ function AbaPlanoExercicio({ pacienteId }) {
     if (!window.confirm('Tem certeza que deseja excluir este plano?')) return;
     setIsSaving(true);
     try {
-      await api.delete(`/api/exercise-plans/${plan.id}`);
+      await api.delete(`/api/patients/${pacienteId}/exercise-plan/${plan.id}`);
       setPlan(null);
       setStatus('empty');
     } catch (err) {
@@ -262,16 +270,10 @@ function AbaPlanoExercicio({ pacienteId }) {
     setError(null);
   };
 
-  // ── Loading ──
   if (status === 'loading') {
-    return (
-      <div className="pront-loading">
-        Carregando plano...
-      </div>
-    );
+    return <div className="pront-loading">Carregando plano...</div>;
   }
 
-  // ── Vazio ──
   if (status === 'empty') {
     return (
       <div className="plano-empty-wrapper">
@@ -291,13 +293,13 @@ function AbaPlanoExercicio({ pacienteId }) {
     );
   }
 
-  // ── Visualização ──
   if (status === 'viewing') {
     return (
       <div className="pront-aba-content">
         {error && <p className="plano-error">{error}</p>}
         <PlanView
           plan={plan}
+          catalog={catalog}
           onEdit={startEditing}
           onDelete={handleDelete}
           onNewPlan={startCreating}
@@ -306,7 +308,6 @@ function AbaPlanoExercicio({ pacienteId }) {
     );
   }
 
-  // ── Formulário (creating | editing) ──
   return (
     <div className="pront-aba-content">
       <div className="plano-form-card">
@@ -353,10 +354,7 @@ function AbaPlanoExercicio({ pacienteId }) {
   );
 }
 
-// ─── Componente principal ─────────────────────────────────────────────────────
-
 export default function Prontuario() {
-
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -390,8 +388,6 @@ export default function Prontuario() {
 
   return (
     <div className="pront-page">
-
-      {/* HEADER */}
       <div className="pront-header">
         <div className="pront-header-left">
           <button className="pront-voltar" onClick={() => navigate('/clinica')}>
@@ -413,7 +409,6 @@ export default function Prontuario() {
         </div>
       </div>
 
-      {/* ABAS */}
       <div className="pront-abas">
         {ABAS.map((a, i) => (
           <button
@@ -426,21 +421,16 @@ export default function Prontuario() {
         ))}
       </div>
 
-      {/* CONTEÚDO */}
       <div className="pront-conteudo">
         {aba === 0 && <AbaProntuario pacienteId={id} />}
         {aba === 1 && <AbaPlanoExercicio pacienteId={id} />}
         {aba === 2 && <AbaAtividade pacienteId={id} />}
       </div>
-
     </div>
   );
 }
 
-// ─── Aba prontuário (inalterada) ──────────────────────────────────────────────
-
 function AbaProntuario({ pacienteId }) {
-
   const [modal, setModal] = useState(false);
   const [registros, setRegistros] = useState([]);
   const [loadingRegistros, setLoadingRegistros] = useState(true);
@@ -522,9 +512,7 @@ function AbaProntuario({ pacienteId }) {
                   {formatarData(reg.record_date)}
                 </span>
                 {reg.pain_level && (
-                  <span className="pront-registro-dor">
-                    Dor: {reg.pain_level}/10
-                  </span>
+                  <span className="pront-registro-dor">Dor: {reg.pain_level}/10</span>
                 )}
               </div>
               {reg.main_complaint && (
@@ -618,7 +606,6 @@ function AbaAtividade({ pacienteId }) {
     if (!pacienteId) return;
     const buscar = async () => {
       try {
-        // Busca exercise_logs/progresso do paciente via endpoint de checkins
         const { data } = await api.get(`/api/checkins`);
         setCheckins(data || []);
       } catch (err) {
