@@ -196,9 +196,6 @@ const salvar = async (e) => {
           <button className="pac-btn-filtro">
             <Icon icon="solar:filter-linear" width="16" /> Filtro
           </button>
-          <button className="pac-btn-icone">
-            <Icon icon="solar:share-circle-linear" width="18" />
-          </button>
           <button className="pac-btn-novo" onClick={abrirNovo}>
             <Icon icon="solar:add-circle-bold" width="18" /> Novo
           </button>

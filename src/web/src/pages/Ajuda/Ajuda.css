@@ -1,0 +1,62 @@
+.ajuda-page {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.ajuda-header {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ajuda-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.ajuda-subtitle {
+  font-size: 14px;
+  color: #777;
+}
+
+.ajuda-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.ajuda-card {
+  background: #fff;
+  border-radius: 18px;
+  padding: 24px;
+  border: 1px solid #ececec;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+}
+
+.ajuda-card-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #37A6BA;
+  margin-bottom: 10px;
+}
+
+.ajuda-card-desc {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 18px;
+  line-height: 1.5;
+}
+
+.ajuda-lista {
+  padding-left: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ajuda-lista li {
+  font-size: 14px;
+  color: #333;
+}

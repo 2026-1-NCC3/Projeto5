@@ -1,8 +1,17 @@
-/* =====================
-   Configuracoes.css
-   ===================== */
+body,
+.config-card,
+.config-title,
+.config-value,
+.config-label,
+.config-section-title,
+.config-section-desc {
+  transition:
+    background 0.25s ease,
+    color 0.25s ease,
+    border-color 0.25s ease;
+}
 
-   .config-page {
+.config-page {
     max-width: 1060px;
     margin: 0 auto;
     padding: 40px 24px;
@@ -12,7 +21,6 @@
     box-sizing: border-box;
   }
   
-  /* Header */
   .config-header {
     margin-bottom: 32px;
   }
@@ -31,7 +39,6 @@
     margin: 0;
   }
   
-  /* Card */
   .config-card {
     background: #ffffff;
     border-radius: 14px;
@@ -41,7 +48,6 @@
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
   }
   
-  /* Section Header */
   .config-section-header {
     display: flex;
     align-items: center;
@@ -171,7 +177,6 @@
     margin: 0;
   }
   
-  /* Toggle Switch */
   .config-toggle {
     position: relative;
     width: 48px;
@@ -210,3 +215,43 @@
   .config-toggle--on .config-toggle-thumb {
     transform: translateX(22px);
   }
+  body.dark .config-card{
+  background:#111827;
+  border:1px solid #1f2937;
+}
+
+body.dark .config-title{
+  color:#f8fafc;
+}
+
+body.dark .config-subtitle{
+  color:#94a3b8;
+}
+
+body.dark .config-section-title{
+  color:#f8fafc;
+}
+
+body.dark .config-section-desc{
+  color:#94a3b8;
+}
+
+body.dark .config-label{
+  color:#94a3b8;
+}
+
+body.dark .config-value{
+  color:#f1f5f9;
+}
+
+body.dark .config-toggle-row{
+  border-color:#1e293b;
+}
+
+body.dark .config-toggle-label{
+  color:#f8fafc;
+}
+
+body.dark .config-toggle-desc{
+  color:#94a3b8;
+}

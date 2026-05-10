@@ -6,7 +6,39 @@ export default function Configuracoes() {
   const [perfil, setPerfil] = useState(null);
   const [loading, setLoading] = useState(true);
   const [notificacoesEmail, setNotificacoesEmail] = useState(true);
+
   const [modoNoturno, setModoNoturno] = useState(false);
+  useEffect(() => {
+
+  const temaSalvo =
+    localStorage.getItem('modoNoturno');
+
+  if (temaSalvo === 'true') {
+
+    setModoNoturno(true);
+
+    document.body.classList.add('dark');
+  }
+
+}, []);
+
+useEffect(() => {
+
+  if (modoNoturno) {
+
+    document.body.classList.add('dark');
+
+  } else {
+
+    document.body.classList.remove('dark');
+  }
+
+  localStorage.setItem(
+    'modoNoturno',
+    modoNoturno
+  );
+
+}, [modoNoturno]);
 
   useEffect(() => {
     const buscarPerfil = async () => {
@@ -15,7 +47,6 @@ export default function Configuracoes() {
         setPerfil(data);
       } catch (err) {
         console.error("Erro ao buscar perfil:", err);
-        // Fallback para não quebrar a tela
         setPerfil(null);
       } finally {
         setLoading(false);
@@ -51,7 +82,6 @@ export default function Configuracoes() {
         </div>
       )}
 
-      {/* Perfil */}
       <div className="config-card">
         <div className="config-section-header">
           <div className="config-icon config-icon--perfil">
@@ -86,7 +116,7 @@ export default function Configuracoes() {
         </div>
       </div>
 
-      {/* Notificações */}
+
       <div className="config-card">
         <div className="config-section-header">
           <div className="config-icon config-icon--notif">
@@ -123,7 +153,7 @@ export default function Configuracoes() {
         </div>
       </div>
 
-      {/* Modo Noturno */}
+
       <div className="config-card">
         <div className="config-section-header">
           <div className="config-icon config-icon--noturno">
