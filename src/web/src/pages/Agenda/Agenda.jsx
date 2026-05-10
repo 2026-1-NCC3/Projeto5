@@ -170,43 +170,56 @@ useEffect(() => {
     setModal(true);
   };
 
-  const salvarAgendamento = async (e) => {
+const salvarAgendamento = async (e) => {
 
-    e.preventDefault();
+  e.preventDefault();
 
-    try {
+  try {
 
-      const pacienteSelecionado =
-        pacientes.find(
-          p =>  String(p.id) === String(form.patient_id)
-        );
-
-      const novoAgendamento = {
-        id: Date.now(),
-        patient_id: form.patient_id,
-        paciente: pacienteSelecionado?.name,
-        problema: form.problema,
-        data: form.data,
-        horario: form.horario
-      };
-
-      setAgendamentos(prev => [
-        ...prev,
-        novoAgendamento
-      ]);
-
-      setModal(false);
-
-      setForm(formVazio);
-
-    } catch (err) {
-
-      console.error(
-        'Erro ao salvar agendamento:',
-        err
+    const pacienteSelecionado =
+      pacientes.find(
+        p => String(p.id) === String(form.patient_id)
       );
-    }
-  };
+
+
+    const { data } = await api.post(
+      '/api/appointments',
+      {
+        patient_id: form.patient_id,
+        appointment_date: `${form.data}T${form.horario}:00`,
+        status: 'scheduled',
+        notes: form.problema
+      }
+    );
+
+  
+    const novoAgendamento = {
+      id: data.id,
+      patient_id: form.patient_id,
+      paciente: pacienteSelecionado?.name,
+      problema: form.problema,
+      data: new Date(data.appointment_date)
+        .toLocaleDateString('pt-BR'),
+      horario: form.horario
+    };
+
+    setAgendamentos(prev => [
+      ...prev,
+      novoAgendamento
+    ]);
+
+    setModal(false);
+
+    setForm(formVazio);
+
+  } catch (err) {
+
+    console.error(
+      'Erro ao salvar agendamento:',
+      err
+    );
+  }
+};
 
   const getAgendamento = (dia, hora) => {
 
