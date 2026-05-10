@@ -30,3 +30,14 @@ export async function getAppointments() {
 
   return data;
 }
+export async function updateAppointment(id: string, body: any) {
+  const { data, error } = await supabase
+    .from('appointments')
+    .update(body)
+    .eq('id', id)
+    .select('*, patients(id, name)')
+    .single();
+
+  if (error) throw error;
+  return data;
+}

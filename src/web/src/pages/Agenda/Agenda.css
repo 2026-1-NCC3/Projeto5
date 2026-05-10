@@ -420,6 +420,143 @@
     cursor: pointer;
     width: auto;
   }
+
+.nav-setas {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+
+.cal-hora-header {
+  width: 80px;
+  border-right: 1px solid #e8e8e8;
+}
+
+.cal-header { grid-template-columns: 80px repeat(7, 1fr); }
+.cal-linha  { grid-template-columns: 80px repeat(7, 1fr); }
+
+
+.cal-header--dia { grid-template-columns: 80px 1fr; }
+.cal-linha--dia  { grid-template-columns: 80px 1fr; }
+.cal-celula--dia { width: 100%; }
+
+
+.cal-mes-header {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  background: #fafafa;
+  border-bottom: 1px solid #e8e8e8;
+}
+.cal-mes-dia-nome {
+  text-align: center;
+  padding: 10px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #aaa;
+}
+.cal-mes-body {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+.cal-mes-celula {
+  min-height: 100px;
+  border-right: 1px solid #f0f0f0;
+  border-bottom: 1px solid #f0f0f0;
+  padding: 8px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.cal-mes-celula:hover { background: #f0fbfc; }
+.cal-mes-vazio { background: #fafafa; cursor: default; }
+.cal-mes-numero {
+  font-size: 13px;
+  font-weight: 600;
+  color: #555;
+  display: block;
+  margin-bottom: 4px;
+}
+.cal-mes-numero--hoje {
+  background: #37A6BA;
+  color: #fff;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+}
+.cal-mes-agends { display: flex; flex-direction: column; gap: 3px; }
+.agend-mes-pill {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #e8f7fa;
+  border-left: 3px solid #37A6BA;
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 11px;
+  color: #1a6f80;
+  font-weight: 600;
+}
+.agend-mes-pill button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #aaa;
+  display: flex;
+  padding: 0;
+  width: auto;
+}
+.agend-mes-mais { font-size: 11px; color: #aaa; }
+
+
+.agend-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.agend-cancelar-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #aaa;
+  display: flex;
+  padding: 0;
+  width: auto;
+  flex-shrink: 0;
+}
+.agend-cancelar-btn:hover { color: #e05b5b; }
+
+
+.pesquisa-limpar {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #aaa;
+  display: flex;
+  padding: 0;
+  width: auto;
+}
+
+
+.modal-cancelar-texto { font-size: 14px; color: #555; line-height: 1.6; }
+.modal-box--sm { max-width: 400px; }
+.modal-erro { color: #e05b5b; font-size: 13px; text-align: center; }
+.btn-excluir {
+  background: #e05b5b;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 24px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+  cursor: pointer;
+  font-family: inherit;
+  width: auto;
+}
+.btn-excluir:hover { background: #c94444; }
   
   .btn-salvar:hover { background: #2c8fa1; }
   .btn-cancelar:hover { background: #eaeaea; }

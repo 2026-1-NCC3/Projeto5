@@ -40,3 +40,12 @@ export async function getAppointments(
     });
   }
 }
+export async function patchAppointment(req: Request, res: Response) {
+  try {
+    const id = req.params.id as string;
+    const data = await service.updateAppointment(id, req.body);
+    res.json(data);
+  } catch (err: any) {
+    res.status(500).json({ error: err.message });
+  }
+}
