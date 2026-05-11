@@ -16,7 +16,13 @@ import appointmentRoutes from "./routes/appointmentRoutes";
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+  origin: [
+    "http://localhost:5173",
+    "https://maya-rpg.vercel.app/login"
+  ],
+  credentials: true
+}));
 app.use(express.json());
 
 
