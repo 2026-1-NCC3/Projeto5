@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 public class Exercise {
 
     @SerializedName("id")
-    private int id;
+    private String id;
 
     @SerializedName("title")
     private String title;
@@ -22,7 +22,7 @@ public class Exercise {
     @SerializedName("frequency")
     private String frequency;
 
-    public Exercise(int id, String title, String description, String imageUrl, String videoUrl, String frequency) {
+    public Exercise(String id, String title, String description, String imageUrl, String videoUrl, String frequency) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -31,7 +31,7 @@ public class Exercise {
         this.frequency = frequency;
     }
 
-    public int getId()             { return id; }
+    public String getId()          { return id; }
     public String getTitle()       { return title; }
     public String getDescription() { return description; }
     public String getImageUrl()    { return imageUrl; }

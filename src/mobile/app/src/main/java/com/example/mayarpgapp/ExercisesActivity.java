@@ -81,9 +81,8 @@ public class ExercisesActivity extends BaseActivity {
     private void carregarPlano() {
         mostrarEstado("loading");
 
-        String token = "Bearer " + getSharedPreferences("APP", MODE_PRIVATE).getString("TOKEN", "");
-
-        apiService.getPlanoExercicio(token).enqueue(new Callback<List<PlanoExercicio>>() {
+        // O token já é injetado automaticamente pelo interceptor do RetrofitClient
+        apiService.getPlanoExercicio().enqueue(new Callback<List<PlanoExercicio>>() {
             @Override
             public void onResponse(Call<List<PlanoExercicio>> call, Response<List<PlanoExercicio>> response) {
                 Log.d("EXERCICIOS", "Código: " + response.code());

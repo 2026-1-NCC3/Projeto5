@@ -30,26 +30,26 @@ public interface ApiService {
     @POST("auth/login")
     Call<AuthResponse> login(@Body LoginRequest login);
 
-    @POST("checkin")
+    @POST("checkins")
     Call<CheckinResponse> fazerCheckin(
             @Header("Authorization") String token,
             @Body JsonObject body
     );
 
-    @GET("checkin/historico")
+    @GET("checkins/historico")
     Call<HistoricoResponse> getHistorico(
             @Header("Authorization") String token,
             @Query("dias") int dias
     );
 
-    @GET("checkin")
+    @GET("checkins")
     Call<List<CheckinResponse>> getMeusCheckins(@Header("Authorization") String token);
 
     @GET("exercises")
     Call<List<Exercise>> getExercises(@Header("Authorization") String token);
 
     @GET("plans/my")
-    Call<List<PlanoExercicio>> getPlanoExercicio(@Header("Authorization") String token);
+    Call<List<PlanoExercicio>> getPlanoExercicio();
 
     @GET("appointments")
     Call<ConsultaResponse> getConsultas(@Header("Authorization") String token);
