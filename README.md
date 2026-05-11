@@ -10,7 +10,7 @@
 
 ## Integrantes: <a href="https://github.com/Bruno4213">Bruno Nóbrega do Espírito Santo</a>, <a href="https://github.com/juliaa-pg">Julia Pereira Godinho</a>, <a href="https://github.com/Mariana851">Mariana Almeida Nascimento</a> e <a href="https://github.com/rafafmorais">Rafaela Florêncio Morais</a>
 
-## Professores Orientadores: <a href="https://www.linkedin.com/in/katia-bossi/">Katia Milani Lara Bossi</a>, <a href="https://www.linkedin.com/in/marco-aurelio-lima-barbosa/">Marco Aurelio Lima Barbosa</a>, <a href="https://www.linkedin.com/in/rodrigo-da-rosa-phd/">Rodrigo da Rosa</a>, <a href="https://www.linkedin.com/in/victorbarq/">Victor Rosetti</a>, 
+## Professores Orientadores: <a href="https://www.linkedin.com/in/katia-bossi/">Katia Milani Lara Bossi</a>, <a href="https://www.linkedin.com/in/marco-aurelio-lima-barbosa/">Marco Aurelio Lima Barbosa</a>, <a href="https://www.linkedin.com/in/rodrigo-da-rosa-phd/">Rodrigo da Rosa</a>, <a href="https://www.linkedin.com/in/victorbarq/">Victor Rosetti</a>
 
 
 ## Descrição
@@ -178,7 +178,7 @@ http://localhost:5173
 ---
 
 ## 📋 Licença/License
-<a href="https://github.com/2026-1-NCC3/Projeto5?tab=readme-ov-file">Atlas - Maya RPG</a> © 2025 by <a href="https://github.com/2026-1-NCC3/Projeto5?tab=readme-ov-file">Bruno Nóbrega, Mariana Almeida, Julia Godinho, Rafaela Florêncio Morais</a> is licensed under <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International</a>
+<a href="https://github.com/2026-1-NCC3/Projeto5?tab=readme-ov-file">Atlas - Maya RPG</a> © 2026 by <a href="https://github.com/2026-1-NCC3/Projeto5?tab=readme-ov-file">Bruno Nóbrega, Mariana Almeida, Julia Godinho, Rafaela Florêncio Morais</a> is licensed under <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International</a>
 <br><img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" style="max-width: 1em;max-height:1em;margin-left: .2em;"><img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" style="max-width: 1em;max-height:1em;margin-left: .2em;">
 
 ## 🎓 Referências
