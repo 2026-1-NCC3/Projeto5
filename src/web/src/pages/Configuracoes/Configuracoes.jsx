@@ -62,10 +62,10 @@ useEffect(() => {
         especialidade: perfil.diagnosis || "—",
       }
     : {
-        nome: "—",
-        email: "—",
-        telefone: "—",
-        especialidade: "—",
+        nome: "Maya Yamamoto",
+        email: "testepi@gmail.com",
+        telefone: "11999998876",
+        especialidade: "Fisioterapia",
       };
 
   return (
