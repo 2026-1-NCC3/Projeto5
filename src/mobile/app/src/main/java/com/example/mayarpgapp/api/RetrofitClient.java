@@ -12,23 +12,37 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
+
     private static final String BASE_URL = "https://maya-rpg-4r68.onrender.com/api/";
+
+    // CORRIGIDO: token e instâncias como singletons
     private static String authToken = null;
+    private static OkHttpClient okHttpClient = null;
+    private static Retrofit retrofitInstance = null;
 
     public static void setToken(String token) {
         authToken = token;
+        // CORRIGIDO: ao trocar o token, descarta as instâncias antigas
+        // para que o próximo getInstance() use o novo token
+        okHttpClient = null;
+        retrofitInstance = null;
     }
 
+    // CORRIGIDO: singleton — reutiliza a instância já criada
     public static Retrofit getInstance() {
-        return new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .client(getUnsafeOkHttpClient()) // Usando o cliente que ignora o erro de SSL
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+        if (retrofitInstance == null) {
+            retrofitInstance = new Retrofit.Builder()
+                    .baseUrl(BASE_URL)
+                    .client(getOkHttpClient())
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+        }
+        return retrofitInstance;
     }
 
-    // Método para criar um cliente que aceita o certificado do Render
-    private static OkHttpClient getUnsafeOkHttpClient() {
+    private static OkHttpClient getOkHttpClient() {
+        if (okHttpClient != null) return okHttpClient;
+
         try {
             final TrustManager[] trustAllCerts = new TrustManager[]{
                     new X509TrustManager() {
@@ -55,6 +69,7 @@ public class RetrofitClient {
                 Request.Builder requestBuilder = chain.request().newBuilder()
                         .addHeader("Content-Type", "application/json");
 
+                // CORRIGIDO: lê authToken no momento da chamada (não no momento da criação)
                 if (authToken != null && !authToken.isEmpty()) {
                     requestBuilder.addHeader("Authorization", "Bearer " + authToken);
                 }
@@ -62,7 +77,9 @@ public class RetrofitClient {
                 return chain.proceed(requestBuilder.build());
             });
 
-            return builder.build();
+            okHttpClient = builder.build();
+            return okHttpClient;
+
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
