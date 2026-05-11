@@ -4,6 +4,10 @@ import { getPatientId } from "../utils/getPatientId";
 export async function getMyPlans(authUserId: string) {
   const patientId = await getPatientId(authUserId);
 
+  if (!patientId) {
+    throw { status: 404, message: "Paciente não encontrado para este usuário" };
+  }
+
   const { data, error } = await supabase
     .from("patient_plans")
     .select(`

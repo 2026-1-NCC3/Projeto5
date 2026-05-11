@@ -6,7 +6,6 @@ import com.example.mayarpgapp.model.LoginRequest;
 import com.example.mayarpgapp.model.CheckinResponse;
 import com.example.mayarpgapp.model.HistoricoResponse;
 import com.example.mayarpgapp.model.Exercise;
-import com.example.mayarpgapp.model.Consulta;
 import com.example.mayarpgapp.model.PlanoExercicio;
 import com.example.mayarpgapp.model.Progresso;
 import com.example.mayarpgapp.model.Paciente;
@@ -32,9 +31,7 @@ public interface ApiService {
     Call<AuthResponse> login(@Body LoginRequest login);
 
     @POST("checkin")
-    Call<CheckinResponse> fazerCheckin(
-            @Header("Authorization") String token
-    );
+    Call<CheckinResponse> fazerCheckin(@Header("Authorization") String token);
 
     @GET("checkin/historico")
     Call<HistoricoResponse> getHistorico(
@@ -45,20 +42,16 @@ public interface ApiService {
     @GET("exercises")
     Call<List<Exercise>> getExercises(@Header("Authorization") String token);
 
-    // ─── NOVOS ENDPOINTS ────────────────────────────────────────────────────
+    // ✅ CORRIGIDO: rota era "plano", a certa é "plans/my"
+    @GET("plans/my")
+    Call<List<PlanoExercicio>> getPlanoExercicio(@Header("Authorization") String token);
 
-    /** Retorna o plano de exercício ativo do paciente (null/404 se não houver) */
-    @GET("plano")
-    Call<PlanoExercicio> getPlanoExercicio(@Header("Authorization") String token);
-
-    /** Retorna as consultas do paciente (lista vazia se não houver) */
     @GET("appointments")
     Call<ConsultaResponse> getConsultas(@Header("Authorization") String token);
 
-    /** Retorna o progresso de exercícios do paciente */
     @GET("progresso")
     Call<Progresso> getProgresso(@Header("Authorization") String token);
 
     @GET("patients/me")
-    Call<Paciente> getPerfil(@Header("Authorization") String token);
+    Call<Paciente> getPerfil();
 }

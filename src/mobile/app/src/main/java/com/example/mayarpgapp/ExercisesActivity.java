@@ -1,103 +1,126 @@
 package com.example.mayarpgapp;
 
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import androidx.appcompat.app.AppCompatActivity;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.mayarpgapp.api.ApiService;
 import com.example.mayarpgapp.api.RetrofitClient;
-import com.example.mayarpgapp.model.Exercise;
-import java.util.ArrayList;
+import com.example.mayarpgapp.model.PlanoExercicio;
+
 import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ExercisesActivity extends BaseActivity {
 
-    // Componentes da tela
-    private RecyclerView rvExercises;
     private ProgressBar progressBar;
-    private TextView tvError;
+    private LinearLayout layoutEmptyState;
+    private LinearLayout layoutSessaoConcluida;
+    private LinearLayout layoutConteudo;
+
+    private TextView tvTituloPlano, tvFrequencia, tvDuracao, tvNivel;
+    private RecyclerView rvExercises;
+    private Button btnConcluir;
+
     private ApiService apiService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Instancia a API e inicia os componentes
+        String token = getSharedPreferences("APP", MODE_PRIVATE).getString("TOKEN", "");
+        RetrofitClient.setToken(token);
         apiService = RetrofitClient.getInstance().create(ApiService.class);
 
-        initViews();
-        carregarExercicios();
-    }
+        progressBar           = findViewById(R.id.progressBar);
+        layoutEmptyState      = findViewById(R.id.layoutEmptyState);
+        layoutSessaoConcluida = findViewById(R.id.layoutSessaoConcluida);
+        layoutConteudo        = findViewById(R.id.layoutConteudo);
+        tvTituloPlano         = findViewById(R.id.tvTituloPlano);
+        tvFrequencia          = findViewById(R.id.tvFrequencia);
+        tvDuracao             = findViewById(R.id.tvDuracao);
+        tvNivel               = findViewById(R.id.tvNivel);
+        rvExercises           = findViewById(R.id.rvExercises);
+        btnConcluir           = findViewById(R.id.btnConcluir);
 
-    private void initViews() {
-        rvExercises = findViewById(R.id.rvExercises);
-        progressBar = findViewById(R.id.progressBar);
-        tvError     = findViewById(R.id.tvError);
-
-        // Configura a lista para exibir um item abaixo do outro
         rvExercises.setLayoutManager(new LinearLayoutManager(this));
+        btnConcluir.setOnClickListener(v -> mostrarEstado("concluida"));
+        findViewById(R.id.btnContinuar).setOnClickListener(v -> finish());
 
-        // Botão de voltar
-        findViewById(R.id.ivBack).setOnClickListener(v -> finish());
+        carregarPlano();
     }
 
-    private void carregarExercicios() {
-        // Esconde o carregamento e o erro por enquanto
+    private void carregarPlano() {
+        mostrarEstado("loading");
+
+        String token = "Bearer " + getSharedPreferences("APP", MODE_PRIVATE).getString("TOKEN", "");
+
+        apiService.getPlanoExercicio(token).enqueue(new Callback<List<PlanoExercicio>>() {
+
+            @Override
+            public void onResponse(Call<List<PlanoExercicio>> call, Response<List<PlanoExercicio>> response) {
+                Log.d("EXERCICIOS", "Código: " + response.code());
+
+                if (!response.isSuccessful() || response.body() == null || response.body().isEmpty()) {
+                    Log.e("EXERCICIOS", "Resposta vazia ou erro");
+                    mostrarEstado("empty");
+                    return;
+                }
+
+                PlanoExercicio plano = response.body().get(0);
+
+                if (!plano.temExercicios()) {
+                    Log.e("EXERCICIOS", "Plano sem exercícios");
+                    mostrarEstado("empty");
+                    return;
+                }
+
+                tvTituloPlano.setText(plano.getNome() != null ? plano.getNome() : "Plano de exercícios");
+                tvFrequencia.setText("Realizar 3x por semana");
+                tvDuracao.setText("");
+                tvNivel.setText("");
+
+                ExerciseAdapter adapter = new ExerciseAdapter(
+                        ExercisesActivity.this,
+                        plano.getExercicios(),
+                        exercise -> { }
+                );
+                rvExercises.setAdapter(adapter);
+                mostrarEstado("lista");
+            }
+
+            @Override
+            public void onFailure(Call<List<PlanoExercicio>> call, Throwable t) {
+                Log.e("EXERCICIOS", "Falha: " + t.getMessage());
+                mostrarEstado("empty");
+            }
+        });
+    }
+
+    private void mostrarEstado(String estado) {
         progressBar.setVisibility(View.GONE);
-        tvError.setVisibility(View.GONE);
+        layoutEmptyState.setVisibility(View.GONE);
+        layoutSessaoConcluida.setVisibility(View.GONE);
+        layoutConteudo.setVisibility(View.GONE);
 
-        // Lista de exercícios fixa para teste (Mock)
-        List<Exercise> exercises = new ArrayList<>();
-
-        exercises.add(new Exercise(1, "Gato e vaca", "Descrição...",
-                "android.resource://" + getPackageName() + "/" + R.drawable.gato_e_vaca, null, "02.30 Minutes"));
-
-        exercises.add(new Exercise(2, "Ponte", "Descrição...",
-                "android.resource://" + getPackageName() + "/" + R.drawable.ponte, null, "03.00 Minutes"));
-
-        exercises.add(new Exercise(3, "Superman", "Descrição...",
-                "android.resource://" + getPackageName() + "/" + R.drawable.superman, null, "04.00 Minutes"));
-
-        exercises.add(new Exercise(4, "Extensão toráxica", "Descrição...",
-                "android.resource://" + getPackageName() + "/" + R.drawable.extensao_toraxica, null, "05.00 Minutes"));
-
-        exercises.add(new Exercise(5, "Postura da criança", "Descrição...",
-                "android.resource://" + getPackageName() + "/" + R.drawable.postura_crianca, null, "06.00 Minutes"));
-
-        // Configura o adapter e define o que acontece ao clicar no exercício
-        ExerciseAdapter adapter = new ExerciseAdapter(
-                this,
-                exercises,
-                exercise -> abrirDetalhe(exercise)
-        );
-
-        rvExercises.setAdapter(adapter);
-        rvExercises.setVisibility(View.VISIBLE);
+        switch (estado) {
+            case "loading":   progressBar.setVisibility(View.VISIBLE);           break;
+            case "lista":     layoutConteudo.setVisibility(View.VISIBLE);        break;
+            case "empty":     layoutEmptyState.setVisibility(View.VISIBLE);      break;
+            case "concluida": layoutSessaoConcluida.setVisibility(View.VISIBLE); break;
+        }
     }
 
-    // Leva os dados do exercício para a tela de detalhes
-    private void abrirDetalhe(Exercise exercise) {
-        Intent intent = new Intent(this, ExerciseDetailActivity.class);
-        intent.putExtra("EXERCISE_TITLE",       exercise.getTitle());
-        intent.putExtra("EXERCISE_DESCRIPTION", exercise.getDescription());
-        intent.putExtra("EXERCISE_IMAGE_URL",   exercise.getImageUrl());
-        intent.putExtra("EXERCISE_FREQUENCY",   exercise.getFrequency());
-        startActivity(intent);
-    }
-
-    // Pega o token salvo no celular
-    private String getToken() {
-        SharedPreferences prefs = getSharedPreferences("auth", MODE_PRIVATE);
-        return prefs.getString("token", "");
-    }
-    @Override protected int getLayoutId() { return R.layout.activity_exercises; }
+    @Override protected int getLayoutId()  { return R.layout.activity_exercises; }
     @Override protected int getNavItemId() { return R.id.nav_btn_exercicios; }
 }

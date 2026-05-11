@@ -1,6 +1,7 @@
 package com.example.mayarpgapp;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -26,29 +27,37 @@ public class PerfilActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ivFotoPerfil   = findViewById(R.id.ivFotoPerfil);
-        tvNome         = findViewById(R.id.tvNome);
+        ivFotoPerfil    = findViewById(R.id.ivFotoPerfil);
+        tvNome          = findViewById(R.id.tvNome);
         tvPacienteDesde = findViewById(R.id.tvPacienteDesde);
-        tvEmail        = findViewById(R.id.tvEmail);
-        tvTelefone     = findViewById(R.id.tvTelefone);
-        tvCpf          = findViewById(R.id.tvCpf);
-        tvNascimento   = findViewById(R.id.tvNascimento);
+        tvEmail         = findViewById(R.id.tvEmail);
+        tvTelefone      = findViewById(R.id.tvTelefone);
+        tvCpf           = findViewById(R.id.tvCpf);
+        tvNascimento    = findViewById(R.id.tvNascimento);
+
+        // ✅ Restaura o token no RetrofitClient caso o app tenha sido reaberto
+        String token = getSharedPreferences("APP", MODE_PRIVATE).getString("TOKEN", "");
+        RetrofitClient.setToken(token);
 
         carregarPerfil();
     }
 
     private void carregarPerfil() {
-        String token = "Bearer " + getSharedPreferences("prefs", MODE_PRIVATE)
-                .getString("token", "");
-
+        // ✅ Não passa o token aqui — o RetrofitClient já injeta no header automaticamente
         ApiService api = RetrofitClient.getInstance().create(ApiService.class);
-        api.getPerfil(token).enqueue(new Callback<Paciente>() {
+        api.getPerfil().enqueue(new Callback<Paciente>() {
 
             @Override
             public void onResponse(Call<Paciente> call, Response<Paciente> response) {
-                if (!response.isSuccessful() || response.body() == null) return;
+                Log.d("PERFIL", "Código: " + response.code());
+
+                if (!response.isSuccessful() || response.body() == null) {
+                    Log.e("PERFIL", "Resposta inválida ou corpo nulo. Código: " + response.code());
+                    return;
+                }
 
                 Paciente p = response.body();
+                Log.d("PERFIL", "Nome recebido: " + p.getName());
 
                 tvNome.setText(p.getName());
                 tvPacienteDesde.setText("Paciente desde " + formatarDataCurta(p.getCreatedAt()));
@@ -60,7 +69,7 @@ public class PerfilActivity extends BaseActivity {
 
             @Override
             public void onFailure(Call<Paciente> call, Throwable t) {
-                // Mantém campos vazios silenciosamente
+                Log.e("PERFIL", "Falha na chamada: " + t.getMessage());
             }
         });
     }
@@ -68,7 +77,7 @@ public class PerfilActivity extends BaseActivity {
     private String formatarDataCurta(String dateISO) {
         try {
             SimpleDateFormat entrada = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault());
-            SimpleDateFormat saida = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+            SimpleDateFormat saida   = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
             Date date = entrada.parse(dateISO);
             return saida.format(date);
         } catch (Exception e) {
@@ -79,7 +88,7 @@ public class PerfilActivity extends BaseActivity {
     private String formatarDataNascimento(String dateISO) {
         try {
             SimpleDateFormat entrada = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-            SimpleDateFormat saida = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+            SimpleDateFormat saida   = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
             Date date = entrada.parse(dateISO);
             return saida.format(date);
         } catch (Exception e) {
@@ -87,6 +96,6 @@ public class PerfilActivity extends BaseActivity {
         }
     }
 
-    @Override protected int getLayoutId() { return R.layout.activity_perfil; }
+    @Override protected int getLayoutId()  { return R.layout.activity_perfil; }
     @Override protected int getNavItemId() { return R.id.nav_btn_perfil; }
 }
