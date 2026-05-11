@@ -71,7 +71,7 @@ Coloque código do prompt de comnando se for necessário
 <b>Windows:</b>
 
 Para acessar o site, acesse o link: 
-- [Site] (https://maya-rpg.vercel.app/login) e utilize o *email: testepi@email.com* e a *senha: teste123*
+- [Site] (https://maya-rpg.vercel.app) e utilize o *email: testepi@email.com* e a *senha: teste123*
 > Este é o único email de acesso por se tratar de um site feito específico para a administradora única, Maya
 
 ## 💻 Configuração para Desenvolvimento
