@@ -21,6 +21,6 @@
 ### Programação Orientada a Objetos
 ![README](/documentos/Entrega%202/Programação%20Orientada%20a%20Objetos/README.md)
 
-### Programação para Dispositivo Móvel
+### Projeto Interdisciplinar: Aplicativo Móvel
 ![README](/documentos/Entrega%201/Programação%20para%20Dispositivo%20Móvel/README.MD)
 
