@@ -45,11 +45,12 @@ public class HistoricoCheckinActivity extends BaseActivity {
     private void carregarCheckins() {
         progressBar.setVisibility(View.VISIBLE);
 
-        String token = "Bearer " + getSharedPreferences("APP", MODE_PRIVATE)
-                .getString("TOKEN", "");
+        String token = getSharedPreferences("APP", MODE_PRIVATE).getString("TOKEN", "");
+        RetrofitClient.setToken(token);
 
+        // O interceptor do RetrofitClient já injeta o Bearer automaticamente
         ApiService api = RetrofitClient.getInstance().create(ApiService.class);
-        api.getMeusCheckins(token).enqueue(new Callback<List<CheckinResponse>>() {
+        api.getMeusCheckins().enqueue(new Callback<List<CheckinResponse>>() {
             @Override
             public void onResponse(Call<List<CheckinResponse>> call, Response<List<CheckinResponse>> response) {
                 progressBar.setVisibility(View.GONE);
@@ -61,10 +62,8 @@ public class HistoricoCheckinActivity extends BaseActivity {
 
                 List<CheckinResponse> lista = response.body();
 
-                // total geral
                 tvCountTotal.setText(String.valueOf(lista.size()));
 
-                // conta os desta semana
                 int semana = contarEstaSemana(lista);
                 tvCountSemana.setText(String.valueOf(semana));
 
