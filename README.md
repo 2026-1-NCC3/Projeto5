@@ -1,32 +1,23 @@
 # FECAP - Fundação de Comércio Álvares Penteado
 
 <p align="center">
-  <a href="https://www.fecap.br/">
-    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhZPrRa89Kma0ZZogxm0pi-tCn_TLKeHGVxywp-LXAFGR3B1DPouAJYHgKZGV0XTEf4AE&usqp=CAU" alt="FECAP" border="0">
-  </a>
+<a href= "https://www.fecap.br/"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhZPrRa89Kma0ZZogxm0pi-tCn_TLKeHGVxywp-LXAFGR3B1DPouAJYHgKZGV0XTEf4AE&usqp=CAU" alt="FECAP - Fundação de Comércio Álvares Penteado" border="0"></a>
 </p>
 
----
+# Clínica Maya Yamamoto RPG
 
-## 👩‍💻 Integrantes
+## Atlas
 
-- [Bruno Nóbrega do Espírito Santo ](https://github.com/Bruno4213)
-- [Julia Pereira Godinho](https://github.com/juliaa-pg)
-- [Mariana Almeida Nascimento](https://github.com/Mariana851)
-- [Rafaela Florêncio Morais](https://github.com/rafafmorais)
+## Integrantes: <a href="https://github.com/Bruno4213">Bruno Nóbrega do Espírito Santo</a>, <a href="https://github.com/juliaa-pg">Julia Pereira Godinho</a>, <a href="https://github.com/Mariana851">Mariana Almeida Nascimento</a> e <a href="https://github.com/rafafmorais">Rafaela Florêncio Morais</a>
 
----
+## Professores Orientadores: <a href="https://www.linkedin.com/in/katia-bossi/">Katia Milani Lara Bossi</a>, 
+<a href="https://www.linkedin.com/in/marco-aurelio-lima-barbosa/">Marco Aurelio Lima Barbosa</a>, 
+<a href="https://www.linkedin.com/in/rodrigo-da-rosa-phd/">Rodrigo da Rosa</a>, 
+<a href="https://www.linkedin.com/in/victorbarq/">Victor Rosetti</a>, 
 
-## 👨‍🏫 Professores Orientadores
 
-- [Katia Milani Lara Bossi](https://www.linkedin.com/in/katia-bossi/)
-- [Marco Aurelio Lima Barbosa](https://www.linkedin.com/in/marco-aurelio-lima-barbosa/)
-- [Rodrigo da Rosa](https://www.linkedin.com/in/rodrigo-da-rosa-phd/)
-- [Victor Rosetti](https://www.linkedin.com/in/victorbarq/)
+## Descrição
 
----
-
-## 📖 1. Apresentação do Projeto
 <p align="center">
   <img src="/imagens/Maya-logo_72_Positivo.png" alt="Maya RPG" width="600">
 </p>
@@ -41,8 +32,8 @@ A proposta envolve a criação de um ecossistema composto por três camadas prin
 
 O sistema foi projetado com arquitetura cliente-servidor, onde o aplicativo mobile e o módulo web consomem serviços disponibilizados por uma API REST responsável pelas regras de negócio, autenticação, controle de acesso e persistência de dados. 
 A solução busca substituir processos informais e dispersos por uma plataforma estruturada, segura e escalável, promovendo melhor organização clínica, maior adesão ao tratamento e acompanhamento eficiente da evolução dos pacientes.
+<br><br>
 
----
 ## 🛠 Estrutura de pastas
 
 <pre>
@@ -69,13 +60,33 @@ A solução busca substituir processos informais e dispersos por uma plataforma 
 └── README.md
 </pre>
 
-## 🚀 6. Como Rodar o Projeto
----
- 
-### 💻 Ambiente de Desenvolvimento (Local)
+## 🛠 Instalação
 
-### ✅ Pré-requisitos
- 
+<b>Android:</b>
+
+Faça o Download do JOGO.apk no seu celular.
+Execute o APK e siga as instruções de seu telefone.
+
+```sh
+Coloque código do prompt de comnando se for necessário
+```
+
+<b>Windows:</b>
+
+Não há instalação! Apenas executável!
+Encontre o JOGO.exe na pasta executáveis e execute-o como qualquer outro programa.
+
+```sh
+Coloque código do prompt de comnando se for necessário
+```
+
+<b>HTML:</b>
+
+Não há instalação!
+Encontre o index.html na pasta executáveis e execute-o como uma página WEB (através de algum browser).
+
+## 💻 Configuração para Desenvolvimento
+
 Antes de começar, certifique-se de ter instalado:
  
 - [Node.js](https://nodejs.org/) v18 ou superior
@@ -161,7 +172,6 @@ http://localhost:5173
  
 ---
 
-
 ## 🎨 7. Protótipo
 
 🔗 Acesse o protótipo do sistema:
@@ -174,11 +184,9 @@ http://localhost:5173
 <a href="https://github.com/2026-1-NCC3/Projeto5?tab=readme-ov-file">Atlas - Maya RPG</a> © 2025 by <a href="https://github.com/2026-1-NCC3/Projeto5?tab=readme-ov-file">Bruno Nóbrega, Mariana Almeida, Julia Godinho, Rafaela Florêncio Morais</a> is licensed under <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International</a>
 <br><img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" style="max-width: 1em;max-height:1em;margin-left: .2em;"><img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" style="max-width: 1em;max-height:1em;margin-left: .2em;">
 
----
 ## 🎓 Referências
 
 Aqui estão as referências usadas no projeto.
 
 1. <https://chooser-beta.creativecommons.org/>
 2. <https://github.com/fecaphub/Template_PI>
-
