@@ -68,6 +68,8 @@
 
         <activity android:name=".RecuperarSenhaActivity" />
 
+        <activity android:name=".HistoricoCheckinActivity" />
+
         <activity android:name=".model.ConfiguracoesActivity" />
 
     </application>

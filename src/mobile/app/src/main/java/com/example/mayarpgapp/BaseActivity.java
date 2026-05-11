@@ -43,7 +43,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         });
         findViewById(R.id.nav_btn_historico).setOnClickListener(v -> {
             if (!(this instanceof CheckinActivity)) {
-                startActivity(new Intent(this, CheckinActivity.class));
+                startActivity(new Intent(this, HistoricoCheckinActivity.class));
                 overridePendingTransition(0, 0);
             }
         });

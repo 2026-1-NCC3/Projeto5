@@ -1,16 +1,23 @@
 package com.example.mayarpgapp.model;
 
 import com.google.gson.annotations.SerializedName;
-import java.util.List;
 
 public class CheckinResponse {
 
-    @SerializedName("jaFez")
-    private boolean jaFez;
+    @SerializedName("id")
+    private String id;
 
-    @SerializedName("mensagem")
-    private String mensagem;
+    @SerializedName("pain_level")
+    private int painLevel;
 
-    public boolean isJaFez() { return jaFez; }
-    public String getMensagem() { return mensagem; }
+    @SerializedName("notes")
+    private String notes;
+
+    @SerializedName("created_at")
+    private String createdAt;
+
+    public String getId()       { return id; }
+    public int getPainLevel()   { return painLevel; }
+    public String getNotes()    { return notes; }
+    public String getCreatedAt(){ return createdAt; }
 }

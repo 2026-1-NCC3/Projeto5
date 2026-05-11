@@ -31,7 +31,10 @@ public interface ApiService {
     Call<AuthResponse> login(@Body LoginRequest login);
 
     @POST("checkin")
-    Call<CheckinResponse> fazerCheckin(@Header("Authorization") String token);
+    Call<CheckinResponse> fazerCheckin(
+            @Header("Authorization") String token,
+            @Body JsonObject body
+    );
 
     @GET("checkin/historico")
     Call<HistoricoResponse> getHistorico(
@@ -39,10 +42,12 @@ public interface ApiService {
             @Query("dias") int dias
     );
 
+    @GET("checkin")
+    Call<List<CheckinResponse>> getMeusCheckins(@Header("Authorization") String token);
+
     @GET("exercises")
     Call<List<Exercise>> getExercises(@Header("Authorization") String token);
 
-    // ✅ CORRIGIDO: rota era "plano", a certa é "plans/my"
     @GET("plans/my")
     Call<List<PlanoExercicio>> getPlanoExercicio(@Header("Authorization") String token);
 

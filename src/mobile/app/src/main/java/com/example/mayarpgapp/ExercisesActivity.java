@@ -1,5 +1,6 @@
 package com.example.mayarpgapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -22,6 +23,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ExercisesActivity extends BaseActivity {
+
+    private static final int REQUEST_CHECKIN = 100;
 
     private ProgressBar progressBar;
     private LinearLayout layoutEmptyState;
@@ -54,10 +57,25 @@ public class ExercisesActivity extends BaseActivity {
         btnConcluir           = findViewById(R.id.btnConcluir);
 
         rvExercises.setLayoutManager(new LinearLayoutManager(this));
-        btnConcluir.setOnClickListener(v -> mostrarEstado("concluida"));
+
+        // Concluir → abre CheckinActivity para registrar dor
+        btnConcluir.setOnClickListener(v -> {
+            Intent intent = new Intent(this, CheckinActivity.class);
+            startActivityForResult(intent, REQUEST_CHECKIN);
+        });
+
         findViewById(R.id.btnContinuar).setOnClickListener(v -> finish());
 
         carregarPlano();
+    }
+
+    // Quando CheckinActivity retorna, mostra "Parabéns"
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CHECKIN && resultCode == RESULT_OK) {
+            mostrarEstado("concluida");
+        }
     }
 
     private void carregarPlano() {
@@ -66,7 +84,6 @@ public class ExercisesActivity extends BaseActivity {
         String token = "Bearer " + getSharedPreferences("APP", MODE_PRIVATE).getString("TOKEN", "");
 
         apiService.getPlanoExercicio(token).enqueue(new Callback<List<PlanoExercicio>>() {
-
             @Override
             public void onResponse(Call<List<PlanoExercicio>> call, Response<List<PlanoExercicio>> response) {
                 Log.d("EXERCICIOS", "Código: " + response.code());

@@ -15,7 +15,7 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <!-- Linha 1: data + horário -->
+        <!-- Data + horário -->
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -25,15 +25,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_centerVertical="true">
+                android:gravity="center_vertical">
 
                 <ImageView
                     android:layout_width="16dp"
                     android:layout_height="16dp"
-                    app:srcCompat="@drawable/ic_calendar"
-                    app:tint="#666666"
-                    android:layout_marginEnd="6dp"
-                    android:layout_gravity="center_vertical" />
+                    android:src="@drawable/ic_hist_calendar"
+                    android:layout_marginEnd="6dp" />
 
                 <TextView
                     android:id="@+id/txt_checkin_data"
@@ -54,12 +52,20 @@
                 android:layout_centerVertical="true" />
         </RelativeLayout>
 
-        <!-- Linha 2: badge nível de dor -->
+        <!-- Nível de dor -->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:gravity="center_vertical"
             android:layout_marginBottom="10dp">
+
+            <ImageView
+                android:id="@+id/ic_nivel_dor"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/ic_hist_nvdor"
+                android:layout_marginEnd="6dp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -68,23 +74,19 @@
                 android:textSize="13sp"
                 android:textColor="#555555" />
 
-            <!-- Badge com a nota de dor — a cor muda no Java (verde/laranja/vermelho) -->
             <TextView
                 android:id="@+id/txt_checkin_dor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0/10"
                 android:textSize="12sp"
                 android:textStyle="bold"
-                android:textColor="#4CAF50"
-                android:background="@drawable/bg_badge_teal"
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp"
                 android:paddingTop="2dp"
                 android:paddingBottom="2dp" />
         </LinearLayout>
 
-        <!-- Linha 3: observação do check-in -->
+        <!-- Observação -->
         <TextView
             android:id="@+id/txt_checkin_observacao"
             android:layout_width="match_parent"
@@ -94,7 +96,8 @@
             android:background="#F8F8F8"
             android:padding="10dp"
             android:maxLines="2"
-            android:ellipsize="end" />
+            android:ellipsize="end"
+            android:visibility="gone" />
 
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

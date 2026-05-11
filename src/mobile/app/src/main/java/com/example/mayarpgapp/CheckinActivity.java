@@ -1,27 +1,22 @@
 package com.example.mayarpgapp;
 
-import android.content.SharedPreferences;
+import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Bundle;
-import android.view.Gravity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import androidx.appcompat.app.AppCompatActivity;
+import android.widget.Toast;
 
 import com.example.mayarpgapp.api.ApiService;
 import com.example.mayarpgapp.api.RetrofitClient;
 import com.example.mayarpgapp.model.CheckinResponse;
-import com.example.mayarpgapp.model.HistoricoResponse;
-
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Locale;
+import com.google.gson.JsonObject;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -29,12 +24,13 @@ import retrofit2.Response;
 
 public class CheckinActivity extends BaseActivity {
 
-    private LinearLayout llDaysContainer;
-    private TextView tvDataHoje, tvStatus;
-    private Button btnCheckin;
-    private ProgressBar progressBar;
+    private LinearLayout llNiveis;
+    private TextView tvNivelNumero, tvNivelDescricao, tvContador;
+    private EditText etComentario;
+    private Button btnFinalizar;
 
-    private List<String> diasComCheckin = new ArrayList<>();
+    private int nivelSelecionado = 5;
+    private Button[] botoesNivel = new Button[10];
     private ApiService apiService;
 
     @Override
@@ -43,193 +39,119 @@ public class CheckinActivity extends BaseActivity {
 
         apiService = RetrofitClient.getInstance().create(ApiService.class);
 
-        initViews();
-        configurarDataHoje();
-        carregarHistorico();
-    }
-
-    private void initViews() {
-        llDaysContainer = findViewById(R.id.llDaysContainer);
-        tvDataHoje      = findViewById(R.id.tvDataHoje);
-        tvStatus        = findViewById(R.id.tvStatus);
-        btnCheckin      = findViewById(R.id.btnCheckin);
-        progressBar     = findViewById(R.id.progressBar);
+        llNiveis        = findViewById(R.id.llNiveis);
+        tvNivelNumero   = findViewById(R.id.tvNivelNumero);
+        tvNivelDescricao= findViewById(R.id.tvNivelDescricao);
+        tvContador      = findViewById(R.id.tvContador);
+        etComentario    = findViewById(R.id.etComentario);
+        btnFinalizar    = findViewById(R.id.btnFinalizar);
 
         findViewById(R.id.ivBack).setOnClickListener(v -> finish());
-        btnCheckin.setOnClickListener(v -> fazerCheckin());
-    }
 
-    private void configurarDataHoje() {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-        tvDataHoje.setText(sdf.format(Calendar.getInstance().getTime()));
-    }
+        montarBotoesNivel();
+        selecionarNivel(5);
 
-    private void carregarHistorico() {
-        progressBar.setVisibility(View.VISIBLE);
-        btnCheckin.setEnabled(false);
-
-        String token = "Bearer " + getToken();
-
-        apiService.getHistorico(token, 7).enqueue(new Callback<HistoricoResponse>() {
-            @Override
-            public void onResponse(Call<HistoricoResponse> call, Response<HistoricoResponse> response) {
-                progressBar.setVisibility(View.GONE);
-                btnCheckin.setEnabled(true);
-
-                if (response.isSuccessful() && response.body() != null) {
-                    diasComCheckin = response.body().getHistorico();
-                }
-
-                montarBarraDias();
-                verificarSeJaFezCheckinHoje();
+        etComentario.addTextChangedListener(new TextWatcher() {
+            public void beforeTextChanged(CharSequence s, int st, int c, int a) {}
+            public void onTextChanged(CharSequence s, int st, int b, int c) {
+                tvContador.setText(s.length() + "/200");
             }
-
-            @Override
-            public void onFailure(Call<HistoricoResponse> call, Throwable t) {
-                progressBar.setVisibility(View.GONE);
-                btnCheckin.setEnabled(true);
-                mostrarStatus("Erro de conexão ao carregar histórico.", "#C62828");
-                montarBarraDias();
-            }
+            public void afterTextChanged(Editable s) {}
         });
+
+        btnFinalizar.setOnClickListener(v -> fazerCheckin());
+    }
+
+    private void montarBotoesNivel() {
+        llNiveis.removeAllViews();
+        for (int i = 1; i <= 10; i++) {
+            final int nivel = i;
+            Button btn = new Button(this);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                    0, dpToPx(40), 1f
+            );
+            params.setMarginEnd(i < 10 ? dpToPx(4) : 0);
+            btn.setLayoutParams(params);
+            btn.setText(String.valueOf(i));
+            btn.setTextSize(13);
+            btn.setStateListAnimator(null);
+            btn.setPadding(0, 0, 0, 0);
+            btn.setOnClickListener(v -> selecionarNivel(nivel));
+            botoesNivel[i - 1] = btn;
+            llNiveis.addView(btn);
+        }
+    }
+
+    private void selecionarNivel(int nivel) {
+        nivelSelecionado = nivel;
+        tvNivelNumero.setText(String.valueOf(nivel));
+        tvNivelDescricao.setText(descricaoDor(nivel));
+
+        for (int i = 0; i < 10; i++) {
+            Button btn = botoesNivel[i];
+            if (i + 1 == nivel) {
+                btn.setBackgroundColor(Color.parseColor("#37A6BA"));
+                btn.setTextColor(Color.WHITE);
+            } else {
+                btn.setBackgroundColor(Color.parseColor("#E8F5F7"));
+                btn.setTextColor(Color.parseColor("#37A6BA"));
+            }
+        }
+    }
+
+    private String descricaoDor(int nivel) {
+        if (nivel <= 2) return "Sem dor";
+        if (nivel <= 4) return "Dor leve";
+        if (nivel <= 6) return "Dor moderada";
+        if (nivel <= 8) return "Dor intensa";
+        return "Dor máxima";
     }
 
     private void fazerCheckin() {
-        btnCheckin.setEnabled(false);
-        progressBar.setVisibility(View.VISIBLE);
-        tvStatus.setVisibility(View.GONE);
+        btnFinalizar.setEnabled(false);
+        btnFinalizar.setText("Enviando...");
 
-        String token = "Bearer " + getToken();
+        String token = "Bearer " + getSharedPreferences("APP", MODE_PRIVATE)
+                .getString("TOKEN", "");
+        String comentario = etComentario.getText().toString().trim();
 
-        apiService.fazerCheckin(token).enqueue(new Callback<CheckinResponse>() {
+        JsonObject body = new JsonObject();
+        body.addProperty("pain_level", nivelSelecionado);
+        if (!comentario.isEmpty()) {
+            body.addProperty("notes", comentario);
+        }
+
+        apiService.fazerCheckin(token, body).enqueue(new Callback<CheckinResponse>() {
             @Override
             public void onResponse(Call<CheckinResponse> call, Response<CheckinResponse> response) {
-                progressBar.setVisibility(View.GONE);
-
-                if (response.isSuccessful() && response.body() != null) {
-                    CheckinResponse body = response.body();
-
-                    if (response.code() == 201) {
-                        mostrarStatus("✓ Check-in realizado com sucesso!", "#2E7D32");
-                        btnCheckin.setText("Check-in já realizado hoje ✓");
-                        btnCheckin.setAlpha(0.6f);
-                        carregarHistorico(); // atualiza bolinhas
-                    } else {
-                        mostrarStatus("Você já fez check-in hoje!", "#F57C00");
-                        btnCheckin.setText("Check-in já realizado hoje ✓");
-                        btnCheckin.setAlpha(0.6f);
-                    }
+                if (response.isSuccessful()) {
+                    // volta para ExercisesActivity sinalizando sucesso
+                    Intent intent = new Intent();
+                    intent.putExtra("checkin_ok", true);
+                    setResult(RESULT_OK, intent);
+                    finish();
                 } else {
-                    mostrarStatus("Erro ao fazer check-in. Tente novamente.", "#C62828");
-                    btnCheckin.setEnabled(true);
+                    Toast.makeText(CheckinActivity.this,
+                            "Erro ao registrar. Tente novamente.", Toast.LENGTH_SHORT).show();
+                    btnFinalizar.setEnabled(true);
+                    btnFinalizar.setText("Finalizar Check-in");
                 }
             }
 
             @Override
             public void onFailure(Call<CheckinResponse> call, Throwable t) {
-                progressBar.setVisibility(View.GONE);
-                mostrarStatus("Erro de conexão. Verifique sua internet.", "#C62828");
-                btnCheckin.setEnabled(true);
+                Toast.makeText(CheckinActivity.this,
+                        "Erro de conexão.", Toast.LENGTH_SHORT).show();
+                btnFinalizar.setEnabled(true);
+                btnFinalizar.setText("Finalizar Check-in");
             }
         });
-    }
-
-    private void montarBarraDias() {
-        llDaysContainer.removeAllViews();
-
-        Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.DAY_OF_WEEK, cal.getFirstDayOfWeek());
-
-        String[] nomeDias = {"DOM", "SEG", "TER", "QUA", "QUI", "SEX", "SÁB"};
-        SimpleDateFormat sdfKey = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        String hoje = sdfKey.format(Calendar.getInstance().getTime());
-
-        for (int i = 0; i < 7; i++) {
-            String dataStr  = sdfKey.format(cal.getTime());
-            int diaMes      = cal.get(Calendar.DAY_OF_MONTH);
-            String nome     = nomeDias[cal.get(Calendar.DAY_OF_WEEK) - 1];
-            boolean fezCheckin = diasComCheckin != null && diasComCheckin.contains(dataStr);
-            boolean ehHoje     = dataStr.equals(hoje);
-
-            llDaysContainer.addView(criarItemDia(diaMes, nome, fezCheckin, ehHoje));
-            cal.add(Calendar.DAY_OF_MONTH, 1);
-        }
-    }
-
-    private LinearLayout criarItemDia(int numero, String nome, boolean fezCheckin, boolean ehHoje) {
-        LinearLayout container = new LinearLayout(this);
-        container.setOrientation(LinearLayout.VERTICAL);
-        container.setGravity(Gravity.CENTER);
-
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                dpToPx(40), LinearLayout.LayoutParams.WRAP_CONTENT
-        );
-        params.setMarginEnd(dpToPx(8));
-        container.setLayoutParams(params);
-
-        if (ehHoje) {
-            container.setBackgroundResource(R.drawable.bg_day_selected);
-            container.setPadding(0, dpToPx(6), 0, dpToPx(6));
-        }
-
-        // status da bolinha de status
-        View dot = new View(this);
-        LinearLayout.LayoutParams dotParams = new LinearLayout.LayoutParams(dpToPx(8), dpToPx(8));
-        dotParams.setMargins(0, 0, 0, dpToPx(4));
-        dot.setLayoutParams(dotParams);
-        dot.setBackgroundResource(
-                ehHoje      ? R.drawable.dot_white :
-                        fezCheckin  ? R.drawable.dot_green :
-                                R.drawable.dot_gray
-        );
-
-        TextView tvNum = new TextView(this);
-        tvNum.setText(String.valueOf(numero));
-        tvNum.setTextSize(14);
-        tvNum.setTypeface(null, Typeface.BOLD);
-        tvNum.setGravity(Gravity.CENTER);
-        tvNum.setTextColor(ehHoje ? Color.WHITE : Color.parseColor("#444444"));
-
-        // dia da semana
-        TextView tvNome = new TextView(this);
-        tvNome.setText(nome);
-        tvNome.setTextSize(10);
-        tvNome.setGravity(Gravity.CENTER);
-        tvNome.setTextColor(ehHoje ? Color.WHITE : Color.parseColor("#888888"));
-
-        container.addView(dot);
-        container.addView(tvNum);
-        container.addView(tvNome);
-        return container;
-    }
-
-    private void verificarSeJaFezCheckinHoje() {
-        String hoje = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-                .format(Calendar.getInstance().getTime());
-
-        if (diasComCheckin != null && diasComCheckin.contains(hoje)) {
-            btnCheckin.setEnabled(false);
-            btnCheckin.setText("Check-in já realizado hoje ✓");
-            btnCheckin.setAlpha(0.6f);
-            mostrarStatus("✓ Você já fez seu check-in hoje!", "#2E7D32");
-        }
-    }
-    // mostra o status do checkin (fez, nao fez, dia de hoje)
-    private void mostrarStatus(String mensagem, String corHex) {
-        tvStatus.setText(mensagem);
-        tvStatus.setTextColor(Color.parseColor(corHex));
-        tvStatus.setVisibility(View.VISIBLE);
-    }
-
-    // pega o token salvo
-    private String getToken() {
-        SharedPreferences prefs = getSharedPreferences("auth", MODE_PRIVATE);
-        return prefs.getString("token", "");
     }
 
     private int dpToPx(int dp) {
         return Math.round(dp * getResources().getDisplayMetrics().density);
     }
-    @Override protected int getLayoutId() { return R.layout.activity_checkin; }
+
+    @Override protected int getLayoutId()  { return R.layout.activity_checkin; }
     @Override protected int getNavItemId() { return R.id.nav_btn_historico; }
 }
