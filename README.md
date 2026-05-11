@@ -70,17 +70,9 @@ Coloque código do prompt de comnando se for necessário
 
 <b>Windows:</b>
 
-Não há instalação! Apenas executável!
-Encontre o JOGO.exe na pasta executáveis e execute-o como qualquer outro programa.
-
-```sh
-Coloque código do prompt de comnando se for necessário
-```
-
-<b>HTML:</b>
-
-Não há instalação!
-Encontre o index.html na pasta executáveis e execute-o como uma página WEB (através de algum browser).
+Para acessar o site, acesse o link: 
+- [Site] (https://maya-rpg.vercel.app) e utilize o *email: testepi@email.com* e a *senha: teste123*
+> Este é o único email de acesso por se tratar de um site feito específico para a administradora única, Maya
 
 ## 💻 Configuração para Desenvolvimento
 
