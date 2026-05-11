@@ -10,10 +10,7 @@
 
 ## Integrantes: <a href="https://github.com/Bruno4213">Bruno Nóbrega do Espírito Santo</a>, <a href="https://github.com/juliaa-pg">Julia Pereira Godinho</a>, <a href="https://github.com/Mariana851">Mariana Almeida Nascimento</a> e <a href="https://github.com/rafafmorais">Rafaela Florêncio Morais</a>
 
-## Professores Orientadores: <a href="https://www.linkedin.com/in/katia-bossi/">Katia Milani Lara Bossi</a>, 
-<a href="https://www.linkedin.com/in/marco-aurelio-lima-barbosa/">Marco Aurelio Lima Barbosa</a>, 
-<a href="https://www.linkedin.com/in/rodrigo-da-rosa-phd/">Rodrigo da Rosa</a>, 
-<a href="https://www.linkedin.com/in/victorbarq/">Victor Rosetti</a>, 
+## Professores Orientadores: <a href="https://www.linkedin.com/in/katia-bossi/">Katia Milani Lara Bossi</a>, <a href="https://www.linkedin.com/in/marco-aurelio-lima-barbosa/">Marco Aurelio Lima Barbosa</a>, <a href="https://www.linkedin.com/in/rodrigo-da-rosa-phd/">Rodrigo da Rosa</a>, <a href="https://www.linkedin.com/in/victorbarq/">Victor Rosetti</a>, 
 
 
 ## Descrição
