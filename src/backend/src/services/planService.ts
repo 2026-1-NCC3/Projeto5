@@ -28,7 +28,9 @@ export async function getMyPlans(authUserId: string) {
         )
       )
     `)
-    .eq("patient_id", patientId);
+    .eq("patient_id", patientId)
+    .order("created_at", { ascending: false })
+    .limit(1);
 
   if (error) throw error;
 
