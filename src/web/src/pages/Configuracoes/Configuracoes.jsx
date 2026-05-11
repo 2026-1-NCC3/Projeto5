@@ -5,7 +5,6 @@ import api from "../../services/api";
 export default function Configuracoes() {
   const [perfil, setPerfil] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [notificacoesEmail, setNotificacoesEmail] = useState(true);
 
   const [modoNoturno, setModoNoturno] = useState(false);
   useEffect(() => {
@@ -117,42 +116,6 @@ useEffect(() => {
       </div>
 
 
-      <div className="config-card">
-        <div className="config-section-header">
-          <div className="config-icon config-icon--notif">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
-              <path d="M13.73 21a2 2 0 0 1-3.46 0" />
-            </svg>
-          </div>
-          <div>
-            <h2 className="config-section-title">Notificações</h2>
-            <p className="config-section-desc">Escolha como deseja receber atualizações</p>
-          </div>
-        </div>
-
-        <div className="config-toggle-row">
-          <div className="config-toggle-left">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="config-toggle-icon">
-              <rect x="2" y="4" width="20" height="16" rx="2" />
-              <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
-            </svg>
-            <div>
-              <p className="config-toggle-label">Notificações por Email</p>
-              <p className="config-toggle-desc">Receba atualizações no seu email</p>
-            </div>
-          </div>
-          <button
-            className={`config-toggle ${notificacoesEmail ? "config-toggle--on" : ""}`}
-            onClick={() => setNotificacoesEmail(!notificacoesEmail)}
-            aria-checked={notificacoesEmail}
-            role="switch"
-          >
-            <span className="config-toggle-thumb" />
-          </button>
-        </div>
-      </div>
-
 
       <div className="config-card">
         <div className="config-section-header">
@@ -163,7 +126,7 @@ useEffect(() => {
           </div>
           <div>
             <h2 className="config-section-title">Modo Noturno</h2>
-            <p className="config-section-desc">Ajuste a aparência da interface</p>
+            <p className="config-section-desc">Ajuste a aparência desta página</p>
           </div>
         </div>
 
