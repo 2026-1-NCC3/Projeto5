@@ -37,14 +37,16 @@ public class CheckinActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        String token = getSharedPreferences("APP", MODE_PRIVATE).getString("TOKEN", "");
+        RetrofitClient.setToken(token);
         apiService = RetrofitClient.getInstance().create(ApiService.class);
 
-        llNiveis        = findViewById(R.id.llNiveis);
-        tvNivelNumero   = findViewById(R.id.tvNivelNumero);
-        tvNivelDescricao= findViewById(R.id.tvNivelDescricao);
-        tvContador      = findViewById(R.id.tvContador);
-        etComentario    = findViewById(R.id.etComentario);
-        btnFinalizar    = findViewById(R.id.btnFinalizar);
+        llNiveis         = findViewById(R.id.llNiveis);
+        tvNivelNumero    = findViewById(R.id.tvNivelNumero);
+        tvNivelDescricao = findViewById(R.id.tvNivelDescricao);
+        tvContador       = findViewById(R.id.tvContador);
+        etComentario     = findViewById(R.id.etComentario);
+        btnFinalizar     = findViewById(R.id.btnFinalizar);
 
         findViewById(R.id.ivBack).setOnClickListener(v -> finish());
 
@@ -111,8 +113,6 @@ public class CheckinActivity extends BaseActivity {
         btnFinalizar.setEnabled(false);
         btnFinalizar.setText("Enviando...");
 
-        String token = "Bearer " + getSharedPreferences("APP", MODE_PRIVATE)
-                .getString("TOKEN", "");
         String comentario = etComentario.getText().toString().trim();
 
         JsonObject body = new JsonObject();
@@ -121,11 +121,11 @@ public class CheckinActivity extends BaseActivity {
             body.addProperty("notes", comentario);
         }
 
-        apiService.fazerCheckin(token, body).enqueue(new Callback<CheckinResponse>() {
+        // O interceptor do RetrofitClient já injeta o Bearer automaticamente
+        apiService.fazerCheckin(body).enqueue(new Callback<CheckinResponse>() {
             @Override
             public void onResponse(Call<CheckinResponse> call, Response<CheckinResponse> response) {
                 if (response.isSuccessful()) {
-                    // volta para ExercisesActivity sinalizando sucesso
                     Intent intent = new Intent();
                     intent.putExtra("checkin_ok", true);
                     setResult(RESULT_OK, intent);

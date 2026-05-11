@@ -15,7 +15,6 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
-import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 
@@ -31,31 +30,25 @@ public interface ApiService {
     Call<AuthResponse> login(@Body LoginRequest login);
 
     @POST("checkins")
-    Call<CheckinResponse> fazerCheckin(
-            @Header("Authorization") String token,
-            @Body JsonObject body
-    );
+    Call<CheckinResponse> fazerCheckin(@Body JsonObject body);
 
     @GET("checkins/historico")
-    Call<HistoricoResponse> getHistorico(
-            @Header("Authorization") String token,
-            @Query("dias") int dias
-    );
+    Call<HistoricoResponse> getHistorico(@Query("dias") int dias);
 
     @GET("checkins")
-    Call<List<CheckinResponse>> getMeusCheckins(@Header("Authorization") String token);
+    Call<List<CheckinResponse>> getMeusCheckins();
 
     @GET("exercises")
-    Call<List<Exercise>> getExercises(@Header("Authorization") String token);
+    Call<List<Exercise>> getExercises();
 
     @GET("plans/my")
     Call<List<PlanoExercicio>> getPlanoExercicio();
 
-    @GET("appointments")
-    Call<ConsultaResponse> getConsultas(@Header("Authorization") String token);
+    @GET("appointments/my")
+    Call<ConsultaResponse> getConsultas();
 
     @GET("progresso")
-    Call<Progresso> getProgresso(@Header("Authorization") String token);
+    Call<Progresso> getProgresso();
 
     @GET("patients/me")
     Call<Paciente> getPerfil();

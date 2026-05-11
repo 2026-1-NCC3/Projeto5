@@ -41,13 +41,13 @@ public class ConsultaActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         sectionProximaConsulta = findViewById(R.id.section_proxima_consulta);
-        emptyProximas = findViewById(R.id.empty_proximas);
-        txtProximaTipo = findViewById(R.id.txt_proxima_tipo);
-        txtProximaMedico = findViewById(R.id.txt_proxima_medico);
-        txtProximaData = findViewById(R.id.txt_proxima_data);
-        txtProximaHorario = findViewById(R.id.txt_proxima_horario);
-        txtCountProximas = findViewById(R.id.txt_count_proximas);
-        txtCountHistorico = findViewById(R.id.txt_count_historico);
+        emptyProximas          = findViewById(R.id.empty_proximas);
+        txtProximaTipo         = findViewById(R.id.txt_proxima_tipo);
+        txtProximaMedico       = findViewById(R.id.txt_proxima_medico);
+        txtProximaData         = findViewById(R.id.txt_proxima_data);
+        txtProximaHorario      = findViewById(R.id.txt_proxima_horario);
+        txtCountProximas       = findViewById(R.id.txt_count_proximas);
+        txtCountHistorico      = findViewById(R.id.txt_count_historico);
 
         recyclerProximas = findViewById(R.id.recycler_proximas);
         recyclerProximas.setLayoutManager(new LinearLayoutManager(this));
@@ -59,11 +59,13 @@ public class ConsultaActivity extends BaseActivity {
     }
 
     private void carregarConsultas() {
-        String token = getSharedPreferences("auth", MODE_PRIVATE)
-                .getString("token", "");
+        // Mesmo padrão do restante do app: lê de "APP"/"TOKEN"
+        String token = getSharedPreferences("APP", MODE_PRIVATE).getString("TOKEN", "");
+        RetrofitClient.setToken(token);
 
+        // O interceptor do RetrofitClient já injeta o Bearer automaticamente
         ApiService api = RetrofitClient.getInstance().create(ApiService.class);
-        api.getConsultas("Bearer " + token).enqueue(new Callback<ConsultaResponse>() {
+        api.getConsultas().enqueue(new Callback<ConsultaResponse>() {
 
             @Override
             public void onResponse(Call<ConsultaResponse> call, Response<ConsultaResponse> response) {
@@ -73,7 +75,7 @@ public class ConsultaActivity extends BaseActivity {
                 }
 
                 ConsultaResponse body = response.body();
-                List<Consulta> proximas = body.getProximas();
+                List<Consulta> proximas  = body.getProximas();
                 List<Consulta> historico = body.getHistorico();
 
                 // Próxima consulta em destaque
@@ -115,7 +117,7 @@ public class ConsultaActivity extends BaseActivity {
     private String formatarData(String dateISO) {
         try {
             SimpleDateFormat entrada = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault());
-            SimpleDateFormat saida = new SimpleDateFormat("EEEE, dd 'de' MMMM", new Locale("pt", "BR"));
+            SimpleDateFormat saida   = new SimpleDateFormat("EEEE, dd 'de' MMMM", new Locale("pt", "BR"));
             Date date = entrada.parse(dateISO);
             return saida.format(date);
         } catch (Exception e) {
@@ -126,7 +128,7 @@ public class ConsultaActivity extends BaseActivity {
     private String formatarHorario(String dateISO) {
         try {
             SimpleDateFormat entrada = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault());
-            SimpleDateFormat saida = new SimpleDateFormat("HH:mm", Locale.getDefault());
+            SimpleDateFormat saida   = new SimpleDateFormat("HH:mm", Locale.getDefault());
             Date date = entrada.parse(dateISO);
             return saida.format(date) + " - " + adicionarUmaHora(date);
         } catch (Exception e) {
