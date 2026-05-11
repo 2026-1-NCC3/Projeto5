@@ -19,7 +19,7 @@ const app = express();
 app.use(cors({
   origin: [
     "http://localhost:5173",
-    "https://maya-rpg.vercel.app/login"
+    "https://maya-rpg.vercel.app"
   ],
   credentials: true
 }));
