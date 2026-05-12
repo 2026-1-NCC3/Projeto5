@@ -2,7 +2,8 @@ import { Response } from "express";
 
 export function handleError(res: Response, error: any) {
   console.error(error);
-  return res.status(400).json({
+  const status = error.status || 500;
+  return res.status(status).json({
     error: error.message || "Erro interno"
   });
 }
