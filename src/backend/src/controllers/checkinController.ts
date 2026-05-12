@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import {
   createCheckin,
-  getMyCheckins
+  getMyCheckins, getPatientCheckins
 } from "../services/checkinService";
 import { handleError } from "./baseController";
 
@@ -28,6 +28,21 @@ export async function getMyCheckinsController(
     const user = (req as any).user;
 
     const data = await getMyCheckins(user.id);
+
+    return res.json(data);
+  } catch (error: any) {
+    return handleError(res, error);
+  }
+}
+
+export async function getPatientCheckinsController(
+  req: Request,
+  res: Response
+) {
+  try {
+    const patientId = String(req.params.patientId);
+
+    const data = await getPatientCheckins(patientId);
 
     return res.json(data);
   } catch (error: any) {
