@@ -5,11 +5,10 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.View;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -121,16 +120,27 @@ public class CheckinActivity extends BaseActivity {
             body.addProperty("notes", comentario);
         }
 
-        // O interceptor do RetrofitClient já injeta o Bearer automaticamente
         apiService.fazerCheckin(body).enqueue(new Callback<CheckinResponse>() {
             @Override
             public void onResponse(Call<CheckinResponse> call, Response<CheckinResponse> response) {
                 if (response.isSuccessful()) {
+                    // Sinaliza sucesso para HomeActivity e fecha
                     Intent intent = new Intent();
                     intent.putExtra("checkin_ok", true);
                     setResult(RESULT_OK, intent);
                     finish();
+                } else if (response.code() == 409) {
+                    // Já fez check-in hoje — trata como sucesso pois não é erro do usuário
+                    Toast.makeText(CheckinActivity.this,
+                            "Você já realizou o check-in de hoje.", Toast.LENGTH_LONG).show();
+                    btnFinalizar.setEnabled(true);
+                    btnFinalizar.setText("Finalizar Check-in");
                 } else {
+                    try {
+                        String errorBody = response.errorBody() != null
+                                ? response.errorBody().string() : "sem detalhes";
+                        Log.e("CHECKIN", "Erro " + response.code() + ": " + errorBody);
+                    } catch (Exception ignored) { }
                     Toast.makeText(CheckinActivity.this,
                             "Erro ao registrar. Tente novamente.", Toast.LENGTH_SHORT).show();
                     btnFinalizar.setEnabled(true);
@@ -140,6 +150,7 @@ public class CheckinActivity extends BaseActivity {
 
             @Override
             public void onFailure(Call<CheckinResponse> call, Throwable t) {
+                Log.e("CHECKIN", "Falha de conexão: " + t.getMessage());
                 Toast.makeText(CheckinActivity.this,
                         "Erro de conexão.", Toast.LENGTH_SHORT).show();
                 btnFinalizar.setEnabled(true);
