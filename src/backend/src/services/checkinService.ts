@@ -14,6 +14,24 @@ export async function createCheckin(
 
   const { pain_level, notes } = data;
 
+  // Verifica se já existe check-in hoje
+  const today = new Date().toISOString().split("T")[0]; // "YYYY-MM-DD"
+  const { data: existing, error: selectError } = await supabase
+    .from("checkins")
+    .select("id")
+    .eq("patient_id", patientId)
+    .gte("created_at", `${today}T00:00:00.000Z`)
+    .lt("created_at", `${today}T23:59:59.999Z`)
+    .limit(1);
+
+  if (selectError) throw selectError;
+
+  if (existing && existing.length > 0) {
+    const err: any = new Error("Check-in já realizado hoje");
+    err.statusCode = 409;
+    throw err;
+  }
+
   const { error } = await supabase
     .from("checkins")
     .insert({

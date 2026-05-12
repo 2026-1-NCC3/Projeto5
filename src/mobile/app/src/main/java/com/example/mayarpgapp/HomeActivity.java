@@ -1,7 +1,10 @@
 package com.example.mayarpgapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
+
+import com.google.android.material.button.MaterialButton;
 
 import com.example.mayarpgapp.api.ApiService;
 import com.example.mayarpgapp.api.RetrofitClient;
@@ -32,6 +35,12 @@ public class HomeActivity extends BaseActivity {
         txtSaudacao.setText(saudacaoPorHora(""));
 
         carregarNomePaciente();
+
+        // Abre a tela de check-in ao clicar no botão
+        MaterialButton btnRegistrar = findViewById(R.id.btn_registrar);
+        btnRegistrar.setOnClickListener(v ->
+                startActivity(new Intent(HomeActivity.this, CheckinActivity.class))
+        );
     }
 
     private void carregarNomePaciente() {
