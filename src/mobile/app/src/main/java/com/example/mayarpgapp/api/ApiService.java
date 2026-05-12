@@ -32,6 +32,9 @@ public interface ApiService {
     @POST("checkins")
     Call<CheckinResponse> fazerCheckin(@Body JsonObject body);
 
+    @GET("checkins/hoje")
+    Call<JsonObject> getCheckinHoje();
+
     @GET("checkins/historico")
     Call<HistoricoResponse> getHistorico(@Query("dias") int dias);
 

@@ -1,13 +1,15 @@
 import { Router } from "express";
 import {
   createCheckinController,
-  getMyCheckinsController
+  getMyCheckinsController,
+  jaFezCheckinHojeController,
 } from "../controllers/checkinController";
 import { authMiddleware } from "../midllewares/authMiddleware";
 
 const router = Router();
 
-router.post("/", authMiddleware, createCheckinController);
+router.get("/hoje", authMiddleware, jaFezCheckinHojeController);
 router.get("/", authMiddleware, getMyCheckinsController);
+router.post("/", authMiddleware, createCheckinController);
 
 export default router;

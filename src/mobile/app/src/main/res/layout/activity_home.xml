@@ -129,7 +129,7 @@
                     android:layout_height="54dp"
                     android:layout_below="@id/subtitulo_checkin"
                     android:layout_marginTop="16dp"
-                    android:text="Registrar exercícios do dia"
+                    android:text="Realizar Check-in diário"
                     android:textColor="#00897B"
                     android:textStyle="bold"
                     app:backgroundTint="#FFFFFF"
