@@ -2,6 +2,9 @@ package com.example.mayarpgapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
@@ -9,6 +12,7 @@ import com.google.android.material.button.MaterialButton;
 import com.example.mayarpgapp.api.ApiService;
 import com.example.mayarpgapp.api.RetrofitClient;
 import com.example.mayarpgapp.model.Paciente;
+import com.example.mayarpgapp.model.Progresso;
 
 import java.util.Calendar;
 
@@ -21,6 +25,14 @@ public class HomeActivity extends BaseActivity {
     private TextView txtSaudacao;
     private ApiService apiService;
 
+    // Views da seção de progresso
+    private LinearLayout sectionProgresso;
+    private TextView txtProgressoPercentual;
+    private ProgressBar progressBar;
+    private TextView txtProgEmProgresso;
+    private TextView txtProgCompleto;
+    private TextView txtProgProximos;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,11 +42,18 @@ public class HomeActivity extends BaseActivity {
         apiService = RetrofitClient.getInstance().create(ApiService.class);
 
         txtSaudacao = findViewById(R.id.txt_saudacao);
-
-        // Mostra saudação genérica enquanto carrega o nome
         txtSaudacao.setText(saudacaoPorHora(""));
 
+        // Views de progresso
+        sectionProgresso      = findViewById(R.id.section_progresso);
+        txtProgressoPercentual = findViewById(R.id.txt_progresso_percentual);
+        progressBar            = findViewById(R.id.progress_bar);
+        txtProgEmProgresso     = findViewById(R.id.txt_prog_em_progresso);
+        txtProgCompleto        = findViewById(R.id.txt_prog_completo);
+        txtProgProximos        = findViewById(R.id.txt_prog_proximos);
+
         carregarNomePaciente();
+        carregarProgresso();
 
         // Abre a tela de check-in ao clicar no botão
         MaterialButton btnRegistrar = findViewById(R.id.btn_registrar);
@@ -49,7 +68,6 @@ public class HomeActivity extends BaseActivity {
             public void onResponse(Call<Paciente> call, Response<Paciente> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     String nome = response.body().getName();
-                    // Usa apenas o primeiro nome
                     if (nome != null && !nome.isEmpty()) {
                         String primeiroNome = nome.split(" ")[0];
                         txtSaudacao.setText(saudacaoPorHora(primeiroNome));
@@ -60,6 +78,30 @@ public class HomeActivity extends BaseActivity {
             @Override
             public void onFailure(Call<Paciente> call, Throwable t) {
                 // Mantém a saudação sem nome em caso de falha
+            }
+        });
+    }
+
+    private void carregarProgresso() {
+        apiService.getProgresso().enqueue(new Callback<Progresso>() {
+            @Override
+            public void onResponse(Call<Progresso> call, Response<Progresso> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    Progresso p = response.body();
+                    if (p.temDados()) {
+                        txtProgressoPercentual.setText(p.getPercentual() + "%");
+                        progressBar.setProgress(p.getPercentual());
+                        txtProgEmProgresso.setText(String.valueOf(p.getEmProgresso()));
+                        txtProgCompleto.setText(String.valueOf(p.getCompleto()));
+                        txtProgProximos.setText(String.valueOf(p.getProximos()));
+                        sectionProgresso.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Progresso> call, Throwable t) {
+                // Seção permanece oculta em caso de falha
             }
         });
     }
