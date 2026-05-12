@@ -3,7 +3,7 @@
 <b>Android:</b>
 
 Para acessar o app, execute o app: 
-- [App] (https://maya-rpg.vercel.app) e utilize o *email: mari@gmail.com* e a *senha: julinha011*
+- [App] (https://drive.google.com/file/d/1BOLOIWNGpnNH1HpIyRF8ZJGBDfW6C3YY/view?usp=sharing) e utilize o *email: mari@gmail.com* e a *senha: julinha011*
 > Caso queira testar o aplicativo, você pode acessar o site, cadastrar um paciente com os próprios dados e rodar o app com esses dados.
 ```
 ---
@@ -17,6 +17,6 @@ Para acessar o site, acesse o link:
 
 - Código fonte completo do projeto  
 - Aplicativo mobile (**APK ou AAB**)  
-[APK](https://drive.google.com/file/d/1DE_S9n9jNifrJOzBTXv01jQrRVy76egm/view?usp=sharing)
+[APK](https://drive.google.com/file/d/1BOLOIWNGpnNH1HpIyRF8ZJGBDfW6C3YY/view?usp=sharing)
 
 ---
