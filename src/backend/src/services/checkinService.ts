@@ -40,3 +40,15 @@ export async function getMyCheckins(authUserId: string) {
 
   return data;
 }
+
+export async function getPatientCheckins(patientId: string) {
+  const { data, error } = await supabase
+    .from("checkins")
+    .select("*")
+    .eq("patient_id", patientId)
+    .order("created_at", { ascending: false });
+
+  if (error) throw error;
+
+  return data;
+}

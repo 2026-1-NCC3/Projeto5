@@ -606,7 +606,7 @@ function AbaAtividade({ pacienteId }) {
     if (!pacienteId) return;
     const buscar = async () => {
       try {
-        const { data } = await api.get(`/api/checkins`);
+        const { data } = await api.get(`/api/checkins/patient/${pacienteId}`);
         setCheckins(data || []);
       } catch (err) {
         console.error('Erro ao buscar atividades:', err);
