@@ -64,7 +64,6 @@ A solução busca substituir processos informais e dispersos por uma plataforma 
 Para acessar o app, execute o app: 
 - [App] (https://drive.google.com/file/d/1BOLOIWNGpnNH1HpIyRF8ZJGBDfW6C3YY/view?usp=sharing) e utilize o *email: mari@gmail.com* e a *senha: julinha011*
 > Caso queira testar o aplicativo, você pode acessar o site, cadastrar um paciente com os próprios dados e rodar o app com esses dados.
-```
 
 <b>Windows:</b>
 
