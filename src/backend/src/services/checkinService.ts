@@ -6,25 +6,42 @@ interface CreateCheckinDTO {
   notes?: string;
 }
 
-export async function createCheckin(
-  authUserId: string,
-  data: CreateCheckinDTO
-) {
+export async function createCheckin(authUserId: string, data: CreateCheckinDTO) {
   const patientId = await getPatientId(authUserId);
-
   const { pain_level, notes } = data;
 
   const { error } = await supabase
     .from("checkins")
-    .insert({
-      patient_id: patientId,
-      pain_level,
-      notes
-    });
+    .insert({ patient_id: patientId, pain_level, notes });
 
   if (error) throw error;
-
   return { message: "Check-in registrado com sucesso" };
+}
+
+export async function cancelCheckin(authUserId: string, checkinId: string) {
+  const patientId = await getPatientId(authUserId);
+
+  const { data: existing, error: findError } = await supabase
+    .from("checkins")
+    .select("id")
+    .eq("id", checkinId)
+    .eq("patient_id", patientId)
+    .single();
+
+  if (findError || !existing) {
+    const err: any = new Error("Check-in não encontrado");
+    err.status = 404;
+    throw err;
+  }
+
+  const { error } = await supabase
+    .from("checkins")
+    .delete()
+    .eq("id", checkinId)
+    .eq("patient_id", patientId);
+
+  if (error) throw error;
+  return { message: "Check-in cancelado com sucesso" };
 }
 
 export async function getMyCheckins(authUserId: string) {
@@ -37,7 +54,6 @@ export async function getMyCheckins(authUserId: string) {
     .order("created_at", { ascending: false });
 
   if (error) throw error;
-
   return data;
 }
 
@@ -49,6 +65,5 @@ export async function getCheckinsByPatientId(patientId: string) {
     .order("created_at", { ascending: false });
 
   if (error) throw error;
-
   return data;
 }
