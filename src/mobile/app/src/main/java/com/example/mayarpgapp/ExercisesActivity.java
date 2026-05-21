@@ -58,6 +58,8 @@ public class ExercisesActivity extends BaseActivity {
 
         rvExercises.setLayoutManager(new LinearLayoutManager(this));
 
+        findViewById(R.id.ivBack).setOnClickListener(v -> finish());
+
         // Concluir → abre CheckinActivity para registrar dor
         btnConcluir.setOnClickListener(v -> {
             Intent intent = new Intent(this, CheckinActivity.class);

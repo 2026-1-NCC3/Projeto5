@@ -17,6 +17,7 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
+import retrofit2.http.DELETE;
 
 public interface ApiService {
 
@@ -52,4 +53,7 @@ public interface ApiService {
 
     @GET("patients/me")
     Call<Paciente> getPerfil();
+
+    @DELETE("checkins/{id}")
+    Call<JsonObject> cancelarCheckin(@retrofit2.http.Path("id") String checkinId);
 }

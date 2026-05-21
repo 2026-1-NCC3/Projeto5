@@ -55,12 +55,31 @@ public class ConsultaAdapter extends RecyclerView.Adapter<ConsultaAdapter.ViewHo
         return consultas != null ? consultas.size() : 0;
     }
 
+    private java.util.Date parseISO(String iso) throws Exception {
+        // 1. Trunca microsegundos para milissegundos (ex: .139511 → .139)
+        String s = iso.replaceAll("(\\.\\d{3})\\d+", "$1");
+        // 2. Normaliza offset +HH:MM → +HHMM
+        s = s.replaceAll("([+-]\\d{2}):(\\d{2})$", "$1$2");
+        String[] patterns = {
+                "yyyy-MM-dd'T'HH:mm:ss.SSSZ",
+                "yyyy-MM-dd'T'HH:mm:ssZ",
+                "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'",
+                "yyyy-MM-dd'T'HH:mm:ss'Z'"
+        };
+        for (String pattern : patterns) {
+            try {
+                SimpleDateFormat sdf = new SimpleDateFormat(pattern, Locale.getDefault());
+                sdf.setTimeZone(java.util.TimeZone.getTimeZone("UTC"));
+                return sdf.parse(s);
+            } catch (Exception ignored) {}
+        }
+        throw new Exception("Não foi possível parsear: " + iso);
+    }
+
     private String formatarData(String dateISO) {
         try {
-            SimpleDateFormat entrada = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault());
             SimpleDateFormat saida = new SimpleDateFormat("EEEE, dd 'de' MMMM", new Locale("pt", "BR"));
-            Date date = entrada.parse(dateISO);
-            return saida.format(date);
+            return saida.format(parseISO(dateISO));
         } catch (Exception e) {
             return dateISO;
         }
@@ -68,9 +87,8 @@ public class ConsultaAdapter extends RecyclerView.Adapter<ConsultaAdapter.ViewHo
 
     private String formatarHorario(String dateISO) {
         try {
-            SimpleDateFormat entrada = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault());
+            Date date = parseISO(dateISO);
             SimpleDateFormat saida = new SimpleDateFormat("HH:mm", Locale.getDefault());
-            Date date = entrada.parse(dateISO);
             String inicio = saida.format(date);
             String fim = saida.format(new Date(date.getTime() + 3600000));
             return inicio + " - " + fim;

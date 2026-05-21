@@ -99,5 +99,17 @@
             android:ellipsize="end"
             android:visibility="gone" />
 
+        <!-- Botão Cancelar check-in -->
+        <TextView
+            android:id="@+id/btn_cancelar_checkin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cancelar check-in"
+            android:textSize="12sp"
+            android:textColor="#E53935"
+            android:layout_marginTop="10dp"
+            android:clickable="true"
+            android:focusable="true" />
+
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

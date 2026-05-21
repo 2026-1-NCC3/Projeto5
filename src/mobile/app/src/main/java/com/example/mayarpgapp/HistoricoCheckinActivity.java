@@ -39,6 +39,8 @@ public class HistoricoCheckinActivity extends BaseActivity {
 
         rvCheckins.setLayoutManager(new LinearLayoutManager(this));
 
+        findViewById(R.id.ivBack).setOnClickListener(v -> finish());
+
         carregarCheckins();
     }
 
@@ -48,7 +50,6 @@ public class HistoricoCheckinActivity extends BaseActivity {
         String token = getSharedPreferences("APP", MODE_PRIVATE).getString("TOKEN", "");
         RetrofitClient.setToken(token);
 
-        // O interceptor do RetrofitClient já injeta o Bearer automaticamente
         ApiService api = RetrofitClient.getInstance().create(ApiService.class);
         api.getMeusCheckins().enqueue(new Callback<List<CheckinResponse>>() {
             @Override

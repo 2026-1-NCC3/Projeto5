@@ -39,6 +39,8 @@ public class PerfilActivity extends BaseActivity {
         String token = getSharedPreferences("APP", MODE_PRIVATE).getString("TOKEN", "");
         RetrofitClient.setToken(token);
 
+        findViewById(R.id.ivBack).setOnClickListener(v -> finish());
+
         carregarPerfil();
     }
 
