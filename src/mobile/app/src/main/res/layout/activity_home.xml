@@ -47,39 +47,74 @@
             android:weightSum="7"
             android:layout_marginBottom="32dp">
 
+            <!-- DOM -->
             <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:orientation="vertical">
                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="DOM" android:textSize="10sp" android:textColor="#999999" android:layout_marginBottom="8dp" />
-                <ImageView android:id="@+id/dia_dom" android:layout_width="36dp" android:layout_height="36dp" android:background="@drawable/circulo_pendente" android:padding="10dp" app:srcCompat="@drawable/ic_check" app:tint="#FFFFFF" />
+                <FrameLayout android:layout_width="36dp" android:layout_height="36dp">
+                    <ImageView android:id="@+id/dia_dom" android:layout_width="36dp" android:layout_height="36dp" android:background="@drawable/circulo_pendente" />
+                    <ImageView android:id="@+id/dia_dom_check" android:layout_width="36dp" android:layout_height="36dp" android:padding="9dp" app:srcCompat="@drawable/ic_check" app:tint="#FFFFFF" android:visibility="gone" />
+                    <TextView android:id="@+id/dia_dom_num" android:layout_width="36dp" android:layout_height="36dp" android:gravity="center" android:text="1" android:textSize="13sp" android:textColor="#999999" android:visibility="gone" />
+                </FrameLayout>
             </LinearLayout>
 
+            <!-- SEG -->
             <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:orientation="vertical">
                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="SEG" android:textSize="10sp" android:textColor="#999999" android:layout_marginBottom="8dp" />
-                <ImageView android:id="@+id/dia_seg" android:layout_width="36dp" android:layout_height="36dp" android:background="@drawable/circulo_pendente" android:padding="10dp" app:srcCompat="@drawable/ic_check" app:tint="#FFFFFF" />
+                <FrameLayout android:layout_width="36dp" android:layout_height="36dp">
+                    <ImageView android:id="@+id/dia_seg" android:layout_width="36dp" android:layout_height="36dp" android:background="@drawable/circulo_pendente" />
+                    <ImageView android:id="@+id/dia_seg_check" android:layout_width="36dp" android:layout_height="36dp" android:padding="9dp" app:srcCompat="@drawable/ic_check" app:tint="#FFFFFF" android:visibility="gone" />
+                    <TextView android:id="@+id/dia_seg_num" android:layout_width="36dp" android:layout_height="36dp" android:gravity="center" android:text="2" android:textSize="13sp" android:textColor="#999999" android:visibility="gone" />
+                </FrameLayout>
             </LinearLayout>
 
+            <!-- TER -->
             <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:orientation="vertical">
                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="TER" android:textSize="10sp" android:textColor="#999999" android:layout_marginBottom="8dp" />
-                <ImageView android:id="@+id/dia_ter" android:layout_width="36dp" android:layout_height="36dp" android:background="@drawable/circulo_pendente" android:padding="10dp" app:srcCompat="@drawable/ic_check" app:tint="#FFFFFF" />
+                <FrameLayout android:layout_width="36dp" android:layout_height="36dp">
+                    <ImageView android:id="@+id/dia_ter" android:layout_width="36dp" android:layout_height="36dp" android:background="@drawable/circulo_pendente" />
+                    <ImageView android:id="@+id/dia_ter_check" android:layout_width="36dp" android:layout_height="36dp" android:padding="9dp" app:srcCompat="@drawable/ic_check" app:tint="#FFFFFF" android:visibility="gone" />
+                    <TextView android:id="@+id/dia_ter_num" android:layout_width="36dp" android:layout_height="36dp" android:gravity="center" android:text="3" android:textSize="13sp" android:textColor="#999999" android:visibility="gone" />
+                </FrameLayout>
             </LinearLayout>
 
+            <!-- QUA -->
             <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:orientation="vertical">
                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="QUA" android:textSize="10sp" android:textColor="#999999" android:layout_marginBottom="8dp" />
-                <ImageView android:id="@+id/dia_qua" android:layout_width="36dp" android:layout_height="36dp" android:background="@drawable/circulo_pendente" android:padding="10dp" app:srcCompat="@drawable/ic_check" app:tint="#FFFFFF" />
+                <FrameLayout android:layout_width="36dp" android:layout_height="36dp">
+                    <ImageView android:id="@+id/dia_qua" android:layout_width="36dp" android:layout_height="36dp" android:background="@drawable/circulo_pendente" />
+                    <ImageView android:id="@+id/dia_qua_check" android:layout_width="36dp" android:layout_height="36dp" android:padding="9dp" app:srcCompat="@drawable/ic_check" app:tint="#FFFFFF" android:visibility="gone" />
+                    <TextView android:id="@+id/dia_qua_num" android:layout_width="36dp" android:layout_height="36dp" android:gravity="center" android:text="4" android:textSize="13sp" android:textColor="#999999" android:visibility="gone" />
+                </FrameLayout>
             </LinearLayout>
 
+            <!-- QUI -->
             <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:orientation="vertical">
                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="QUI" android:textSize="10sp" android:textColor="#999999" android:layout_marginBottom="8dp" />
-                <ImageView android:id="@+id/dia_qui" android:layout_width="36dp" android:layout_height="36dp" android:background="@drawable/circulo_pendente" android:padding="10dp" app:srcCompat="@drawable/ic_check" app:tint="#FFFFFF" />
+                <FrameLayout android:layout_width="36dp" android:layout_height="36dp">
+                    <ImageView android:id="@+id/dia_qui" android:layout_width="36dp" android:layout_height="36dp" android:background="@drawable/circulo_pendente" />
+                    <ImageView android:id="@+id/dia_qui_check" android:layout_width="36dp" android:layout_height="36dp" android:padding="9dp" app:srcCompat="@drawable/ic_check" app:tint="#FFFFFF" android:visibility="gone" />
+                    <TextView android:id="@+id/dia_qui_num" android:layout_width="36dp" android:layout_height="36dp" android:gravity="center" android:text="5" android:textSize="13sp" android:textColor="#999999" android:visibility="gone" />
+                </FrameLayout>
             </LinearLayout>
 
+            <!-- SEX -->
             <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:orientation="vertical">
                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="SEX" android:textSize="10sp" android:textColor="#999999" android:layout_marginBottom="8dp" />
-                <ImageView android:id="@+id/dia_sex" android:layout_width="36dp" android:layout_height="36dp" android:background="@drawable/circulo_pendente" android:padding="10dp" app:srcCompat="@drawable/ic_check" app:tint="#FFFFFF" />
+                <FrameLayout android:layout_width="36dp" android:layout_height="36dp">
+                    <ImageView android:id="@+id/dia_sex" android:layout_width="36dp" android:layout_height="36dp" android:background="@drawable/circulo_pendente" />
+                    <ImageView android:id="@+id/dia_sex_check" android:layout_width="36dp" android:layout_height="36dp" android:padding="9dp" app:srcCompat="@drawable/ic_check" app:tint="#FFFFFF" android:visibility="gone" />
+                    <TextView android:id="@+id/dia_sex_num" android:layout_width="36dp" android:layout_height="36dp" android:gravity="center" android:text="6" android:textSize="13sp" android:textColor="#999999" android:visibility="gone" />
+                </FrameLayout>
             </LinearLayout>
 
+            <!-- SAB -->
             <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:orientation="vertical">
                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="SAB" android:textSize="10sp" android:textColor="#999999" android:layout_marginBottom="8dp" />
-                <ImageView android:id="@+id/dia_sab" android:layout_width="36dp" android:layout_height="36dp" android:background="@drawable/circulo_pendente" android:padding="10dp" app:srcCompat="@drawable/ic_check" app:tint="#FFFFFF" />
+                <FrameLayout android:layout_width="36dp" android:layout_height="36dp">
+                    <ImageView android:id="@+id/dia_sab" android:layout_width="36dp" android:layout_height="36dp" android:background="@drawable/circulo_pendente" />
+                    <ImageView android:id="@+id/dia_sab_check" android:layout_width="36dp" android:layout_height="36dp" android:padding="9dp" app:srcCompat="@drawable/ic_check" app:tint="#FFFFFF" android:visibility="gone" />
+                    <TextView android:id="@+id/dia_sab_num" android:layout_width="36dp" android:layout_height="36dp" android:gravity="center" android:text="7" android:textSize="13sp" android:textColor="#999999" android:visibility="gone" />
+                </FrameLayout>
             </LinearLayout>
         </LinearLayout>
 
@@ -195,9 +230,7 @@
             </LinearLayout>
         </LinearLayout>
 
-        <!-- ══════════════════════════════════════════ -->
-        <!-- ── SEÇÃO PLANO DE EXERCÍCIO (CONDICIONAL) ── -->
-        <!-- ══════════════════════════════════════════ -->
+        <!-- ── SEÇÃO PLANO DE EXERCÍCIO ── -->
         <LinearLayout
             android:id="@+id/section_plano"
             android:layout_width="match_parent"
@@ -206,7 +239,6 @@
             android:visibility="gone"
             android:layout_marginBottom="24dp">
 
-            <!-- Cabeçalho da seção -->
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -233,7 +265,6 @@
                     android:padding="4dp" />
             </RelativeLayout>
 
-            <!-- Card do plano -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -261,7 +292,6 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
-                        <!-- Badge: duração -->
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -288,7 +318,6 @@
                                 android:textColor="#00897B" />
                         </LinearLayout>
 
-                        <!-- Badge: nível -->
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -318,9 +347,7 @@
             </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
 
-        <!-- ═══════════════════════════════════════ -->
-        <!-- ── SEÇÃO CONSULTAS (CONDICIONAL) ── -->
-        <!-- ═══════════════════════════════════════ -->
+        <!-- ── SEÇÃO CONSULTAS ── -->
         <LinearLayout
             android:id="@+id/section_consultas"
             android:layout_width="match_parent"
@@ -329,7 +356,6 @@
             android:visibility="gone"
             android:layout_marginBottom="24dp">
 
-            <!-- Cabeçalho -->
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -356,7 +382,6 @@
                     android:padding="4dp" />
             </RelativeLayout>
 
-            <!-- Card da próxima consulta -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/card_proxima_consulta"
                 android:layout_width="match_parent"
@@ -407,7 +432,6 @@
                             app:tint="#FFFFFF" />
                     </RelativeLayout>
 
-                    <!-- Divider -->
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
@@ -458,9 +482,7 @@
             </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
 
-        <!-- ══════════════════════════════════════════════ -->
-        <!-- ── SEÇÃO PROGRESSO DE EXERCÍCIOS (CONDICIONAL) ── -->
-        <!-- ══════════════════════════════════════════════ -->
+        <!-- ── SEÇÃO PROGRESSO DE EXERCÍCIOS ── -->
         <LinearLayout
             android:id="@+id/section_progresso"
             android:layout_width="match_parent"
@@ -469,7 +491,6 @@
             android:visibility="gone"
             android:layout_marginBottom="24dp">
 
-            <!-- Cabeçalho -->
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -496,7 +517,6 @@
                     android:padding="4dp" />
             </RelativeLayout>
 
-            <!-- Card de progresso -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -510,7 +530,6 @@
                     android:orientation="vertical"
                     android:padding="16dp">
 
-                    <!-- Percentual + badge -->
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -540,7 +559,6 @@
                             android:layout_centerVertical="true" />
                     </RelativeLayout>
 
-                    <!-- Barra de progresso -->
                     <ProgressBar
                         android:id="@+id/progress_bar"
                         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
@@ -551,7 +569,6 @@
                         android:progress="0"
                         android:layout_marginBottom="16dp" />
 
-                    <!-- Divisores de % abaixo da barra -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -570,7 +587,6 @@
                             android:textColor="#999999" android:gravity="end" />
                     </LinearLayout>
 
-                    <!-- Estatísticas embaixo -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -581,8 +597,7 @@
                             android:layout_weight="1" android:gravity="center" android:orientation="vertical">
                             <ImageView android:layout_width="28dp" android:layout_height="28dp"
                                 android:background="@drawable/circulo_pendente"
-                                app:srcCompat="@drawable/ic_vital" app:tint="#4DB6AC"
-                                android:padding="6dp" />
+                                app:srcCompat="@drawable/ic_vital" app:tint="#4DB6AC" android:padding="6dp" />
                             <TextView android:id="@+id/txt_prog_em_progresso" android:layout_width="wrap_content"
                                 android:layout_height="wrap_content" android:text="0"
                                 android:textSize="16sp" android:textStyle="bold" android:layout_marginTop="4dp" />
@@ -594,8 +609,7 @@
                             android:layout_weight="1" android:gravity="center" android:orientation="vertical">
                             <ImageView android:layout_width="28dp" android:layout_height="28dp"
                                 android:background="@drawable/circulo_feito"
-                                app:srcCompat="@drawable/ic_check" app:tint="#FFFFFF"
-                                android:padding="6dp" />
+                                app:srcCompat="@drawable/ic_check" app:tint="#FFFFFF" android:padding="6dp" />
                             <TextView android:id="@+id/txt_prog_completo" android:layout_width="wrap_content"
                                 android:layout_height="wrap_content" android:text="0"
                                 android:textSize="16sp" android:textStyle="bold" android:layout_marginTop="4dp" />
@@ -607,8 +621,7 @@
                             android:layout_weight="1" android:gravity="center" android:orientation="vertical">
                             <ImageView android:layout_width="28dp" android:layout_height="28dp"
                                 android:background="@drawable/circulo_pendente"
-                                app:srcCompat="@drawable/ic_setadash" app:tint="#E57373"
-                                android:padding="6dp" />
+                                app:srcCompat="@drawable/ic_setadash" app:tint="#E57373" android:padding="6dp" />
                             <TextView android:id="@+id/txt_prog_proximos" android:layout_width="wrap_content"
                                 android:layout_height="wrap_content" android:text="0"
                                 android:textSize="16sp" android:textStyle="bold" android:layout_marginTop="4dp" />
