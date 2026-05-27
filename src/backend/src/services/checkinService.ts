@@ -1,4 +1,4 @@
-import { supabase } from "../config/supabaseClient";
+import { supabase, supabaseAdmin } from "../config/supabaseClient";
 import { getPatientId } from "../utils/getPatientId";
 
 interface CreateCheckinDTO {
@@ -10,7 +10,7 @@ export async function createCheckin(authUserId: string, data: CreateCheckinDTO) 
   const patientId = await getPatientId(authUserId);
   const { pain_level, notes } = data;
 
-  const { error } = await supabase
+  const { error } = await supabaseAdmin
     .from("checkins")
     .insert({ patient_id: patientId, pain_level, notes });
 
@@ -21,7 +21,7 @@ export async function createCheckin(authUserId: string, data: CreateCheckinDTO) 
 export async function cancelCheckin(authUserId: string, checkinId: string) {
   const patientId = await getPatientId(authUserId);
 
-  const { data: existing, error: findError } = await supabase
+  const { data: existing, error: findError } = await supabaseAdmin
     .from("checkins")
     .select("id")
     .eq("id", checkinId)
@@ -34,7 +34,7 @@ export async function cancelCheckin(authUserId: string, checkinId: string) {
     throw err;
   }
 
-  const { error } = await supabase
+  const { error } = await supabaseAdmin
     .from("checkins")
     .delete()
     .eq("id", checkinId)
@@ -47,7 +47,7 @@ export async function cancelCheckin(authUserId: string, checkinId: string) {
 export async function getMyCheckins(authUserId: string) {
   const patientId = await getPatientId(authUserId);
 
-  const { data, error } = await supabase
+  const { data, error } = await supabaseAdmin
     .from("checkins")
     .select("*")
     .eq("patient_id", patientId)
@@ -57,8 +57,9 @@ export async function getMyCheckins(authUserId: string) {
   return data;
 }
 
+// Usado pelo web (fisioterapeuta) para ver checkins de um paciente específico
 export async function getCheckinsByPatientId(patientId: string) {
-  const { data, error } = await supabase
+  const { data, error } = await supabaseAdmin
     .from("checkins")
     .select("*")
     .eq("patient_id", patientId)
