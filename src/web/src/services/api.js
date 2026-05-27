@@ -5,8 +5,8 @@ const api = axios.create({
 });
 
 api.interceptors.request.use((config) => {
-  // ✅ Corrigido: AuthProvider salva em sessionStorage com a chave "maya_token"
-  const token = sessionStorage.getItem("maya_token");
+  // Login.jsx salva em localStorage com a chave "token"
+  const token = localStorage.getItem("token");
 
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
