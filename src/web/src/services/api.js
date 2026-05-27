@@ -1,11 +1,12 @@
-import axios from 'axios' // para criar uma instância do axios com a URL do deploy que eu subi no render
+import axios from 'axios'
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
 });
 
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem("token");
+  // ✅ Corrigido: AuthProvider salva em sessionStorage com a chave "maya_token"
+  const token = sessionStorage.getItem("maya_token");
 
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;

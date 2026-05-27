@@ -15,6 +15,9 @@ router.post("/", authMiddleware, createExerciseController);
 // 📋 listar exercícios
 router.get("/", authMiddleware, getExercisesController);
 
+// ✅ CATÁLOGO — deve ficar ANTES de /:id, senão o Express interpreta "catalog" como um id
+router.get("/catalog", authMiddleware, getExerciseCatalogController);
+
 router.put("/:id", authMiddleware, async (req, res) => {
   const { error } = await supabaseAdmin
     .from("exercises")
@@ -34,7 +37,5 @@ router.delete("/:id", authMiddleware, async (req, res) => {
   if (error) return res.status(500).json({ error: error.message });
   return res.json({ message: "Exercício excluído" });
 });
-
-router.get("/catalog", authMiddleware, getExerciseCatalogController);
 
 export default router;
